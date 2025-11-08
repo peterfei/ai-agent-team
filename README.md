@@ -1,18 +1,28 @@
-# AI Agent Team - Claude Code智能团队
+# 🤖 AI Agent Team
 
 <div align="center">
 
 ![AI Agent Team](https://img.shields.io/badge/AI_Agent_Team-Claude%20Code-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Version](https://img.shields.io/badge/Version-1.0.0-orange)
+![npm](https://img.shields.io/npm/dw/ai-agent-team)
+![GitHub stars](https://img.shields.io/github/stars/peterfei/ai-agent-team?style=social)
 
-🤖 **基于Claude Code的专业AI智能体团队系统**
+**🚀 拥有24/7专业AI开发团队：产品经理、前端开发、后端开发、测试工程师、DevOps工程师、技术负责人**
 
-一键部署您的24/7全栈开发团队，包含产品经理、前后端开发、测试、运维和技术负责人六大专业角色。
+`npm install -g ai-agent-team` 一键安装，开发效率飙升200%！
 
 </div>
 
-## ✨ 特性亮点
+<div align="center">
+
+[![npm](https://img.shields.io/npm/v/ai-agent-team.svg)](https://www.npmjs.com/package/ai-agent-team)
+[![Downloads](https://img.shields.io/npm/dm/ai-agent-team.svg)](https://www.npmjs.com/package/ai-agent-team)
+[![License](https://img.shields.io/npm/l/ai-agent-team.svg)](LICENSE)
+
+</div>
+
+## 🚀 快速开始
 
 - 🎯 **六大专业智能体** - 产品经理、前端开发、后端开发、测试工程师、DevOps工程师、技术负责人
 - ⚡ **原生集成** - 完全基于Claude Code的原生智能体系统

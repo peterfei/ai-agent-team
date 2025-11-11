@@ -1,16 +1,89 @@
-# AI Agent Team - Claude Code智能团队
+# 🤖 AI Agent Team
 
 <div align="center">
 
 ![AI Agent Team](https://img.shields.io/badge/AI_Agent_Team-Claude%20Code-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Version](https://img.shields.io/badge/Version-1.0.0-orange)
+![Version](https://img.shields.io/badge/Version-1.0.1-orange)
+![npm](https://img.shields.io/npm/dw/ai-agent-team)
+![GitHub stars](https://img.shields.io/github/stars/peterfei/ai-agent-team?style=social)
 
-🤖 **基于Claude Code的专业AI智能体团队系统**
+**🚀 拥有24/7专业AI开发团队：产品经理、前端开发、后端开发、测试工程师、DevOps工程师、技术负责人**
 
-一键部署您的24/7全栈开发团队，包含产品经理、前后端开发、测试、运维和技术负责人六大专业角色。
+`npm install -g ai-agent-team` 一键安装，开发效率飙升200%！
 
 </div>
+
+## 🎨 DrawNote Skill - 智能笔记可视化核心功能
+
+> **✨ 让您的笔记变得生动有趣！将文字内容转换为精美图片**
+
+### 🌟 核心功能特色
+
+| 🎨 多彩风格模板 | 📋 内置模板系统 | 🤖 智能内容生成 | 🔗 无缝集成 |
+|--------------|--------------|--------------|----------|
+| **彩色手写笔记**、专业商务、科技创新、自然清新等多种风格 | 内置**提示词模板**和**样式模板**，无需外部文件 | 基于**AI大模型**，自动分析内容并生成最适合的笔记结构 | 与**Claude Code**完美集成，一键生成，自动保存 |
+
+### 📝 使用方法详解
+
+#### 简单四步，创建精美笔记
+
+1. **📝 提供内容**
+   ```bash
+   skill: "drawnote"
+   内容: "人工智能发展历程" 或具体笔记内容
+   ```
+
+2. **🎨 选择风格**
+   ```bash
+   "请使用彩色手写笔记风格" 或 "请生成学习笔记风格的信息图"
+   ```
+
+3. **🤖 AI自动生成**
+   ```bash
+   自动保存: drawnote_YYYYMMDD_HHMMSS.html
+   ```
+
+4. **📸 截图输出**
+   ```bash
+   自动保存: drawnote_YYYYMMDD_HHMMSS.png
+   ```
+
+### 💡 实用应用场景
+
+| 📚 学习笔记总结 | 💼 商务报告可视化 | 🔧 技术文档整理 | 📊 知识梳理总结 |
+|--------------|----------------|--------------|---------------|
+| **荧光笔高亮**、彩色标注等学习元素 | **数据分析**、项目报告、战略规划 | **技术架构**、API文档、开发指南 | **时间线**、流程图、对比表等形式 |
+
+### 🎯 五种精美风格
+
+1. **彩色手写笔记风格** ⭐ 推荐
+   - 适用场景：学习笔记、读书总结、知识整理
+   - 特点：温馨自然、易于记忆
+
+2. **专业商务风格**（默认）
+   - 适用场景：商业报告、数据分析、项目演示
+   - 特点：简洁专业、数据驱动
+
+3. **科技创新风格**
+   - 适用场景：技术文档、产品介绍、创新展示
+   - 特点：现代科技、未来感强
+
+4. **自然清新风格**
+   - 适用场景：环保主题、健康生活、自然科学
+   - 特点：清新淡雅、亲和力强
+
+5. **现代简约风格**
+   - 适用场景：极简设计、艺术展示、高端品牌
+   - 特点：简约大气、设计感强
+
+### 📸 实际效果展示
+
+![DrawNote 2x2 Grid Example](drawnote_20251111_172200_2x2.png)
+
+*上图为 AI Agent Team v1.0.1 的 DrawNote Skill 实际生成效果，展示了核心功能和应用场景的 2x2 网格布局*
+
+---
 
 ## ✨ 特性亮点
 
@@ -20,6 +93,7 @@
 - 🔄 **完整工作流** - 支持完整的产品开发流程和团队协作
 - 📚 **详细文档** - 包含使用指南、最佳实践和示例
 - 🛠️ **易于扩展** - 模块化设计，支持自定义智能体
+- 🎨 **DrawNote Skill** - 智能笔记可视化，让内容更生动
 
 ## 🚀 快速开始
 
@@ -51,6 +125,27 @@ claude -p "/agent product_manager '测试功能'"
 
 ### 快速使用
 
+#### 🎨 DrawNote Skill 使用示例
+
+```bash
+# 基础使用
+请帮我创建一个关于"人工智能发展历程"的信息图
+
+# 指定风格
+请使用彩色手写笔记风格生成"机器学习算法分类"的信息图
+
+# 复杂内容
+请创建一个关于"微服务架构设计模式"的流程图，使用科技创新风格
+
+# 学习笔记
+请用专业商务风格创建"React Hooks"的技术文档
+
+# 知识总结
+请创建一个关于"Python数据结构"的学习总结，使用自然清新风格
+```
+
+#### 🤖 AI 智能体使用示例
+
 ```bash
 # 产品经理 - 需求分析
 /pm "设计用户认证系统"
@@ -70,6 +165,30 @@ claude -p "/agent product_manager '测试功能'"
 # 技术负责人 - 架构设计
 /tl "评估系统架构"
 ```
+
+## 🎨 DrawNote Skill - 核心特色功能
+
+DrawNote Skill 是 AI Agent Team v1.0.1 的核心特色功能，提供专业的智能笔记与流程图绘制能力。
+
+### 🚀 核心功能
+
+- 📝 **学习笔记可视化** - 将文字内容转化为精美的视觉笔记
+- 🗺️ **知识梳理与总结** - 自动生成思维导图和信息图
+- 📊 **流程图绘制** - 快速创建专业流程图和架构图
+- 💡 **概念解释图表** - 复杂概念可视化呈现
+
+### 🎯 技术特点
+
+- **基于 Playwright** - 高质量截图引擎，自动生成 HTML 和 PNG 双格式文件
+- **智能布局算法** - 自适应内容，确保最佳的视觉效果
+- **内置模板系统** - 无需外部文件，使用更便捷
+- **无缝集成** - 与 Claude Code 完美集成，一键生成
+
+### 📸 实际效果
+
+![DrawNote Effect](drawnote_20251111_172200.png)
+
+*上图为 DrawNote Skill 生成的彩色手写笔记风格示例，展示了 AI Agent Team v1.0.1 的核心功能*
 
 ## 📋 智能体角色
 
@@ -179,7 +298,7 @@ ai-agent-team/
 │   │   ├── qa_engineer.md       # 测试工程师智能体
 │   │   ├── devops_engineer.md   # 运维工程师智能体
 │   │   ├── tech-leader.md       # 技术负责人智能体
-│   │   └── cli.sh              # CLI工具脚本
+│   │   └── cli.sh / cli.ps1     # CLI工具脚本
 │   ├── commands/               # 快捷命令配置
 │   │   ├── pm.md              # 产品经理快捷命令
 │   │   ├── fe.md              # 前端开发快捷命令
@@ -188,8 +307,20 @@ ai-agent-team/
 │   │   ├── ops.md             # 运维工程师快捷命令
 │   │   ├── tl.md              # 技术负责人快捷命令
 │   │   └── README.md          # 命令说明文档
+│   ├── skills/                 # Skills 目录
+│   │   └── drawnote/          # DrawNote Skill
+│   │       ├── SKILL.md       # Skill 定义
+│   │       ├── package.json   # 依赖配置
+│   │       ├── scripts/       # 脚本目录
+│   │       └── styles/        # 风格模板
 │   ├── CLAUDE.md              # 项目说明文档
 │   └── USAGE.md               # 详细使用指南
+├── bin/                       # CLI 工具
+│   └── ai-agent-team.js      # CLI 主程序
+├── scripts/                   # 辅助脚本
+│   ├── postinstall.js        # npm postinstall
+│   ├── preinstall.js         # npm preinstall
+│   └── install.sh            # 安装脚本
 ├── docs/                      # 文档目录
 │   ├── BEST_PRACTICES.md      # 最佳实践指南
 │   ├── EXAMPLES.md            # 使用示例
@@ -199,14 +330,15 @@ ai-agent-team/
 │   ├── web-app/               # Web应用开发示例
 │   ├── mobile-app/            # 移动应用开发示例
 │   └── api-service/           # API服务开发示例
-├── scripts/                   # 辅助脚本
-│   ├── install.sh            # 安装脚本
-│   ├── uninstall.sh          # 卸载脚本
-│   └── update.sh             # 更新脚本
+├── package.json               # npm包配置
 ├── README.md                  # 项目说明
+├── GITHUB_README.md           # GitHub展示文档
 ├── LICENSE                    # 开源许可证
 ├── CONTRIBUTING.md            # 贡献指南
-└── CHANGELOG.md               # 更新日志
+├── CHANGELOG.md               # 更新日志
+├── install.sh                 # Shell安装脚本 (macOS/Linux)
+├── install.ps1                # PowerShell安装脚本 (Windows)
+└── install.bat                # 批处理安装脚本 (Windows)
 ```
 
 ## 🎯 使用场景

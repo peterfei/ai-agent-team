@@ -15,7 +15,7 @@ CYAN='\033[0;36m'
 NC='\033[0m'
 
 # 版本信息
-VERSION="1.0.0"
+VERSION="1.0.1"
 REPO="peterfei/ai-agent-team"
 BRANCH="main"
 
@@ -179,6 +179,57 @@ install_files() {
     fi
 }
 
+# 安装插件
+install_plugins() {
+    echo -e "${YELLOW}🔌 安装Claude插件...${NC}"
+
+    local source_plugin_dir="$TEMP_DIR/$EXTRACTED_DIR/.claude-plugin"
+    local target_plugin_dir="$HOME/.claude-plugin"
+
+    if [ -d "$source_plugin_dir" ]; then
+        # 创建目标目录
+        mkdir -p "$target_plugin_dir"
+
+        # 复制插件文件
+        cp -r "$source_plugin_dir"/* "$target_plugin_dir/"
+
+        # 设置安装脚本权限
+        if [ -f "$target_plugin_dir/install.sh" ]; then
+            chmod +x "$target_plugin_dir/install.sh"
+        fi
+        if [ -f "$target_plugin_dir/uninstall.sh" ]; then
+            chmod +x "$target_plugin_dir/uninstall.sh"
+        fi
+
+        echo -e "${GREEN}✅ 插件文件复制完成${NC}"
+
+        # 检查是否安装了 Node.js
+        if command -v node > /dev/null 2>&1; then
+            echo -e "${YELLOW}📦 安装插件依赖...${NC}"
+
+            # 安装 drawnote-skill 依赖
+            if [ -d "$target_plugin_dir/drawnote-skill" ]; then
+                cd "$target_plugin_dir/drawnote-skill"
+                npm install > /dev/null 2>&1
+
+                # 安装 Playwright 浏览器
+                if npx playwright install chromium > /dev/null 2>&1; then
+                    echo -e "${GREEN}✅ DrawNote Skill 依赖安装完成${NC}"
+                else
+                    echo -e "${YELLOW}⚠️  Playwright 浏览器安装失败，请手动运行:${NC}"
+                    echo -e "${YELLOW}   cd ~/.claude-plugin/drawnote-skill && npx playwright install chromium${NC}"
+                fi
+            fi
+        else
+            echo -e "${YELLOW}⚠️  未检测到 Node.js，跳过插件依赖安装${NC}"
+            echo -e "${YELLOW}   如需使用插件，请先安装 Node.js，然后运行:${NC}"
+            echo -e "${YELLOW}   ~/.claude-plugin/install.sh${NC}"
+        fi
+    else
+        echo -e "${YELLOW}⚠️  未找到插件目录，跳过插件安装${NC}"
+    fi
+}
+
 # 验证安装
 verify_installation() {
     echo -e "${YELLOW}🔍 验证安装...${NC}"
@@ -247,6 +298,10 @@ EOF
     echo -e "${BLUE}# 使用CLI工具${NC}"
     echo -e "${YELLOW}~/.claude/agents/cli.sh pm \"设计用户认证系统\"${NC}"
     echo
+    echo -e "${BLUE}# 使用插件${NC}"
+    echo -e "${YELLOW}请帮我创建一个关于"人工智能"的信息图${NC}"
+    echo -e "${YELLOW}请使用彩色手写笔记风格生成"机器学习"的信息图${NC}"
+    echo
     echo -e "${GREEN}📚 更多资源:${NC}"
     echo -e "${BLUE}• 使用指南: ~/.claude/USAGE.md${NC}"
     echo -e "${BLUE}• 项目主页: https://github.com/${REPO}${NC}"
@@ -301,6 +356,7 @@ main() {
     download_package
     extract_package
     install_files
+    install_plugins
 
     if verify_installation; then
         show_completion

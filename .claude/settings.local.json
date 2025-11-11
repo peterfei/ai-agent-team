@@ -4,7 +4,17 @@
       "Bash(chmod:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(npm install)",
+      "Bash(npm run install-browsers:*)",
+      "Bash(npx playwright install chromium)",
+      "WebSearch",
+      "WebFetch(domain:code.claude.com)",
+      "Bash(npm pack)",
+      "Bash(cat:*)",
+      "Bash(tar:*)",
+      "Bash(sha256sum:*)",
+      "Bash(node:*)"
     ],
     "deny": [],
     "ask": []

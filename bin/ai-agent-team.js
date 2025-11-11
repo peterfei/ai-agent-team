@@ -304,8 +304,190 @@ function showQuickStart() {
   console.log();
 }
 
+// 检查并启动 DrawNote Skill 依赖安装守护进程
+function checkAndInstallSkillDependencies() {
+  const homeDir = require('os').homedir();
+  const drawnoteSkillDir = path.join(homeDir, '.claude', 'skills', 'drawnote');
+  const nodeModulesPath = path.join(drawnoteSkillDir, 'node_modules');
+  const playwrightPath = path.join(nodeModulesPath, 'playwright');
+
+  // 检查是否需要安装
+  if (!fs.existsSync(drawnoteSkillDir)) {
+    return; // Skill 目录不存在，跳过
+  }
+
+  if (fs.existsSync(playwrightPath)) {
+    return; // 依赖已安装
+  }
+
+  // 检查是否有守护进程正在运行
+  const lockFile = path.join(drawnoteSkillDir, '.daemon.lock');
+  if (fs.existsSync(lockFile)) {
+    try {
+      const pid = parseInt(fs.readFileSync(lockFile, 'utf8').trim());
+      process.kill(pid, 0); // 测试进程是否存在
+      return; // 守护进程已在运行
+    } catch (e) {
+      // 进程不存在，删除过期的锁文件
+      fs.unlinkSync(lockFile);
+    }
+  }
+
+  // 启动守护进程
+  startInstallDaemon(drawnoteSkillDir);
+}
+
+// 启动安装守护进程
+function startInstallDaemon(drawnoteSkillDir) {
+  const { spawn } = require('child_process');
+
+  // 创建守护进程脚本
+  const daemonScript = path.join(drawnoteSkillDir, '.install-daemon.js');
+  const logFile = path.join(drawnoteSkillDir, 'daemon.log');
+  const lockFile = path.join(drawnoteSkillDir, '.daemon.lock');
+
+  const daemonCode = `
+const fs = require('fs');
+const path = require('path');
+const { spawnSync, execSync } = require('child_process');
+
+const skillDir = path.dirname(__filename);
+const lockFile = path.join(skillDir, '.daemon.lock');
+const logFile = path.join(skillDir, 'daemon.log');
+
+// 创建锁文件
+fs.writeFileSync(lockFile, process.pid.toString());
+
+function log(message) {
+  const timestamp = new Date().toISOString();
+  const logMessage = '[' + timestamp + '] ' + message + '\\n';
+  fs.appendFileSync(logFile, logMessage);
+}
+
+function cleanup() {
+  try {
+    if (fs.existsSync(lockFile)) fs.unlinkSync(lockFile);
+  } catch (e) {}
+}
+
+function verifyInstallation() {
+  const nodeModulesPath = path.join(skillDir, 'node_modules');
+  const playwrightPath = path.join(nodeModulesPath, 'playwright');
+  return fs.existsSync(nodeModulesPath) && fs.existsSync(playwrightPath);
+}
+
+process.on('exit', cleanup);
+process.on('SIGINT', () => { cleanup(); process.exit(0); });
+process.on('SIGTERM', () => { cleanup(); process.exit(0); });
+
+// 延迟 5 秒开始安装
+setTimeout(() => {
+  log('DrawNote Skill 守护进程启动，开始安装依赖...');
+  log('工作目录: ' + skillDir);
+  log('PID: ' + process.pid);
+
+  try {
+    // 方法1: 直接安装 playwright（使用 --force 覆盖全局 bin）
+    log('方法1: npm install playwright --save --force');
+    const result1 = spawnSync('npm', ['install', 'playwright', '--save', '--force'], {
+      cwd: skillDir,
+      stdio: 'pipe',
+      encoding: 'utf8'
+    });
+
+    if (result1.stdout) log('stdout: ' + result1.stdout.trim());
+    if (result1.stderr) log('stderr: ' + result1.stderr.trim());
+    log('exit code: ' + result1.status);
+
+    if (verifyInstallation()) {
+      log('✅ 依赖安装成功 (方法1)');
+      log('✅ Playwright 验证成功');
+      cleanup();
+      log('守护进程退出');
+      process.exit(0);
+    }
+
+    // 方法2: 使用 --force 强制安装
+    log('⚠️ 方法1验证失败，尝试方法2: npm install --force');
+    const result2 = spawnSync('npm', ['install', '--force'], {
+      cwd: skillDir,
+      stdio: 'pipe',
+      encoding: 'utf8'
+    });
+
+    if (result2.stdout) log('stdout: ' + result2.stdout.trim());
+    if (result2.stderr) log('stderr: ' + result2.stderr.trim());
+    log('exit code: ' + result2.status);
+
+    if (verifyInstallation()) {
+      log('✅ 依赖安装成功 (方法2)');
+      log('✅ Playwright 验证成功');
+      cleanup();
+      log('守护进程退出');
+      process.exit(0);
+    }
+
+    // 方法3: 清除并重新安装
+    log('⚠️ 方法2验证失败，尝试方法3: 清除并重新安装');
+    const nodeModulesPath = path.join(skillDir, 'node_modules');
+    if (fs.existsSync(nodeModulesPath)) {
+      log('删除现有 node_modules');
+      execSync('rm -rf node_modules', { cwd: skillDir });
+    }
+
+    const result3 = spawnSync('npm', ['install'], {
+      cwd: skillDir,
+      stdio: 'pipe',
+      encoding: 'utf8'
+    });
+
+    if (result3.stdout) log('stdout: ' + result3.stdout.trim());
+    if (result3.stderr) log('stderr: ' + result3.stderr.trim());
+    log('exit code: ' + result3.status);
+
+    if (verifyInstallation()) {
+      log('✅ 依赖安装成功 (方法3)');
+      log('✅ Playwright 验证成功');
+    } else {
+      log('❌ 所有安装方法都失败');
+      log('💡 请手动安装: cd ' + skillDir + ' && npm install');
+    }
+
+  } catch (error) {
+    log('❌ 安装异常: ' + error.message);
+    log('Stack: ' + error.stack);
+  }
+
+  cleanup();
+  log('守护进程退出');
+  process.exit(0);
+}, 5000);
+`;
+
+  try {
+    // 写入守护进程脚本
+    fs.writeFileSync(daemonScript, daemonCode);
+
+    // 启动守护进程 (detached + ignore stdio)
+    const daemon = spawn('node', [daemonScript], {
+      cwd: drawnoteSkillDir,
+      detached: true,
+      stdio: 'ignore'
+    });
+
+    // 分离进程
+    daemon.unref();
+
+  } catch (error) {
+    // 静默失败，不影响主命令
+  }
+}
+
 // 主函数
 function main() {
+  // 在执行任何命令之前，检查并安装依赖
+  checkAndInstallSkillDependencies();
+
   const args = process.argv.slice(2);
   const command = args[0] || 'help';
 

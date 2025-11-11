@@ -140,3 +140,11 @@ local/
 temp/
 tmp/
 ai-agent.cast
+
+# DrawNote skill generated files
+drawnote_*.html
+drawnote_*.png
+
+# Plugin cache and generated files
+.claude-plugin/**/node_modules/
+.claude-plugin/**/.DS_Store

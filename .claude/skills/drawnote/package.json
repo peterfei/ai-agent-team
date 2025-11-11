@@ -1,0 +1,29 @@
+{
+  "name": "drawnote-skill",
+  "version": "1.0.0",
+  "description": "DrawNote - 智能笔记与流程图绘制工具 - Claude Skill",
+  "main": "scripts/capture.js",
+  "scripts": {
+    "capture": "node scripts/capture.js",
+    "install-browsers": "node scripts/install-dependencies.js",
+    "postinstall": "node scripts/install-dependencies.js",
+    "verify": "node scripts/verify-installation.js",
+    "test": "node scripts/verify-installation.js",
+    "check": "node scripts/check-status.js",
+    "status": "node scripts/check-status.js"
+  },
+  "keywords": [
+    "note",
+    "flowchart",
+    "visualization",
+    "claude",
+    "skill",
+    "playwright",
+    "screenshot"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "playwright": "^1.40.0"
+  }
+}

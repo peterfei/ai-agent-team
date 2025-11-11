@@ -4,7 +4,7 @@
 
 ![AI Agent Team](https://img.shields.io/badge/AI_Agent_Team-Claude%20Code-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Version](https://img.shields.io/badge/Version-1.0.0-orange)
+![Version](https://img.shields.io/badge/Version-1.0.1-orange)
 ![npm](https://img.shields.io/npm/dw/ai-agent-team)
 ![GitHub stars](https://img.shields.io/github/stars/peterfei/ai-agent-team?style=social)
 
@@ -46,12 +46,22 @@
 npm install -g ai-agent-team
 ```
 
-#### 方式2：curl安装
+#### 方式2：Shell脚本安装 (macOS/Linux)
 ```bash
 curl -fsSL https://raw.githubusercontent.com/peterfei/ai-agent-team/main/install.sh | bash
 ```
 
-#### 方式3：手动安装
+#### 方式3：PowerShell安装 (Windows)
+```powershell
+powershell -Command "irm 'https://raw.githubusercontent.com/peterfei/ai-agent-team/main/install.ps1' | iex"
+```
+
+#### 方式4：批处理安装 (Windows)
+```cmd
+curl -fsSL https://raw.githubusercontent.com/peterfei/ai-agent-team/main/install.bat -o install.bat && install.bat
+```
+
+#### 方式5：手动安装
 
 1. **克隆仓库**
 ```bash
@@ -92,6 +102,42 @@ claude -p "/agent product_manager '测试功能'"
 # 技术负责人 - 架构设计
 /tl "评估系统架构"
 ```
+
+## 🔌 插件系统
+
+项目集成了 Claude Code 插件系统，支持扩展更多功能。
+
+### 已集成插件
+
+#### DrawNote Skill - 智能笔记与流程图绘制工具
+
+**功能**:
+- 📝 学习笔记可视化
+- 🗺️ 知识梳理与总结
+- 📊 流程图绘制
+- 💡 概念解释图表
+
+**使用示例**:
+```
+请帮我创建一个关于"人工智能发展历程"的信息图
+请使用彩色手写笔记风格生成"机器学习算法"的信息图
+```
+
+**可用风格**:
+- 专业商务风格（默认）
+- 彩色手写笔记风格 ⭐ 推荐
+- 科技创新风格
+- 自然清新风格
+- 现代简约风格
+
+**详细文档**: 查看 [.claude-plugin/README.md](.claude-plugin/README.md)
+
+### 添加新插件
+
+1. 将插件复制到 `.claude-plugin/` 目录
+2. 更新 `marketplaces.json` 配置
+3. 安装插件依赖
+4. 重启 Claude Code
 
 ## 📋 智能体角色
 
@@ -171,8 +217,9 @@ wait
 
 ## 🛠️ CLI工具
 
-项目包含一个便捷的CLI工具，提供更友好的命令行界面：
+项目包含跨平台CLI工具，提供更友好的命令行界面：
 
+### macOS/Linux
 ```bash
 # 使用CLI工具调用智能体
 ./.claude/agents/cli.sh pm "设计用户认证系统"
@@ -180,6 +227,16 @@ wait
 ./.claude/agents/cli.sh backend "实现JWT API"
 ./.claude/agents/cli.sh 测试 "测试认证流程"
 ./.claude/agents/cli.sh 运维 "部署到生产环境"
+```
+
+### Windows PowerShell
+```powershell
+# 使用CLI工具调用智能体
+.\.claude\agents\cli.ps1 pm "设计用户认证系统"
+.\.claude\agents\cli.ps1 fe "创建登录页面"
+.\.claude\agents\cli.ps1 be "实现JWT API"
+.\.claude\agents\cli.ps1 qa "测试认证流程"
+.\.claude\agents\cli.ps1 ops "部署到生产环境"
 ```
 
 CLI工具特性：
@@ -212,6 +269,14 @@ ai-agent-team/
 │   │   └── README.md          # 命令说明文档
 │   ├── CLAUDE.md              # 项目说明文档
 │   └── USAGE.md               # 详细使用指南
+├── .claude-plugin/            # Claude插件目录
+│   ├── drawnote-skill/       # DrawNote智能笔记技能
+│   │   ├── scripts/          # 脚本文件
+│   │   ├── styles/           # 风格模板
+│   │   ├── SKILL.md         # 技能说明
+│   │   └── package.json     # 依赖配置
+│   ├── marketplaces.json    # 插件配置
+│   └── README.md            # 插件使用说明
 ├── docs/                      # 文档目录
 │   └── BEST_PRACTICES.md      # 最佳实践指南
 ├── examples/                  # 示例项目
@@ -220,7 +285,10 @@ ai-agent-team/
 │   └── install.sh            # 安装脚本
 ├── bin/                       # 可执行文件
 │   └── ai-agent-team.js      # CLI工具
-├── install.sh                 # 一键安装脚本
+├── install.sh                 # Shell安装脚本 (macOS/Linux)
+├── install.ps1                # PowerShell安装脚本 (Windows)
+├── install.bat                # 批处理安装脚本 (Windows)
+├── test-windows-compatibility.ps1  # Windows兼容性测试脚本
 ├── package.json               # npm包配置
 ├── README.md                  # 项目说明
 ├── LICENSE                    # 开源许可证
@@ -313,6 +381,66 @@ export CLAUDE_MODEL="claude-3-sonnet"
 export AGENT_TIMEOUT=300
 export AGENT_MAX_TOKENS=4000
 ```
+
+## 💻 Windows 支持
+
+ai-agent-team 全面支持 Windows 系统，提供多种安装方式：
+
+### 安装方式
+
+1. **PowerShell安装（推荐）**
+```powershell
+powershell -Command "irm 'https://raw.githubusercontent.com/peterfei/ai-agent-team/main/install.ps1' | iex"
+```
+
+2. **批处理安装**
+```cmd
+curl -fsSL https://raw.githubusercontent.com/peterfei/ai-agent-team/main/install.bat -o install.bat && install.bat
+```
+
+3. **npm安装**
+```cmd
+npm install -g ai-agent-team
+```
+
+### Windows 特性
+
+- ✅ PowerShell 5.0+ 支持
+- ✅ Windows 10/11 兼容
+- ✅ 批处理脚本兼容
+- ✅ 中文路径支持
+- ✅ 防火墙和杀毒软件兼容
+
+### 系统要求
+
+- Windows 10/11 或 Windows Server 2016+
+- PowerShell 5.0 或更高版本
+- Claude Code (已安装)
+- 网络连接
+
+### 兼容性测试
+
+运行兼容性测试脚本检查您的系统：
+
+```powershell
+powershell -Command "irm 'https://raw.githubusercontent.com/peterfei/ai-agent-team/main/test-windows-compatibility.ps1' | iex"
+```
+
+### 常见问题
+
+**Q: PowerShell 执行策略限制怎么办？**
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+**Q: 杀毒软件报误怎么办？**
+将以下目录添加到白名单：
+- `%USERPROFILE%\.claude\`
+- 安装目录
+
+**Q: Node.js 安装失败怎么办？**
+- 手动下载安装 Node.js: https://nodejs.org/
+- 或使用 winget: `winget install OpenJS.NodeJS`
 
 ## ❓ 常见问题
 

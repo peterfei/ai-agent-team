@@ -148,3 +148,4 @@ drawnote_*.png
 # Plugin cache and generated files
 .claude-plugin/**/node_modules/
 .claude-plugin/**/.DS_Store
+docs/promotion/

@@ -1,4 +1,4 @@
-# 🤖 AI Agent Team
+# AI Agent Team
 
 <div align="center">
 
@@ -204,12 +204,6 @@ DrawNote Skill 是 AI Agent Team v1.0.1 的核心特色功能，提供专业的�
 - **智能布局算法** - 自适应内容，确保最佳的视觉效果
 - **内置模板系统** - 无需外部文件，使用更便捷
 - **无缝集成** - 与 Claude Code 完美集成，一键生成
-
-### 📸 实际效果
-
-![DrawNote Effect](drawnote_20251111_172200.png)
-
-*上图为 DrawNote Skill 生成的彩色手写笔记风格示例，展示了 AI Agent Team v1.0.1 的核心功能*
 
 ### 🛠️ 扩展功能
 

@@ -80,6 +80,12 @@
 - 内存使用: ~50MB
 - 包大小: 合理范围
 
+### 🖼️ 实际效果展示
+
+![TidyMyDesktop 实际使用效果](examples/tidymydesktop.png)
+
+*TidyMyDesktop Skill 实际整理效果截图 - 展示了智能分类和整理的结果*
+
 ---
 
 ## 📁 文件结构

@@ -33,6 +33,7 @@
 - **功能测试**: 10/10 测试通过（100%通过率）
 - **性能指标**: 扫描 < 0.1s，整理 < 0.5s，内存 ~50MB
 - **兼容性**: 完美兼容现有drawnote skill和所有agents
+- **实际效果**: [查看截图示例](examples/tidymydesktop.png)
 
 ### 🔄 改进内容
 - **描述更新**: 更新package.json描述，移除机器人图标，添加tidymydesktop skill说明

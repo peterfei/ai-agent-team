@@ -66,6 +66,12 @@
 
 *TidyMyDesktop Skill 实际整理效果截图 - 展示了智能分类和整理的结果*
 
+#### 📝 v1.0.2 彩色手写笔记版本说明
+
+![AI Agent Team v1.0.2 版本说明](drawnote_ai_agent_team_v1.0.2.png)
+
+*AI Agent Team v1.0.2 彩色手写笔记风格版本说明 - 详细介绍新增的TidyMyDesktop功能和特性*
+
 ### ⚡ 技术特性
 
 - **跨平台支持**: macOS、Windows、Linux

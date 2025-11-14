@@ -18,7 +18,8 @@
       "Bash(nvm use:*)",
       "Bash(source ~/.nvm/nvm.sh)",
       "Bash(npm install:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Skill(drawnote)"
     ],
     "deny": [],
     "ask": []

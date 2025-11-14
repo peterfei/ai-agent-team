@@ -4,7 +4,7 @@
 
 ![AI Agent Team](https://img.shields.io/badge/AI_Agent_Team-Claude%20Code-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Version](https://img.shields.io/badge/Version-1.0.1-orange)
+![Version](https://img.shields.io/badge/Version-1.0.2-orange)
 ![npm](https://img.shields.io/npm/dw/ai-agent-team)
 ![GitHub stars](https://img.shields.io/github/stars/peterfei/ai-agent-team?style=social)
 
@@ -83,11 +83,73 @@
 
 *上图为 AI Agent Team v1.0.1 的 DrawNote Skill 实际生成效果，展示了核心功能和应用场景的 2x2 网格布局*
 
+## 🧹 TidyMyDesktop Skill - 智能桌面整理工具
+
+> **✨ 让您的桌面和目录焕然一新！智能分类、版本去重、安全整理**
+
+### 🌟 核心功能特色
+
+| 🎯 智能文件分类 | 🔄 版本自动去重 | 🔍 未知软件识别 | 🛡️ 安全整理保障 |
+|--------------|---------------|----------------|----------------|
+| **应用程序**、文档、图片、视频等自动分类 | 识别**软件版本号**，保留最新版本，清理旧版本 | 通过**网络搜索**识别不熟悉软件的用途 | **dry-run模式**预览，用户确认后执行 |
+| 创建**分类文件夹**，整洁有序 | 智能比较版本新旧，避免误删 | 标记**需要人工审核**的项目 | 所有删除操作需要**明确确认** |
+
+### 💡 实用整理场景
+
+| 🏠 桌面整理 | 📁 目录整理 | 🧹 版本清理 | 📊 整理报告 |
+|------------|------------|------------|------------|
+| **一键整理桌面**，告别混乱文件 | **整理指定目录**，提高工作效率 | **自动识别软件版本**，清理冗余文件 | **生成详细报告**，记录整理过程 |
+
+### 🛠️ 使用方法
+
+#### 简单三步，智能整理
+
+1. **🏠 整理桌面**
+   ```bash
+   用户: "帮我整理桌面"
+   Claude: 自动扫描 → 生成计划 → 用户确认 → 执行整理 → 生成报告
+   ```
+
+2. **📁 整理目录**
+   ```bash
+   用户: "帮我整理当前目录"
+   Claude: 确认路径 → 扫描分析 → 生成计划 → 用户确认 → 整理执行
+   ```
+
+3. **🔍 智能识别**
+   ```bash
+   自动识别文件类型、软件版本、未知用途
+   提供整理建议，确保安全可靠
+   ```
+
+### 📂 智能分类规则
+
+- **应用程序**: 开发工具、办公软件、设计工具、通讯工具、娱乐软件、系统工具
+- **文档**: PDF文档、Word文档、Excel表格、文本文件
+- **媒体文件**: 图片（照片、截图、设计稿）、视频、音频
+- **其他**: 压缩包、代码项目、未分类文件
+
+### 📸 实际效果展示
+
+![TidyMyDesktop 实际使用效果](examples/tidymydesktop.png)
+
+*TidyMyDesktop Skill 实际整理效果截图 - 展示了智能分类和整理的结果*
+
+### ⚡ 技术特性
+
+- **跨平台支持**: macOS、Windows、Linux
+- **Node.js驱动**: 高性能文件操作
+- **智能算法**: 版本号识别（semver）
+- **安全机制**: dry-run模式，完整备份提醒
+- **详细报告**: Markdown格式，包含整理统计
+
 ---
 
 ## 🚀 快速开始
 
 - 🎯 **六大专业智能体** - 产品经理、前端开发、后端开发、测试工程师、DevOps工程师、技术负责人
+- 🎨 **DrawNote Skill** - 智能笔记可视化，多彩风格模板，一键生成精美图片
+- 🧹 **TidyMyDesktop Skill** - 智能桌面整理，文件分类，版本去重，安全整理
 - ⚡ **原生集成** - 完全基于Claude Code的原生智能体系统
 - 🚀 **一键安装** - 支持npm全局安装，自动配置智能体环境
 - ⚡ **快捷命令** - 简化的命令行调用方式，提升开发效率
@@ -165,6 +227,28 @@ claude -p "/agent product_manager '测试功能'"
 请创建一个关于"Python数据结构"的学习总结，使用自然清新风格
 ```
 
+#### 🧹 TidyMyDesktop Skill 使用示例
+
+```bash
+# 整理桌面 - 最常用的功能
+帮我整理桌面
+
+# 整理当前目录
+帮我整理当前目录
+
+# 整理指定目录（会要求确认路径）
+帮我整理下载文件夹
+
+# 智能整理建议
+帮我分析一下这个目录的文件结构，给出整理建议
+
+# 安全预览整理计划
+帮我看一下整理桌面会执行哪些操作，不要真的执行
+
+# 针对特定类型文件整理
+帮我整理桌面上的应用程序文件
+```
+
 #### 🤖 AI 智能体使用示例
 
 ```bash
@@ -189,7 +273,7 @@ claude -p "/agent product_manager '测试功能'"
 
 ## 🎨 DrawNote Skill - 核心特色功能
 
-DrawNote Skill 是 AI Agent Team v1.0.1 的核心特色功能，提供专业的智能笔记与流程图绘制能力。
+DrawNote Skill 是 AI Agent Team v1.0.2 的核心特色功能之一，提供专业的智能笔记与流程图绘制能力。
 
 ### 🚀 核心功能
 
@@ -346,20 +430,25 @@ ai-agent-team/
 │   │   ├── ops.md             # 运维工程师快捷命令
 │   │   ├── tl.md              # 技术负责人快捷命令
 │   │   └── README.md          # 命令说明文档
+│   ├── skills/               # 智能技能集合
+│   │   ├── drawnote/         # DrawNote智能笔记技能
+│   │   │   ├── scripts/      # 脚本文件
+│   │   │   ├── styles/       # 风格模板
+│   │   │   ├── SKILL.md      # 技能说明
+│   │   │   └── package.json  # 依赖配置
+│   │   └── tidymydesktop/    # TidyMyDesktop桌面整理技能
+│   │       ├── scripts/      # 整理脚本（scan, organize, classify）
+│   │       ├── tidy-*        # 可执行工具脚本
+│   │       ├── SKILL.md      # 技能说明文档
+│   │       ├── TEST_REPORT.md # 测试报告
+│   │       └── package.json  # 依赖配置
 │   ├── CLAUDE.md              # 项目说明文档
-│   └── USAGE.md               # 详细使用指南
-├── .claude-plugin/            # Claude插件目录
-│   ├── drawnote-skill/       # DrawNote智能笔记技能
-│   │   ├── scripts/          # 脚本文件
-│   │   ├── styles/           # 风格模板
-│   │   ├── SKILL.md         # 技能说明
-│   │   └── package.json     # 依赖配置
-│   ├── marketplaces.json    # 插件配置
-│   └── README.md            # 插件使用说明
+│   └── settings.local.json   # 本地配置文件
 ├── docs/                      # 文档目录
 │   └── BEST_PRACTICES.md      # 最佳实践指南
-├── examples/                  # 示例项目
-│   └── web-app/               # Web应用开发示例
+├── examples/                  # 示例项目和截图
+│   ├── web-app/               # Web应用开发示例
+│   └── tidymydesktop.png      # TidyMyDesktop效果截图
 ├── scripts/                   # 辅助脚本
 │   └── install.sh            # 安装脚本
 ├── bin/                       # 可执行文件
@@ -377,7 +466,7 @@ ai-agent-team/
 ## 📦 npm包信息
 
 - **包名**: `ai-agent-team`
-- **版本**: 1.0.0
+- **版本**: 1.0.2
 - **安装**: `npm install -g ai-agent-team`
 - **npm页面**: https://www.npmjs.com/package/ai-agent-team
 
@@ -579,6 +668,13 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 - 感谢 [Anthropic](https://anthropic.com) 提供强大的Claude Code平台
 - 感谢所有贡献者和用户的支持和反馈
 - 感谢开源社区的技术和灵感
+
+## 📝 更新日志
+
+查看详细的版本更新历史：
+- **[CHANGELOG.md](CHANGELOG.md)** - 完整的版本更新记录
+- **[v1.0.2 发布日志](RELEASE_NOTES_1.0.2.md)** - 最新版本的详细发布说明
+- **[v1.0.1 发布日志](RELEASE_NOTES_1.0.1.md)** - 上一版本的发布说明
 
 ## 📞 联系我们
 

@@ -14,7 +14,11 @@
       "Bash(cat:*)",
       "Bash(tar:*)",
       "Bash(sha256sum:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(nvm use:*)",
+      "Bash(source ~/.nvm/nvm.sh)",
+      "Bash(npm install:*)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []

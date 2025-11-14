@@ -1,0 +1,31 @@
+{
+  "name": "tidymydesktop-skill",
+  "version": "1.0.0",
+  "description": "智能桌面和目录整理工具 - Claude Skill",
+  "main": "scripts/organize.js",
+  "scripts": {
+    "scan": "node scripts/scan.js",
+    "organize": "node scripts/organize.js",
+    "classify": "node scripts/classify.js",
+    "test": "echo \"Testing tidymydesktop skill...\""
+  },
+  "keywords": [
+    "claude",
+    "skill",
+    "desktop",
+    "organize",
+    "tidy",
+    "file-management"
+  ],
+  "author": "Claude AI",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "glob": "^10.3.10",
+    "semver": "^7.5.4",
+    "commander": "^11.1.0"
+  }
+}

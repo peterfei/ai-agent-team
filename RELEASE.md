@@ -23,6 +23,8 @@
 #### 1. 📜 SoftCopyright Skill - 智能软著材料生成工具
 > **一键生成软件著作权申请材料，让软著申请变得简单高效！**
 
+![softcopyright](http://image-peterfei-blog.test.upcdn.net/softcopyright.gif)
+
 **核心功能**：
 - ✅ **智能项目分析** - 自动识别项目类型、技术栈和架构模式
 - ✅ **软著说明书生成** - 自动生成2000-3000字详细说明书

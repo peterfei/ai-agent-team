@@ -25,7 +25,7 @@
 | 自动识别项目类型、技术栈和架构模式 | 生成符合要求的**软件说明书**和**源代码文档** | 从package.json等配置文件**自动读取版本号** | 支持浏览器打印为PDF，页眉页脚自动添加 |
 | 支持**README解析**，无package.json时智能识别项目 | **每页50行代码**，符合软著页数要求 | 支持**多语言项目**（JavaScript、Python、Java等） | **智能注释清理**，只保留有效代码 |
 
-![softcopyright](http://image-peterfei-blog.test.upcdn.net/softcopyright.gif)
+![softcopyright](./examples/softcopyright.gif)
 
 ### 🎯 软著申请完全支持
 

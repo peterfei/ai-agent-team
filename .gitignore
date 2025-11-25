@@ -149,3 +149,4 @@ drawnote_*.png
 .claude-plugin/**/node_modules/
 .claude-plugin/**/.DS_Store
 docs/promotion/
+softcopyright-output

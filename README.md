@@ -4,7 +4,7 @@
 
 ![AI Agent Team](https://img.shields.io/badge/AI_Agent_Team-Claude%20Code-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Version](https://img.shields.io/badge/Version-1.0.2-orange)
+![Version](https://img.shields.io/badge/Version-1.0.3-orange)
 ![npm](https://img.shields.io/npm/dw/ai-agent-team)
 ![GitHub stars](https://img.shields.io/github/stars/peterfei/ai-agent-team?style=social)
 
@@ -13,6 +13,88 @@
 `npm install -g ai-agent-team` 一键安装，开发效率飙升200%！
 
 </div>
+
+## 📜 SoftCopyright Skill - 智能软著材料生成工具
+
+> **✨ 一键生成软件著作权申请材料，让软著申请变得简单高效！**
+
+### 🌟 核心功能特色
+
+| 📋 智能项目分析 | 📄 HTML文档生成 | 🔄 版本自动识别 | 🖨️ 完美打印支持 |
+|-------------|--------------|--------------|-------------|
+| 自动识别项目类型、技术栈和架构模式 | 生成符合要求的**软件说明书**和**源代码文档** | 从package.json等配置文件**自动读取版本号** | 支持浏览器打印为PDF，页眉页脚自动添加 |
+| 支持**README解析**，无package.json时智能识别项目 | **每页50行代码**，符合软著页数要求 | 支持**多语言项目**（JavaScript、Python、Java等） | **智能注释清理**，只保留有效代码 |
+
+### 🎯 软著申请完全支持
+
+#### 核心功能
+- **✅ 软件说明书**：自动生成2000-3000字详细说明书，包含项目概述、功能模块、技术架构等
+- **✅ 源代码文档**：自动生成60页源代码文档，每页50行，完全符合软著申请要求
+- **✅ 智能页数控制**：≤60页完整显示，>60页显示前30页+后30页，中间省略
+- **✅ 注释自动清理**：自动移除单行注释、多行注释、空白行、版权声明等
+- **✅ 中文完美支持**：原生HTML格式，中文显示无乱码，打印支持
+
+#### 技术规格
+- **源码展示格式**：每页50行，自动分页，行号显示
+- **注释处理规则**：
+  - 多行注释：`/\*(.|\r\n|\n)*?\*/`
+  - 单行注释：`//.*`
+  - 空白行：`^\s*(?=\r?$)\n`
+  - 版权声明：自动移除copyright、author、license等
+- **支持语言**：JavaScript、Python、Java、C、C++、Go、Rust、Swift、Kotlin等20+语言
+
+### 💡 使用方法详解
+
+#### 简单三步，生成专业软著材料
+
+1. **📊 扫描分析项目**
+   ```bash
+   用户: "帮我生成软著"
+   Claude: 自动扫描项目 → 分析源码 → 识别技术栈 → 生成文档
+   ```
+
+2. **📄 生成申请材料**
+   ```bash
+   自动生成:
+   - 软件说明书.html (符合要求的详细描述)
+   - 源代码文档.html (60页，每页50行)
+   - 版本信息自动识别 (从package.json、README等)
+   ```
+
+3. **🖨️ 导出PDF文档**
+   ```bash
+   浏览器打开HTML文件 → Cmd+P → 勾选"页眉和页脚" → 保存为PDF
+   ```
+
+#### 高级功能
+- **项目路径指定**：支持任意目录的软著材料生成
+- **输出目录自定义**：可指定生成文件的保存位置
+- **README智能解析**：没有package.json时，从README读取项目名称和版本
+- **批量处理**：支持多个项目同时生成软著材料
+
+### 🎨 使用场景示例
+
+#### Web开发项目
+```bash
+"帮我生成React电商系统的软著材料"
+# 自动识别：
+# - 项目类型：React + JavaScript前端
+# - 技术栈：React、Redux、Webpack
+# - 版本号：从package.json读取
+# - 生成完整的软著申请文档
+```
+
+#### 后端项目
+```bash
+"生成Python Django项目的软著材料"
+# 自动识别：
+# - 项目类型：Python Django后端
+# - 源码文件：.py、.html、.css等
+# - 页数控制：按软著要求生成
+# - 注释清理：移除Python注释和文档字符串
+```
+
+---
 
 ## 🧹 TidyMyDesktop Skill - 智能桌面整理工具
 
@@ -79,6 +161,81 @@
 - **智能算法**: 版本号识别（semver）
 - **安全机制**: dry-run模式，完整备份提醒
 - **详细报告**: Markdown格式，包含整理统计
+
+---
+
+## 📜 SoftCopyright Skill - 智能软著材料生成工具
+
+> **✨ 一键生成软件著作权申请材料，让软著申请变得简单高效！**
+
+### 🌟 核心功能特色
+
+| 📋 智能项目分析 | 📄 HTML文档生成 | 🔄 版本自动识别 | 🖨️ 完美打印支持 |
+|-------------|--------------|--------------|-------------|
+| 自动识别项目类型、技术栈和架构模式 | 生成符合要求的**软件说明书**和**源代码文档** | 从package.json等配置文件**自动读取版本号** | 支持浏览器打印为PDF，页眉页脚自动添加 |
+
+### 📝 主要功能
+
+1. **📋 软件说明书生成**
+   ```bash
+   自动生成2000-3000字的详细说明书
+   包含：软件信息、功能描述、技术架构、使用说明
+   ```
+
+2. **💻 源代码文档生成**
+   ```bash
+   智能选择核心代码文件
+   规范的HTML格式输出，可打印为PDF
+   ```
+
+3. **🔍 多语言支持**
+   ```bash
+   支持JavaScript、Python、Java、Go、Rust等
+   自动识别项目类型和版本号
+   ```
+
+### 📸 使用方法
+
+#### 在Claude中使用（推荐）
+
+```bash
+# 直接输入关键词即可触发
+"帮我生成软著材料"
+"生成软件著作权申请文档"
+"软著"  # 关键词触发
+```
+
+#### 命令行使用
+
+```bash
+# 生成完整材料
+~/.claude/skills/softcopyright/softcopyright-generate --project /path/to/project
+
+# 仅生成软件说明书
+~/.claude/skills/softcopyright/softcopyright-manual --project /path/to/project
+
+# 仅生成源代码文档
+~/.claude/skills/softcopyright/softcopyright-source --project /path/to/project
+```
+
+### 💡 打印为PDF
+
+生成的HTML文件可通过浏览器打印为PDF：
+
+1. 在浏览器中打开生成的HTML文件
+2. 按 `Cmd+P` (Mac) 或 `Ctrl+P` (Windows/Linux)
+3. 在打印设置中：
+   - 展开"更多设置"
+   - 勾选"页眉和页脚"选项
+   - 浏览器会自动添加软件名称、版本号和页码
+
+### ⚡ 技术特性
+
+- **跨平台支持**: macOS、Windows、Linux
+- **HTML格式**: 完美支持中文显示，无乱码问题
+- **版本自动读取**: 支持Node.js、Python、Rust、Go等项目
+- **页眉页脚**: 打印时自动显示"软件名称_版本号"和页码
+- **智能扫描**: 自动排除node_modules、测试文件等
 
 ---
 

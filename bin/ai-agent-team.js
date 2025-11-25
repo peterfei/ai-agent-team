@@ -48,24 +48,24 @@ function showHelp() {
   console.log('  ai-agent-team [命令] [选项]');
   console.log();
   console.log(colorize('yellow', '命令:'));
-  console.log(colorize('green'), '  install      安装AI Agent Team');
-  console.log(colorize('green'), '  uninstall    卸载AI Agent Team');
-  console.log(colorize('green'), '  update       更新AI Agent Team');
-  console.log(colorize('green'), '  status       显示安装状态');
-  console.log(colorize('green'), '  test         测试安装');
-  console.log(colorize('green'), '  doctor       诊断问题');
-  console.log(colorize('green'), '  version      显示版本信息');
-  console.log(colorize('green'), '  help         显示帮助信息');
+  console.log(colorize('green', '  install      安装AI Agent Team'));
+  console.log(colorize('green', '  uninstall    卸载AI Agent Team'));
+  console.log(colorize('green', '  update       更新AI Agent Team'));
+  console.log(colorize('green', '  status       显示安装状态'));
+  console.log(colorize('green', '  test         测试安装'));
+  console.log(colorize('green', '  doctor       诊断问题'));
+  console.log(colorize('green', '  version      显示版本信息'));
+  console.log(colorize('green', '  help         显示帮助信息'));
   console.log();
   console.log(colorize('yellow', '选项:'));
-  console.log(colorize('blue'), '  --force      强制执行');
-  console.log(colorize('blue'), '  --dev        开发模式');
-  console.log(colorize('blue'), '  --verbose    详细输出');
+  console.log(colorize('blue', '  --force      强制执行'));
+  console.log(colorize('blue', '  --dev        开发模式'));
+  console.log(colorize('blue', '  --verbose    详细输出'));
   console.log();
   console.log(colorize('yellow', '示例:'));
-  console.log(colorize('white'), '  ai-agent-team install');
-  console.log(colorize('white'), '  ai-agent-team install --force');
-  console.log(colorize('white'), '  ai-agent-team status');
+  console.log('  ai-agent-team install');
+  console.log('  ai-agent-team install --force');
+  console.log('  ai-agent-team status');
   console.log();
 }
 
@@ -185,7 +185,7 @@ function install(options = {}) {
   }
 
   console.log();
-  console.log(colorize('green'), '🎉 安装完成！');
+  console.log(colorize('green', '🎉 安装完成！'));
   console.log();
   showQuickStart();
 }
@@ -240,9 +240,9 @@ function uninstall() {
 
   if (removedCount > 0) {
     console.log();
-    console.log(colorize('green'), '🎉 卸载完成！');
+    console.log(colorize('green', '🎉 卸载完成！'));
   } else {
-    console.log(colorize('yellow'), 'ℹ️  没有找到已安装的组件');
+    console.log(colorize('yellow', 'ℹ️  没有找到已安装的组件'));
   }
 }
 
@@ -281,26 +281,26 @@ function test() {
   }
 
   console.log();
-  console.log(colorize('green'), '🎉 测试完成！');
+  console.log(colorize('green', '🎉 测试完成！'));
 }
 
 // 显示快速开始
 function showQuickStart() {
-  console.log(colorize('yellow'), '🚀 快速开始:');
+  console.log(colorize('yellow', '🚀 快速开始:'));
   console.log();
-  console.log(colorize('blue'), '# 快捷命令 (推荐)');
-  console.log(colorize('white'), "/pm '设计用户认证系统'");
-  console.log(colorize('white'), "/fe '创建登录页面'");
-  console.log(colorize('white'), "/be '实现JWT认证API'");
-  console.log(colorize('white'), "/qa '测试认证流程'");
-  console.log(colorize('white'), "/ops '部署到生产环境'");
-  console.log(colorize('white'), "/tl '评估系统架构'");
+  console.log(colorize('blue', '# 快捷命令 (推荐)'));
+  console.log("  /pm '设计用户认证系统'");
+  console.log("  /fe '创建登录页面'");
+  console.log("  /be '实现JWT认证API'");
+  console.log("  /qa '测试认证流程'");
+  console.log("  /ops '部署到生产环境'");
+  console.log("  /tl '评估系统架构'");
   console.log();
-  console.log(colorize('blue'), '# CLI工具');
-  console.log(colorize('white'), '~/.claude/agents/cli.sh pm "设计用户认证系统"');
+  console.log(colorize('blue', '# CLI工具'));
+  console.log('  ~/.claude/agents/cli.sh pm "设计用户认证系统"');
   console.log();
-  console.log(colorize('blue'), '# 完整命令');
-  console.log(colorize('white'), "claude -p \"/agent product_manager '设计用户认证系统'\"");
+  console.log(colorize('blue', '# 完整命令'));
+  console.log("  claude -p \"/agent product_manager '设计用户认证系统'\"");
   console.log();
 }
 
@@ -506,7 +506,7 @@ function main() {
       uninstall();
       break;
     case 'update':
-      console.log(colorize('yellow'), '🔄 更新功能开发中...');
+      console.log(colorize('yellow', '🔄 更新功能开发中...'));
       break;
     case 'status':
       checkStatus();
@@ -515,7 +515,7 @@ function main() {
       test();
       break;
     case 'doctor':
-      console.log(colorize('yellow'), '🔧 诊断功能开发中...');
+      console.log(colorize('yellow', '🔧 诊断功能开发中...'));
       break;
     case 'version':
       const packageJson = require(path.join(__dirname, '..', 'package.json'));
@@ -527,8 +527,8 @@ function main() {
       showHelp();
       break;
     default:
-      console.log(colorize('red'), `未知命令: ${command}`);
-      console.log(colorize('yellow'), '使用 "ai-agent-team help" 查看帮助');
+      console.log(colorize('red', `未知命令: ${command}`));
+      console.log(colorize('yellow', '使用 "ai-agent-team help" 查看帮助'));
       process.exit(1);
   }
 }

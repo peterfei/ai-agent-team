@@ -19,7 +19,8 @@
       "Bash(source ~/.nvm/nvm.sh)",
       "Bash(npm install:*)",
       "Bash(tree:*)",
-      "Skill(drawnote)"
+      "Skill(drawnote)",
+      "Bash(npm --version:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,6 @@
+#!/bin/bash
+# SoftCopyright - 主命令
+
+SKILL_DIR="$HOME/.claude/skills/softcopyright"
+
+"$SKILL_DIR/scripts/run.sh" "$SKILL_DIR/scripts/cli.js" "$@"

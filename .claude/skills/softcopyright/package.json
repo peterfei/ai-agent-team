@@ -1,0 +1,44 @@
+{
+  "name": "softcopyright",
+  "version": "1.0.0",
+  "description": "智能软件著作权申请材料生成工具",
+  "main": "scripts/index.js",
+  "scripts": {
+    "start": "node scripts/index.js",
+    "scan": "node scripts/scanner.js",
+    "manual": "node scripts/simple-doc-generator.js",
+    "source": "node scripts/html-source-exporter.js",
+    "test": "node scripts/test.js"
+  },
+  "keywords": [
+    "copyright",
+    "software",
+    "文档生成",
+    "源码导出",
+    "著作权申请"
+  ],
+  "author": "peterfei",
+  "license": "MIT",
+  "dependencies": {
+    "pdfkit": "^0.14.0",
+    "pdfkit-table": "^0.1.99",
+    "glob": "^10.3.10",
+    "commander": "^11.1.0",
+    "chalk": "^4.1.2",
+    "inquirer": "^8.2.6",
+    "fs-extra": "^11.1.1",
+    "path": "^0.12.7",
+    "moment": "^2.29.4"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/peterfei/softcopyright.git"
+  },
+  "bugs": {
+    "url": "https://github.com/peterfei/softcopyright/issues"
+  },
+  "homepage": "https://github.com/peterfei/softcopyright#readme"
+}

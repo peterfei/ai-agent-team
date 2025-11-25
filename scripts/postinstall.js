@@ -15,29 +15,51 @@ const homeDir = require('os').homedir();
 const claudeDir = path.join(homeDir, '.claude');
 const packageDir = path.join(__dirname, '..');
 
-// 备份现有配置
+// 备份现有配置 - 使用安全的复制方式
 function backupExisting() {
   const backupDir = path.join(claudeDir, `backup_${Date.now()}`);
 
-  if (fs.existsSync(path.join(claudeDir, 'agents')) ||
-      fs.existsSync(path.join(claudeDir, 'commands'))) {
+  const itemsToBackup = ['agents', 'commands', 'CLAUDE.md', 'USAGE.md'];
+  const existingItems = itemsToBackup.filter(item => fs.existsSync(path.join(claudeDir, item)));
 
-    console.log('💾 备份现有配置...');
+  if (existingItems.length === 0) {
+    console.log('💡 没有现有配置需要备份');
+    return;
+  }
+
+  console.log('💾 备份现有配置...');
+
+  try {
+    // 确保备份目录存在
     fs.mkdirSync(backupDir, { recursive: true });
+    console.log(`📁 创建备份目录: ${backupDir}`);
 
-    ['agents', 'commands', 'CLAUDE.md', 'USAGE.md'].forEach(item => {
+    // 逐个备份项目
+    existingItems.forEach(item => {
       const source = path.join(claudeDir, item);
-      if (fs.existsSync(source)) {
-        const dest = path.join(backupDir, item);
+      const dest = path.join(backupDir, item);
+
+      try {
         if (fs.statSync(source).isDirectory()) {
-          fs.renameSync(source, dest);
+          // 目录：递归复制
+          console.log(`📂 备份目录: ${item}`);
+          copyFolderSyncSafe(source, dest);
         } else {
+          // 文件：直接复制
+          console.log(`📄 备份文件: ${item}`);
           fs.copyFileSync(source, dest);
         }
+        console.log(`✅ 备份成功: ${item}`);
+      } catch (backupError) {
+        console.warn(`⚠️  备份 ${item} 失败: ${backupError.message}`);
+        // 继续处理其他项目
       }
     });
 
     console.log(`✅ 配置已备份到: ${backupDir}`);
+  } catch (error) {
+    console.warn(`⚠️  备份过程出错: ${error.message}`);
+    console.log('💡 继续安装，跳过备份步骤');
   }
 }
 
@@ -290,24 +312,38 @@ setTimeout(() => {
   }
 }
 
-// 复制文件夹
-function copyFolderSync(source, target) {
+// 安全的目录复制函数
+function copyFolderSyncSafe(source, target) {
   if (!fs.existsSync(target)) {
     fs.mkdirSync(target, { recursive: true });
   }
 
-  const files = fs.readdirSync(source);
+  try {
+    const files = fs.readdirSync(source);
 
-  files.forEach(file => {
-    const sourcePath = path.join(source, file);
-    const targetPath = path.join(target, file);
+    files.forEach(file => {
+      const sourcePath = path.join(source, file);
+      const targetPath = path.join(target, file);
 
-    if (fs.statSync(sourcePath).isDirectory()) {
-      copyFolderSync(sourcePath, targetPath);
-    } else {
-      fs.copyFileSync(sourcePath, targetPath);
-    }
-  });
+      try {
+        if (fs.statSync(sourcePath).isDirectory()) {
+          copyFolderSyncSafe(sourcePath, targetPath);
+        } else {
+          fs.copyFileSync(sourcePath, targetPath);
+        }
+      } catch (fileError) {
+        console.warn(`⚠️  跳过文件 ${file}: ${fileError.message}`);
+      }
+    });
+  } catch (readError) {
+    console.warn(`⚠️  读取目录失败: ${readError.message}`);
+    throw readError;
+  }
+}
+
+// 原有的复制函数（保持兼容）
+function copyFolderSync(source, target) {
+  return copyFolderSyncSafe(source, target);
 }
 
 // 显示安装完成信息

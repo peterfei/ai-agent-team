@@ -18,6 +18,8 @@ license: MIT
 ## 支持的触发指令
 
 用户可以通过以下方式触发此 skill：
+- "changelog" - 简易触发词
+- "变更日志" - 简易触发词
 - "帮我生成 CHANGELOG" - 生成完整的 CHANGELOG
 - "更新 CHANGELOG" - 增量更新 CHANGELOG
 - "发布新版本" - 发布正式版本

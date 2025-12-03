@@ -1,5 +1,7 @@
 # Dependencies
+node_modules
 node_modules/
+**/node_modules
 **/node_modules/
 .claude/skills/*/node_modules/
 npm-debug.log*

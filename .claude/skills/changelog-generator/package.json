@@ -1,0 +1,51 @@
+{
+  "name": "changelog-generator",
+  "version": "1.0.0",
+  "description": "智能变更日志生成器 - 自动分析Git提交历史，生成符合规范的CHANGELOG.md",
+  "main": "src/index.js",
+  "bin": {
+    "changelog-generate": "./bin/cli.js"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/**/*.js",
+    "format": "prettier --write \"src/**/*.js\"",
+    "dev": "node bin/cli.js"
+  },
+  "keywords": [
+    "changelog",
+    "changelog-generator",
+    "conventional-commits",
+    "semantic-versioning",
+    "release-notes",
+    "git",
+    "automation",
+    "ci-cd",
+    "developer-tools"
+  ],
+  "author": "Peter Fei <peterfeispace@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "@octokit/rest": "^22.0.1",
+    "chalk": "^4.1.2",
+    "commander": "^11.1.0",
+    "conventional-commits-parser": "^5.0.0",
+    "dotenv": "^16.3.1",
+    "handlebars": "^4.7.8",
+    "inquirer": "^8.2.7",
+    "js-yaml": "^4.1.0",
+    "ora": "^5.4.1",
+    "semver": "^7.5.4",
+    "simple-git": "^3.20.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.54.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.1.0"
+  }
+}

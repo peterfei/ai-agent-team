@@ -1,0 +1,46 @@
+{
+  "version": "1.0.4",
+  "format": "keepachangelog",
+  "language": "zh-CN",
+
+  "git": {
+    "remoteUrl": "https://github.com/peterfei/ai-agent-team",
+    "compareUrlFormat": "https://github.com/peterfei/ai-agent-team/compare/{{previousTag}}...{{currentTag}}"
+  },
+
+  "display": {
+    "emoji": true,
+    "groupByType": true,
+    "showAuthor": false,
+    "showPR": true,
+    "showIssue": true,
+    "showCommitHash": false
+  },
+
+  "types": [
+    { "type": "feat", "section": "Features", "emoji": "✨", "priority": 1 },
+    { "type": "fix", "section": "Bug Fixes", "emoji": "🐛", "priority": 2 },
+    { "type": "docs", "section": "Documentation", "emoji": "📝", "priority": 5 },
+    { "type": "style", "hidden": true },
+    { "type": "refactor", "section": "Code Refactoring", "emoji": "♻️", "priority": 4 },
+    { "type": "perf", "section": "Performance", "emoji": "⚡", "priority": 3 },
+    { "type": "test", "section": "Tests", "emoji": "✅", "priority": 6 },
+    { "type": "build", "section": "Build System", "emoji": "📦", "priority": 7 },
+    { "type": "ci", "section": "CI/CD", "emoji": "👷", "priority": 8 },
+    { "type": "chore", "hidden": true }
+  ],
+
+  "template": {
+    "path": null,
+    "commitUrl": "https://github.com/peterfei/ai-agent-team/commit/{{hash}}",
+    "compareUrl": "https://github.com/peterfei/ai-agent-team/compare/{{previousTag}}...{{currentTag}}",
+    "issueUrl": "https://github.com/peterfei/ai-agent-team/issues/{{id}}",
+    "prUrl": "https://github.com/peterfei/ai-agent-team/pull/{{id}}"
+  },
+
+  "exclude": {
+    "types": ["style", "chore"],
+    "scopes": [],
+    "commits": []
+  }
+}

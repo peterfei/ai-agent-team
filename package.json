@@ -1,7 +1,7 @@
 {
   "name": "ai-agent-team",
-  "version": "1.0.3",
-  "description": "AI Agent Team - 拥有24/7专业AI开发团队：产品经理、前端开发、后端开发、测试工程师、DevOps工程师、技术负责人。一键安装，支持中英文命令，大幅提升开发效率！集成drawnote、tidymydesktop和softcopyright三大智能Skill。",
+  "version": "1.0.4",
+  "description": "AI Agent Team - 拥有24/7专业AI开发团队：产品经理、前端开发、后端开发、测试工程师、DevOps工程师、技术负责人。一键安装，支持中英文命令，大幅提升开发效率！集成drawnote、tidymydesktop、softcopyright和changelog-generator四大智能Skill。",
   "main": "bin/ai-agent-team.js",
   "bin": {
     "ai-agent-team": "./bin/ai-agent-team.js"
@@ -48,7 +48,11 @@
     "developer-efficiency",
     "coding-efficiency",
     "ai-development",
-    "smart-tools"
+    "smart-tools",
+    "changelog",
+    "changelog-generator",
+    "conventional-commits",
+    "semantic-versioning"
   ],
   "author": {
     "name": "Peter Fei",
@@ -67,7 +71,10 @@
   "files": [
     ".claude/agents/",
     ".claude/commands/",
-    ".claude/skills/",
+    ".claude/skills/changelog-generator/",
+    ".claude/skills/drawnote/",
+    ".claude/skills/softcopyright/",
+    ".claude/skills/tidymydesktop/",
     ".claude/CLAUDE.md",
     "bin/",
     "scripts/",
@@ -75,7 +82,8 @@
     "examples/",
     "README.md",
     "LICENSE",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    ".changelogrc.json"
   ],
   "engines": {
     "node": ">=16.0.0"

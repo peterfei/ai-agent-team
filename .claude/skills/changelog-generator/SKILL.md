@@ -177,7 +177,7 @@ feat: add new API
 BREAKING CHANGE: Old API is removed
 ```
 
-**方式 2**: 使用 `!` 标记
+**方式 2**: 使用 "!" (感叹号) 标记
 ```
 feat!: remove deprecated method
 ```

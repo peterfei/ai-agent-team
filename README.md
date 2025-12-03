@@ -4,7 +4,7 @@
 
 ![AI Agent Team](https://img.shields.io/badge/AI_Agent_Team-Claude%20Code-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Version](https://img.shields.io/badge/Version-1.0.3-orange)
+![Version](https://img.shields.io/badge/Version-1.0.4-orange)
 ![npm](https://img.shields.io/npm/dw/ai-agent-team)
 ![GitHub stars](https://img.shields.io/github/stars/peterfei/ai-agent-team?style=social)
 
@@ -353,7 +353,15 @@
 
 #### 快速上手
 
-1. **初始化配置**
+1. **快捷触发** (v1.0.4 新增)
+   ```bash
+   # 直接使用简短命令
+   /changelog
+   # 或
+   /变更日志
+   ```
+
+2. **初始化配置**
    ```bash
    用户: "初始化 changelog 配置"
    Claude: 交互式配置向导 → 创建 .changelogrc.json

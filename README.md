@@ -164,6 +164,37 @@
 - **安全机制**: dry-run模式，完整备份提醒
 - **详细报告**: Markdown格式，包含整理统计
 
+## 📝 Changelog Generator Skill - 智能变更日志生成器
+
+> **✨ 自动生成规范的 CHANGELOG.md，让版本管理更轻松！**
+
+### 🌟 核心功能特色
+
+| 🌍 GitHub 集成 | 🎨 HTML 导出 | 📝 规范生成 | 🔢 版本管理 |
+|--------------|------------|-----------|-----------|
+| 自动创建 **GitHub Releases**，获取 PR 信息 | 生成美观的 **HTML 格式** 变更日志，支持搜索过滤 | 遵循 **Keep a Changelog** 标准，自动分类提交 | 支持 **语义化版本** 管理，自动增量更新 |
+| 获取 **提交关联的 PR**，Token 验证 | **响应式布局**，移动端优化，平滑动画效果 | 支持 **Conventional Commits** 规范 | **自定义模板系统**，30+ 内置辅助函数 |
+
+### 🎯 强大的 CLI 工具
+
+```bash
+# 1. 快速生成 HTML 格式变更日志
+changelog-generate generate --all --format html
+
+# 2. 发布新版本并创建 GitHub Release
+changelog-generate release --github-release
+
+# 3. 增量更新
+changelog-generate update
+```
+
+### 💡 为什么选择它？
+
+- **零配置启动**：内置最佳实践配置，开箱即用
+- **完全自动化**：从 Git 历史到 GitHub Release，一键完成
+- **专业级输出**：不仅是 Markdown，更能生成交互式 HTML 报告
+- **高度可定制**：通过 Handlebars 模板完全掌控输出格式
+
 ---
 
 ## 📜 SoftCopyright Skill - 智能软著材料生成工具
@@ -312,155 +343,7 @@
 
 ---
 
-## 📝 Changelog Generator Skill - 智能变更日志生成器
 
-> **✨ 自动生成规范的 CHANGELOG.md，让版本管理更轻松！**
-
-### 🌟 核心功能特色
-
-| 🔍 智能分析 | 📝 规范生成 | 🏷️ 自动分类 | 🔢 版本管理 |
-|-----------|-----------|------------|-----------|
-| 自动分析Git提交历史 | 遵循Keep a Changelog标准 | 12种提交类型智能分类 | 支持语义化版本管理 |
-| 支持Conventional Commits | 自动生成CHANGELOG.md | Features、Fixes、Breaking Changes等 | 自动/手动版本号确定 |
-
-### 🎯 主要功能
-
-#### 核心能力
-- **✅ 智能解析**：自动解析Conventional Commits格式的提交
-- **✅ 自动分类**：支持feat、fix、docs等12种提交类型
-- **✅ 破坏性变更检测**：自动识别BREAKING CHANGES
-- **✅ PR/Issue引用**：自动提取和链接PR和Issue编号
-- **✅ 版本管理**：支持语义化版本（Major、Minor、Patch）
-- **✅ 增量更新**：支持增量更新，不破坏历史记录
-- **✅ 多语言支持**：支持中文和英文
-- **✅ 配置灵活**：支持JSON/YAML/JS配置文件
-
-#### 支持的提交类型
-```
-✨ feat     - 新功能
-🐛 fix      - 错误修复
-📝 docs     - 文档更新
-♻️ refactor - 代码重构
-⚡ perf     - 性能优化
-✅ test     - 测试相关
-📦 build    - 构建系统
-👷 ci       - CI/CD
-💄 style    - 代码格式（隐藏）
-🔧 chore    - 其他杂项（隐藏）
-```
-
-### 💡 使用方法详解
-
-#### 快速上手
-
-1. **快捷触发** (v1.0.4 新增)
-   ```bash
-   # 直接使用简短命令
-   /changelog
-   # 或
-   /变更日志
-   ```
-
-2. **初始化配置**
-   ```bash
-   用户: "初始化 changelog 配置"
-   Claude: 交互式配置向导 → 创建 .changelogrc.json
-   ```
-
-2. **生成 CHANGELOG**
-   ```bash
-   用户: "帮我生成 CHANGELOG"
-   Claude: 分析Git历史 → 分类提交 → 生成 CHANGELOG.md
-   ```
-
-3. **发布新版本**
-   ```bash
-   用户: "发布新版本 2.0.0"
-   Claude: 将Unreleased转为正式版本 → 创建Git标签
-   ```
-
-#### 常用命令
-
-```bash
-# 初始化配置
-changelog-generate init
-
-# 生成完整CHANGELOG
-changelog-generate generate --all
-
-# 增量更新
-changelog-generate update
-
-# 发布版本
-changelog-generate release
-
-# 预览Unreleased内容
-changelog-generate preview
-```
-
-### 🎨 输出示例
-
-```markdown
-# Changelog
-
-## [Unreleased]
-
-## [2.0.0] - 2023-11-10
-
-### 💥 BREAKING CHANGES
-- **api:** Remove deprecated v1 endpoints (#123)
-
-### ✨ Features
-- **auth:** Add JWT authentication (#120) by @alice
-- **api:** Add user profile endpoint (#121) by @bob
-
-### 🐛 Bug Fixes
-- **ui:** Fix button alignment issue (#122)
-
-## [1.0.0] - 2023-10-01
-Initial release
-```
-
-### 📊 功能对比
-
-| 功能 | 手动维护 | changelog-generator |
-|-----|---------|-------------------|
-| 时间成本 | 30分钟 | 30秒 ✅ |
-| 格式统一 | ❌ 易出错 | ✅ 自动规范 |
-| 版本管理 | ❌ 手动 | ✅ 自动 |
-| 多语言 | ❌ 困难 | ✅ 支持 |
-| CI/CD集成 | ❌ 复杂 | ✅ 原生支持 |
-
-### 🔧 配置示例
-
-```json
-{
-  "version": "1.0.0",
-  "language": "zh-CN",
-  "display": {
-    "emoji": true,
-    "showAuthor": true,
-    "showPR": true
-  },
-  "exclude": {
-    "types": ["style", "chore"]
-  }
-}
-```
-
-### 🚀 CI/CD 集成
-
-**GitHub Actions示例**:
-```yaml
-- name: Update Changelog
-  run: |
-    changelog-generate update
-    git add CHANGELOG.md
-    git commit -m "docs: update changelog"
-    git push
-```
-
----
 
 ## 🚀 快速开始
 

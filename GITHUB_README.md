@@ -4,7 +4,7 @@
 
 ![AI Agent Team](https://img.shields.io/badge/AI_Agent_Team-Claude%20Code-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Version](https://img.shields.io/badge/Version-1.0.3-orange)
+![Version](https://img.shields.io/badge/Version-1.0.4-orange)
 ![npm](https://img.shields.io/npm/dw/ai-agent-team)
 ![GitHub stars](https://img.shields.io/github/stars/peterfei/ai-agent-team?style=social)
 
@@ -24,9 +24,21 @@
 - **DevOps工程师** - 部署、基础设施、CI/CD流水线
 - **技术负责人** - 技术决策、架构设计、团队协调
 
-### 🧹 三大智能Skill
+### 🧹 四大智能Skill
 
-#### 1. 📜 SoftCopyright Skill - 智能软著材料生成工具
+#### 1. 📝 Changelog Generator Skill - 智能变更日志生成器 ⭐ NEW in v1.0.4
+> **自动生成规范的 CHANGELOG.md，让版本管理更轻松！**
+
+**核心功能**：
+- ✅ **GitHub 集成** - 自动创建 GitHub Releases，获取 PR 信息
+- ✅ **HTML 导出** - 生成美观的 HTML 格式变更日志，支持搜索过滤
+- ✅ **规范生成** - 遵循 Keep a Changelog 标准，自动分类提交
+- ✅ **版本管理** - 支持语义化版本管理，自动增量更新
+- ✅ **零配置启动** - 内置最佳实践配置，开箱即用
+- ✅ **完全自动化** - 从 Git 历史到 GitHub Release，一键完成
+- ✅ **自定义模板** - 通过 Handlebars 模板完全掌控输出格式
+
+#### 2. 📜 SoftCopyright Skill - 智能软著材料生成工具
 > **一键生成软件著作权申请材料，让软著申请变得简单高效！**
 
 ![softcopyright](./examples/softcopyright.gif)
@@ -40,7 +52,7 @@
 - ✅ **多语言支持** - 支持JavaScript、Python、Java、C、Go等20+语言
 - ✅ **中文完美支持** - 原生HTML格式，无乱码问题
 
-#### 2. 🧹 TidyMyDesktop Skill - 智能桌面整理工具
+#### 3. 🧹 TidyMyDesktop Skill - 智能桌面整理工具
 > **让您的桌面和目录焕然一新！智能分类、版本去重、安全整理**
 
 **核心功能**：
@@ -49,7 +61,7 @@
 - ✅ **安全整理保障** - dry-run模式预览，用户确认后执行
 - ✅ **批量处理** - 支持桌面和目录整理
 
-#### 3. 🎨 DrawNote Skill - 智能笔记可视化工具
+#### 4. 🎨 DrawNote Skill - 智能笔记可视化工具
 > **让您的笔记变得生动有趣！将文字内容转换为精美图片**
 
 **核心功能**：
@@ -140,7 +152,8 @@ npm install -g ai-agent-team
 /ops '部署到生产环境'   # 运维工程师
 /tl '评估系统架构'      # 技术负责人
 
-# 三大Skill命令
+# 四大Skill命令
+skill changelog-generator "生成变更日志"    # 变更日志生成器 ⭐ NEW
 skill drawnote "AI发展历程信息图"         # 智能笔记
 skill softcopyright "生成项目软著材料"     # 软著材料
 skill tidymydesktop "整理桌面和下载目录"    # 桌面整理

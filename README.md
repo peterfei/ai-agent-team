@@ -14,6 +14,39 @@
 
 </div>
 
+## 📝 Changelog Generator Skill - 智能变更日志生成器 ⭐ NEW in v1.0.4
+
+> **✨ 自动生成规范的 CHANGELOG.md，让版本管理更轻松！**
+
+### 🌟 核心功能特色
+
+| 🌍 GitHub 集成 | 🎨 HTML 导出 | 📝 规范生成 | 🔢 版本管理 |
+|--------------|------------|-----------|-----------|
+| 自动创建 **GitHub Releases**，获取 PR 信息 | 生成美观的 **HTML 格式** 变更日志，支持搜索过滤 | 遵循 **Keep a Changelog** 标准，自动分类提交 | 支持 **语义化版本** 管理，自动增量更新 |
+| 获取 **提交关联的 PR**，Token 验证 | **响应式布局**，移动端优化，平滑动画效果 | 支持 **Conventional Commits** 规范 | **自定义模板系统**，30+ 内置辅助函数 |
+
+### 🎯 强大的 CLI 工具
+
+```bash
+# 1. 快速生成 HTML 格式变更日志
+changelog-generate generate --all --format html
+
+# 2. 发布新版本并创建 GitHub Release
+changelog-generate release --github-release
+
+# 3. 增量更新
+changelog-generate update
+```
+
+### 💡 为什么选择它？
+
+- **零配置启动**：内置最佳实践配置，开箱即用
+- **完全自动化**：从 Git 历史到 GitHub Release，一键完成
+- **专业级输出**：不仅是 Markdown，更能生成交互式 HTML 报告
+- **高度可定制**：通过 Handlebars 模板完全掌控输出格式
+
+---
+
 ## 📜 SoftCopyright Skill - 智能软著材料生成工具
 
 > **✨ 一键生成软件著作权申请材料，让软著申请变得简单高效！**
@@ -164,113 +197,6 @@
 - **安全机制**: dry-run模式，完整备份提醒
 - **详细报告**: Markdown格式，包含整理统计
 
-## 📝 Changelog Generator Skill - 智能变更日志生成器
-
-> **✨ 自动生成规范的 CHANGELOG.md，让版本管理更轻松！**
-
-### 🌟 核心功能特色
-
-| 🌍 GitHub 集成 | 🎨 HTML 导出 | 📝 规范生成 | 🔢 版本管理 |
-|--------------|------------|-----------|-----------|
-| 自动创建 **GitHub Releases**，获取 PR 信息 | 生成美观的 **HTML 格式** 变更日志，支持搜索过滤 | 遵循 **Keep a Changelog** 标准，自动分类提交 | 支持 **语义化版本** 管理，自动增量更新 |
-| 获取 **提交关联的 PR**，Token 验证 | **响应式布局**，移动端优化，平滑动画效果 | 支持 **Conventional Commits** 规范 | **自定义模板系统**，30+ 内置辅助函数 |
-
-### 🎯 强大的 CLI 工具
-
-```bash
-# 1. 快速生成 HTML 格式变更日志
-changelog-generate generate --all --format html
-
-# 2. 发布新版本并创建 GitHub Release
-changelog-generate release --github-release
-
-# 3. 增量更新
-changelog-generate update
-```
-
-### 💡 为什么选择它？
-
-- **零配置启动**：内置最佳实践配置，开箱即用
-- **完全自动化**：从 Git 历史到 GitHub Release，一键完成
-- **专业级输出**：不仅是 Markdown，更能生成交互式 HTML 报告
-- **高度可定制**：通过 Handlebars 模板完全掌控输出格式
-
----
-
-## 📜 SoftCopyright Skill - 智能软著材料生成工具
-
-> **✨ 一键生成软件著作权申请材料，让软著申请变得简单高效！**
-
-### 🌟 核心功能特色
-
-| 📋 智能项目分析 | 📄 HTML文档生成 | 🔄 版本自动识别 | 🖨️ 完美打印支持 |
-|-------------|--------------|--------------|-------------|
-| 自动识别项目类型、技术栈和架构模式 | 生成符合要求的**软件说明书**和**源代码文档** | 从package.json等配置文件**自动读取版本号** | 支持浏览器打印为PDF，页眉页脚自动添加 |
-
-### 📝 主要功能
-
-1. **📋 软件说明书生成**
-   ```bash
-   自动生成2000-3000字的详细说明书
-   包含：软件信息、功能描述、技术架构、使用说明
-   ```
-
-2. **💻 源代码文档生成**
-   ```bash
-   智能选择核心代码文件
-   规范的HTML格式输出，可打印为PDF
-   ```
-
-3. **🔍 多语言支持**
-   ```bash
-   支持JavaScript、Python、Java、Go、Rust等
-   自动识别项目类型和版本号
-   ```
-
-### 📸 使用方法
-
-#### 在Claude中使用（推荐）
-
-```bash
-# 直接输入关键词即可触发
-"帮我生成软著材料"
-"生成软件著作权申请文档"
-"软著"  # 关键词触发
-```
-
-#### 命令行使用
-
-```bash
-# 生成完整材料
-~/.claude/skills/softcopyright/softcopyright-generate --project /path/to/project
-
-# 仅生成软件说明书
-~/.claude/skills/softcopyright/softcopyright-manual --project /path/to/project
-
-# 仅生成源代码文档
-~/.claude/skills/softcopyright/softcopyright-source --project /path/to/project
-```
-
-### 💡 打印为PDF
-
-生成的HTML文件可通过浏览器打印为PDF：
-
-1. 在浏览器中打开生成的HTML文件
-2. 按 `Cmd+P` (Mac) 或 `Ctrl+P` (Windows/Linux)
-3. 在打印设置中：
-   - 展开"更多设置"
-   - 勾选"页眉和页脚"选项
-   - 浏览器会自动添加软件名称、版本号和页码
-
-### ⚡ 技术特性
-
-- **跨平台支持**: macOS、Windows、Linux
-- **HTML格式**: 完美支持中文显示，无乱码问题
-- **版本自动读取**: 支持Node.js、Python、Rust、Go等项目
-- **页眉页脚**: 打印时自动显示"软件名称_版本号"和页码
-- **智能扫描**: 自动排除node_modules、测试文件等
-
----
 
 ## 🎨 DrawNote Skill - 智能笔记可视化工具
 
@@ -343,22 +269,21 @@ changelog-generate update
 
 ---
 
-
-
 ## 🚀 快速开始
 
+### ✨ 核心特性
+
 - 🎯 **六大专业智能体** - 产品经理、前端开发、后端开发、测试工程师、DevOps工程师、技术负责人
+- 📝 **Changelog Generator Skill** ⭐ NEW - 智能变更日志生成，自动版本管理，GitHub Release 集成
+- 📜 **SoftCopyright Skill** - 智能软著材料生成，一键生成软件著作权申请文档
 - 🧹 **TidyMyDesktop Skill** - 智能桌面整理，文件分类，版本去重，安全整理
 - 🎨 **DrawNote Skill** - 智能笔记可视化，多彩风格模板，一键生成精美图片
-- 📝 **Changelog Generator Skill** - 智能变更日志生成，自动版本管理，规范化提交
 - ⚡ **原生集成** - 完全基于Claude Code的原生智能体系统
 - 🚀 **一键安装** - 支持npm全局安装，自动配置智能体环境
 - ⚡ **快捷命令** - 简化的命令行调用方式，提升开发效率
 - 🔄 **完整工作流** - 支持完整的产品开发流程和团队协作
 - 📚 **详细文档** - 包含使用指南、最佳实践和示例
 - 🛠️ **易于扩展** - 模块化设计，支持自定义智能体
-
-## 🚀 快速开始
 
 ### 系统要求
 

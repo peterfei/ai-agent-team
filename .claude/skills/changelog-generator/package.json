@@ -4,7 +4,7 @@
   "description": "智能变更日志生成器 - 自动分析Git提交历史，生成符合规范的CHANGELOG.md",
   "main": "src/index.js",
   "bin": {
-    "changelog-generate": "./bin/changelog-generate.js"
+    "changelog-generate": "./bin/cli.js"
   },
   "scripts": {
     "test": "jest",
@@ -12,7 +12,7 @@
     "test:coverage": "jest --coverage",
     "lint": "eslint src/**/*.js",
     "format": "prettier --write \"src/**/*.js\"",
-    "dev": "node bin/changelog-generate.js"
+    "dev": "node bin/cli.js"
   },
   "keywords": [
     "changelog",

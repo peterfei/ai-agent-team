@@ -150,3 +150,7 @@ drawnote_*.png
 .claude-plugin/**/.DS_Store
 docs/promotion/
 softcopyright-output
+.gemini-clipboard/
+docs/JUEJIN_ARTICLE.md
+docs/PROMOTION_PLAN.md
+docs/TOUTIAO_ARTICLE.md

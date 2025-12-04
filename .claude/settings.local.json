@@ -20,10 +20,30 @@
       "Bash(npm install:*)",
       "Bash(tree:*)",
       "Skill(drawnote)",
-      "Bash(npm --version:*)"
+      "Bash(npm --version:*)",
+      "mcp__thread-manager__list_threads",
+      "mcp__thread-manager__update_thread",
+      "SlashCommand(/thread switch 8f78af46-53dc-4847-b0b5-89d8a31184d4)"
     ],
     "deny": [],
     "ask": []
   },
-  "spinnerTipsEnabled": false
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "thread-manager"
+  ],
+  "spinnerTipsEnabled": false,
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/mac/project/ai-agent/.claude/hooks/record-user-message.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
 }

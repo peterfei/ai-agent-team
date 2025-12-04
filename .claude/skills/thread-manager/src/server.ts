@@ -52,16 +52,19 @@ export class MCPServer {
         this.mcp.tool(
           def.name,
           def.description || '',
-          inputSchema,
+          inputSchema.shape, // Pass the shape of the ZodObject
           async (input: any) => {
             try {
               // Call the handler with the old invocation format for compatibility
               const result = await handler({ toolName: def.name, input }, this.threadManager);
+              
+              console.error(`[DEBUG] Full result from handler for ${def.name}:`, JSON.stringify(result, null, 2)); // Add this debug log
+
               return {
                 content: [
                   {
-                    type: 'text',
-                    text: JSON.stringify(result, null, 2)
+                    type: 'text' as const,
+                    text: result.message as string
                   }
                 ]
               };
@@ -73,7 +76,7 @@ export class MCPServer {
                     type: 'text',
                     text: JSON.stringify({ error: error.message || 'Unknown error' }, null, 2)
                   }
-                ],
+                ] as any, // Cast to any
                 isError: true
               };
             }

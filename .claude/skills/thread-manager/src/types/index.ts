@@ -5,8 +5,10 @@
  */
 export interface Thread {
   id: string;                    // UUID
+  sessionId: string;             // Session ID (usually same as ID)
   title: string;                 // Title
   description?: string;          // Description
+  gitBranch?: string;            // Associated Git branch
   createdAt: Date;               // Creation timestamp
   updatedAt: Date;               // Update timestamp
   messageCount: number;          // Number of messages
@@ -76,5 +78,19 @@ export interface UpdateThreadInput {
   threadId: string;
   title?: string;
   description?: string;
+  gitBranch?: string;
   tags?: string[];
+}
+
+// ==================== SDK Types Replacement ====================
+
+export interface ToolDefinition {
+  name: string;
+  description?: string;
+  inputSchema: any; // JSON Schema
+}
+
+export interface ToolInvocation {
+  toolName: string;
+  input: any;
 }

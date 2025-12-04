@@ -61,21 +61,75 @@ Show details about a thread.
 
 ## Implementation Details for Claude
 
-When the user invokes this command, you should:
+当用户调用此命令时，您应该：
 
-1.  **Parse the subcommand**: Identify if it's `new`, `switch`, `update`, `delete`, `show`, or an ID (which implies switch).
-2.  **Call the appropriate MCP tool**:
+1.  **解析子命令**：识别它是 `new`、`switch`、`update`、`delete`、`show` 还是 ID（这意味着切换）。
+2.  **调用相应的 MCP 工具**：
     - `new` -> `thread-manager.create_thread`
-    - `switch` or `<id>` -> `thread-manager.switch_thread`
+    - `switch` 或 `<id>` -> `thread-manager.switch_thread`
     - `list` -> `thread-manager.list_threads`
     - `update` -> `thread-manager.update_thread`
     - `delete` -> `thread-manager.delete_thread`
-    - `show` or `info` -> `thread-manager.get_thread` or `thread-manager.get_current_thread`
-3.  **Format the output**: Present the result nicely to the user.
+    - `show` 或 `info` -> `thread-manager.get_thread` 或 `thread-manager.get_current_thread`
+3.  **格式化输出**：将结果美观地呈现给用户。
 
-**Example: Creating a thread**
-If user types: `/thread new "Fix login bug" --tags bug`
-You call:
+### 切换线程时的处理
+
+当用户执行 `/thread switch <id>` 或 `/thread <id>` 时：
+
+1.  **调用 `thread-manager.switch_thread`**。
+2.  **解析返回结果**，特别是 `message` 字段。
+3.  **显示完整的切换横幅**（即 `thread-manager` 返回的 `message`，包含上下文恢复和启动命令）。
+4.  **建议用户重启会话以完全隔离上下文**。
+
+**重要提示格式 (由 `thread-manager` 返回的 message 字段已包含此内容)**：
+
+```
+⚠️ 为了完全隔离上下文，请执行以下操作之一：
+
+选项 1（推荐）：重启到新 session
+exit
+claude --session-id <thread-id>
+
+选项 2：在新终端中打开
+claude --session-id <thread-id>
+```
+
+### 创建线程时的处理
+
+当用户执行 `/thread new "标题"` 时：
+
+1.  **调用 `thread-manager.create_thread`**。
+2.  **立即显示创建成功的信息**（即 `thread-manager` 返回的 `message` 字段）。
+3.  **提供启动命令**（即 `thread-manager` 返回的 `launchCommand` 字段）。
+4.  **🔴 重要：立即结束响应，不要执行任何额外的任务或继续对话**。
+
+**响应格式要求：**
+- ✅ 只输出 `thread-manager` 返回的 `message` 内容
+- ✅ 保持输出简洁（不超过 20 行）
+- ❌ 不要思考或规划后续任务
+- ❌ 不要问用户"接下来要做什么"
+- ❌ 不要开始执行创建 thread 之外的其他工作
+
+**示例正确响应：**
+```
+✨ 新线程已创建
+
+📋 标题：测试当前h5
+🆔 ID：8458e9d2
+
+🚀 启动独立会话：
+   claude --session-id 8458e9d2-cf78-445b-96ed-c4f286b1c83d
+
+或使用快捷命令：
+   clt 8458e9d2
+```
+
+[响应结束，等待用户下一个命令]
+
+**示例: 创建线程**
+如果用户输入: `/thread new "Fix login bug" --tags bug`
+您调用:
 ```javascript
 use_mcp_tool({
   server_name: "thread-manager",
@@ -83,14 +137,12 @@ use_mcp_tool({
   arguments: {
     title: "Fix login bug",
     tags: ["bug"],
-    switchTo: true
   }
 });
 ```
-
-**Example: Switching thread**
-If user types: `/thread T-12345`
-You call:
+**示例: 切换线程**
+如果用户输入: `/thread T-12345`
+您调用:
 ```javascript
 use_mcp_tool({
   server_name: "thread-manager",

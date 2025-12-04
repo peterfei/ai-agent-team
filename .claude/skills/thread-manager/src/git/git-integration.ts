@@ -128,4 +128,70 @@ export class GitIntegration {
     
     return { added, deleted };
   }
+
+  /**
+   * Get current branch name
+   */
+  public async getCurrentBranch(): Promise<string | null> {
+    try {
+      const result = await this.git.branch();
+      return result.current;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /**
+   * Create and checkout a new branch
+   */
+  public async createAndCheckoutBranch(branchName: string): Promise<boolean> {
+    try {
+      await this.git.checkoutLocalBranch(branchName);
+      return true;
+    } catch (e) {
+      console.error('Error creating branch:', e);
+      return false;
+    }
+  }
+
+  /**
+   * Checkout an existing branch
+   */
+  public async checkoutBranch(branchName: string): Promise<boolean> {
+    try {
+      await this.git.checkout(branchName);
+      return true;
+    } catch (e) {
+      console.error('Error checking out branch:', e);
+      return false;
+    }
+  }
+
+  /**
+   * Check if branch exists
+   */
+  public async branchExists(branchName: string): Promise<boolean> {
+    try {
+      const branches = await this.git.branch();
+      return branches.all.includes(branchName);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /**
+   * Delete a branch
+   */
+  public async deleteBranch(
+    branchName: string,
+    force: boolean = false
+  ): Promise<boolean> {
+    try {
+      await this.git.branch([force ? '-D' : '-d', branchName]);
+      return true;
+    } catch (e) {
+      console.error('Error deleting branch:', e);
+      return false;
+    }
+  }
 }

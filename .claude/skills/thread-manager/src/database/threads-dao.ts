@@ -20,8 +20,10 @@ export class ThreadsDAO {
     
     const thread: Thread = {
       id,
+      sessionId: input.sessionId || id,
       title: input.title || 'New Thread',
       description: input.description,
+      gitBranch: input.gitBranch,
       createdAt: input.createdAt || now,
       updatedAt: input.updatedAt || now,
       messageCount: input.messageCount || 0,
@@ -36,16 +38,18 @@ export class ThreadsDAO {
 
     const stmt = this.db.prepare(`
       INSERT INTO threads (
-        id, title, description, created_at, updated_at, 
+        id, session_id, git_branch, title, description, created_at, updated_at, 
         message_count, is_active, files_changed, 
         lines_added, lines_deleted, tags
       ) VALUES (
-        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
       )
     `);
 
     stmt.run(
       thread.id,
+      thread.sessionId,
+      thread.gitBranch || null,
       thread.title,
       thread.description || null,
       thread.createdAt.getTime(),
@@ -141,6 +145,7 @@ export class ThreadsDAO {
       UPDATE threads SET
         title = ?,
         description = ?,
+        git_branch = ?,
         updated_at = ?,
         message_count = ?,
         is_active = ?,
@@ -154,6 +159,7 @@ export class ThreadsDAO {
     stmt.run(
       updated.title,
       updated.description || null,
+      updated.gitBranch || null,
       updated.updatedAt.getTime(),
       updated.messageCount,
       updated.isActive ? 1 : 0,
@@ -192,11 +198,19 @@ export class ThreadsDAO {
     return this.mapRowToThread(row);
   }
 
+  public findByPrefix(prefix: string): Thread[] {
+    const stmt = this.db.prepare(`SELECT * FROM threads WHERE id LIKE ? || '%'`);
+    const rows = stmt.all(prefix) as any[];
+    return rows.map(this.mapRowToThread);
+  }
+
   private mapRowToThread(row: any): Thread {
     return {
       id: row.id,
+      sessionId: row.session_id || row.id,
       title: row.title,
       description: row.description || undefined,
+      gitBranch: row.git_branch || undefined,
       createdAt: new Date(row.created_at),
       updatedAt: new Date(row.updated_at),
       messageCount: row.message_count,

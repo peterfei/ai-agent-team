@@ -1,4 +1,4 @@
-import { ToolDefinition, ToolInvocation } from '@modelcontextprotocol/sdk/types.js';
+import { ToolDefinition, ToolInvocation } from '../types';
 import { ThreadManager } from '../core/thread-manager';
 import { CreateThreadInput } from '../types';
 

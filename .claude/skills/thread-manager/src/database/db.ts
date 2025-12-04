@@ -67,6 +67,20 @@ export class DatabaseManager {
     this.db.exec(`CREATE INDEX IF NOT EXISTS idx_threads_updated_at ON threads(updated_at DESC);`);
     this.db.exec(`CREATE INDEX IF NOT EXISTS idx_threads_created_at ON threads(created_at DESC);`);
 
+    // Migration: Add session_id if not exists
+    try {
+      const info = this.db.pragma('table_info(threads)') as any[];
+      if (!info.some(col => col.name === 'session_id')) {
+        this.db.exec(`ALTER TABLE threads ADD COLUMN session_id TEXT`);
+        this.db.exec(`UPDATE threads SET session_id = id WHERE session_id IS NULL`);
+      }
+      if (!info.some(col => col.name === 'git_branch')) {
+        this.db.exec(`ALTER TABLE threads ADD COLUMN git_branch TEXT`);
+      }
+    } catch (e) {
+      console.error('Error migrating database:', e);
+    }
+
     // Messages Table
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS messages (

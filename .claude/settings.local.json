@@ -23,7 +23,11 @@
       "Bash(npm --version:*)",
       "mcp__thread-manager__list_threads",
       "mcp__thread-manager__update_thread",
-      "SlashCommand(/thread switch 8f78af46-53dc-4847-b0b5-89d8a31184d4)"
+      "SlashCommand(/thread switch 8f78af46-53dc-4847-b0b5-89d8a31184d4)",
+      "mcp__thread-manager__create_thread",
+      "mcp__thread-manager__switch_thread",
+      "Bash(npm run build:*)",
+      "mcp__thread-manager__get_current_thread"
     ],
     "deny": [],
     "ask": []
@@ -32,7 +36,6 @@
   "enabledMcpjsonServers": [
     "thread-manager"
   ],
-  "spinnerTipsEnabled": false,
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -45,5 +48,6 @@
         ]
       }
     ]
-  }
+  },
+  "spinnerTipsEnabled": false
 }

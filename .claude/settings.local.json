@@ -27,7 +27,8 @@
       "mcp__thread-manager__create_thread",
       "mcp__thread-manager__switch_thread",
       "Bash(npm run build:*)",
-      "mcp__thread-manager__get_current_thread"
+      "mcp__thread-manager__get_current_thread",
+      "Bash(pkill:*)"
     ],
     "deny": [],
     "ask": []

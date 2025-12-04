@@ -1,6 +1,6 @@
 ---
 name: tl-start
-description: 技术负责人 - 创建新线程并立即开始工作
+description: 技术负责人 - 需输入任务描述 (如: /tl-start "设计架构")
 model: inherit
 color: yellow
 ---
@@ -14,6 +14,8 @@ color: yellow
 ```bash
 /tl-start "设计微服务架构"
 ```
+
+> **注意**：请务必提供任务描述。请勿在输入 `/tl-start` 后直接回车，否则将创建无标题任务。
 
 ---
 

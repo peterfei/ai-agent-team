@@ -1,6 +1,6 @@
 ---
 name: qa-start
-description: QA工程师 - 创建新线程并立即开始工作
+description: QA工程师 - 需输入任务描述 (如: /qa-start "测试功能")
 model: inherit
 color: orange
 ---
@@ -14,6 +14,8 @@ color: orange
 ```bash
 /qa-start "测试用户认证功能"
 ```
+
+> **注意**：请务必提供任务描述。请勿在输入 `/qa-start` 后直接回车，否则将创建无标题任务。
 
 ---
 

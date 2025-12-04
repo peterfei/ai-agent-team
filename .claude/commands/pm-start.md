@@ -1,6 +1,6 @@
 ---
 name: pm-start
-description: 产品经理 - 创建新线程并立即开始工作
+description: 产品经理 - 需输入任务描述 (如: /pm-start "设计系统")
 model: inherit
 color: blue
 ---
@@ -14,6 +14,8 @@ color: blue
 ```bash
 /pm-start "设计用户认证系统"
 ```
+
+> **注意**：请务必提供任务描述。请勿在输入 `/pm-start` 后直接回车，否则将创建无标题任务。
 
 ---
 

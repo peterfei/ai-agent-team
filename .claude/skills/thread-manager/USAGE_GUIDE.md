@@ -118,6 +118,20 @@ mcp__thread-manager__get_current_thread({ includeMessages: true })  # 显示所�
 
 ## 最佳实践
 
+### ⚠️ 重要提示：使用带参数命令
+
+当使用如 `/be-start`、`/fe-start` 等创建线程的命令时，请务必在命令后提供任务描述，不要在输入命令后直接回车。
+
+✅ **正确做法**：
+```bash
+/be-start "实现JWT认证API"
+```
+
+❌ **错误做法**：
+```bash
+/be-start [回车]  # 这将创建无标题任务或报错
+```
+
 ### ✅ 推荐做法
 
 1. **及时记录关键对话**

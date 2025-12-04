@@ -1,6 +1,6 @@
 ---
 name: be-start
-description: 后端开发 - 创建新线程并立即开始工作
+description: 后端开发 - 需输入任务描述 (如: /be-start "实现API")
 model: inherit
 color: purple
 ---
@@ -14,6 +14,8 @@ color: purple
 ```bash
 /be-start "实现JWT认证API"
 ```
+
+> **注意**：请务必提供任务描述。请勿在输入 `/be-start` 后直接回车，否则将创建无标题任务。
 
 ---
 

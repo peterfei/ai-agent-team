@@ -1,6 +1,6 @@
 ---
 name: fe-start
-description: 前端开发 - 创建新线程并立即开始工作
+description: 前端开发 - 需输入任务描述 (如: /fe-start "开发组件")
 model: inherit
 color: cyan
 ---
@@ -14,6 +14,8 @@ color: cyan
 ```bash
 /fe-start "开发登录表单组件"
 ```
+
+> **注意**：请务必提供任务描述。请勿在输入 `/fe-start` 后直接回车，否则将创建无标题任务。
 
 ---
 

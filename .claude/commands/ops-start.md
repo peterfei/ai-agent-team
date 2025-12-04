@@ -1,6 +1,6 @@
 ---
 name: ops-start
-description: DevOps工程师 - 创建新线程并立即开始工作
+description: DevOps工程师 - 需输入任务描述 (如: /ops-start "部署环境")
 model: inherit
 color: red
 ---
@@ -14,6 +14,8 @@ color: red
 ```bash
 /ops-start "部署生产环境"
 ```
+
+> **注意**：请务必提供任务描述。请勿在输入 `/ops-start` 后直接回车，否则将创建无标题任务。
 
 ---
 

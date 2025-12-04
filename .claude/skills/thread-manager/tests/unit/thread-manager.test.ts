@@ -45,7 +45,7 @@ describe('ThreadManager', () => {
     expect(thread).toBeDefined();
     expect(thread.title).toBe('New Feature');
     expect(thread.isActive).toBe(true);
-    expect(message).toContain('created successfully');
+    expect(message).toContain('新线程已创建');
 
     const activeThread = await threadManager.getCurrentThread();
     expect(activeThread.thread?.id).toBe(thread.id);
@@ -126,7 +126,7 @@ describe('ThreadManager', () => {
     expect(success).toBe(true);
     expect(switchedThread?.id).toBe(thread2.id);
     expect(switchedThread?.isActive).toBe(true);
-    expect(message).toContain('Switched to thread');
+    expect(message).toContain('已切换到线程');
 
     const currentActive = await threadManager.getCurrentThread();
     expect(currentActive.thread?.id).toBe(thread2.id);

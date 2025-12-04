@@ -40,7 +40,7 @@ export class ThreadManager {
   }
 
   public async createThread(input: CreateThreadInput): Promise<{ thread: Thread, message: string, launchCommand: string }> {
-    const { title, description, tags } = input;
+    const { title, description, tags, switchTo = true } = input;
 
     // 1. 生成 UUID
     const threadId = uuidv4();
@@ -53,13 +53,14 @@ export class ThreadManager {
     }
 
     // 3. 创建 Thread 记录
-    const newThread = this.threadsDAO.create({
+    // 先创建为非激活状态，如果是 switchTo=true，后面会统一调用 setActive 处理互斥
+    let newThread = this.threadsDAO.create({
       id: threadId,
       sessionId: threadId,  // 相同
       title,
       description,
       gitBranch,
-      isActive: false,  // 不自动激活，需要用户启动新会话
+      isActive: false, 
       metadata: {
         filesChanged: 0,
         linesAdded: 0,
@@ -68,10 +69,19 @@ export class ThreadManager {
       }
     });
 
-    // 4. 生成启动命令
+    // 4. 处理切换逻辑 (默认为 true)
+    if (switchTo) {
+      this.threadsDAO.setActive(threadId);
+      newThread.isActive = true; // 更新内存中的对象状态
+      
+      // 更新 CLAUDE.md 上下文
+      await this.updateClaudeMd(newThread, []);
+    }
+
+    // 5. 生成启动命令
     const launchCommand = `claude --session-id ${threadId}`;
 
-    // 5. 返回结果（快速返回，不阻塞）
+    // 6. 返回结果（快速返回，不阻塞）
     return {
       thread: newThread,
       message: this.formatCreateMessage(newThread),
@@ -372,6 +382,7 @@ ${separator}
 
     // Set target thread as active
     this.threadsDAO.setActive(id);
+    targetThread.isActive = true; // Update in-memory object
 
     // 3. 加载历史消息 (for CLAUDE.md and display)
     const messages = this.messagesDAO.findByThreadId(id, { limit: 50 });

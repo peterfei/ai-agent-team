@@ -8,13 +8,13 @@
 
 ```bash
 # 方式 1: 使用绝对路径
-npm install -g /Users/mac/project/ai-agent/ai-agent-team-1.0.1.tgz
+npm install -g /path/to/your/project/ai-agent-team-1.0.1.tgz
 
 # 方式 2: 使用相对路径（如果在同一目录下）
 npm install -g ./ai-agent-team-1.0.1.tgz
 
 # 方式 3: 使用 file: 协议
-npm install -g file:/Users/mac/project/ai-agent/ai-agent-team-1.0.1.tgz
+npm install -g file:/path/to/your/project/ai-agent-team-1.0.1.tgz
 ```
 
 #### 验证全局安装
@@ -40,7 +40,7 @@ cd my-project
 npm init -y
 
 # 安装本地包
-npm install /Users/mac/project/ai-agent/ai-agent-team-1.0.1.tgz
+npm install /path/to/your/project/ai-agent-team-1.0.1.tgz
 
 # 或者使用相对路径
 npm install ../ai-agent/ai-agent-team-1.0.1.tgz
@@ -60,7 +60,7 @@ ls -la node_modules/ai-agent-team/
 不安装，直接运行：
 
 ```bash
-npx /Users/mac/project/ai-agent/ai-agent-team-1.0.1.tgz
+npx /path/to/your/project/ai-agent-team-1.0.1.tgz
 ```
 
 ## 🔧 安装后配置
@@ -242,7 +242,7 @@ npm install
 
 ```bash
 # 在包目录中
-cd /Users/mac/project/ai-agent
+cd /path/to/your/project
 npm link
 
 # 在另一个项目中使用

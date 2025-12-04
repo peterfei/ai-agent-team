@@ -1,13 +1,17 @@
 const { generateManualHTML } = require('./scripts/simple-doc-generator');
 const scanner = require('./scripts/scanner');
+const path = require('path');
 
 async function testComplete() {
   try {
-    console.log('🔍 扫描项目...');
-    const projectInfo = await scanner.scanProject('/Users/mac/Desktop/test-project');
+    const projectPath = process.argv[2] || process.cwd();
+    const outputDir = process.argv[3] || path.join(process.cwd(), 'softcopyright-output');
+
+    console.log('🔍 扫描项目:', projectPath);
+    const projectInfo = await scanner.scanProject(projectPath);
 
     console.log('📝 生成HTML说明书...');
-    const htmlPath = await generateManualHTML(projectInfo, '/Users/mac/Desktop/softcopyright-output');
+    const htmlPath = await generateManualHTML(projectInfo, outputDir);
 
     console.log('✅ 测试完成!');
     console.log('生成的HTML文件:', htmlPath);

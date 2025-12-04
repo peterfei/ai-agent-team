@@ -231,7 +231,7 @@ softcopyright
 
 ### 基本使用（自动优化）
 ```bash
-cd /Users/mac/project/ai-agent/.claude/skills/softcopyright
+cd /path/to/project/ai-agent/.claude/skills/softcopyright
 node test-performance.js /path/to/your/project
 ```
 

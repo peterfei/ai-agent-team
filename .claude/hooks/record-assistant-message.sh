@@ -24,8 +24,11 @@ message_data=$(jq -n \
   --arg content "$assistant_content" \
   '{role: $role, content: $content}')
 
+# Get the directory of the current script
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Call the Node.js script to record the message
-echo "$message_data" | node /Users/mac/project/ai-agent/.claude/hooks/record-message.js 2>&1 | logger -t claude-hooks
+echo "$message_data" | node "$SCRIPT_DIR/record-message.js" 2>&1 | logger -t claude-hooks
 
 # Exit successfully
 exit 0

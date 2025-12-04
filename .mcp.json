@@ -3,7 +3,7 @@
     "thread-manager": {
       "command": "node",
       "args": [
-        "/Users/mac/project/ai-agent/.claude/skills/thread-manager/dist/index.js"
+        "./.claude/skills/thread-manager/dist/index.js"
       ]
     }
   }

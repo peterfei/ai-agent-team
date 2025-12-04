@@ -9,7 +9,7 @@ const path = require('path');
 const fs = require('fs');
 
 // Use thread-manager's node_modules
-const skillPath = '/Users/mac/project/ai-agent/.claude/skills/thread-manager';
+const skillPath = path.resolve(__dirname, '../skills/thread-manager');
 const Database = require(path.join(skillPath, 'node_modules', 'better-sqlite3'));
 const { v4: uuidv4 } = require(path.join(skillPath, 'node_modules', 'uuid'));
 

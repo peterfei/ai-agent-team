@@ -12,8 +12,8 @@ async function testCleanHeaderFooter() {
     console.log(chalk.blue.bold('✨ 测试简化的页眉页脚'));
     console.log(chalk.gray('='.repeat(60)));
 
-    const projectPath = '/Users/mac/project/ai-agent';
-    const outputDir = '/Users/mac/Desktop/ai-agent-softcopyright';
+    const projectPath = process.argv[2] || process.cwd();
+    const outputDir = process.argv[3] || path.join(process.cwd(), 'softcopyright-output');
 
     await fs.ensureDir(outputDir);
 

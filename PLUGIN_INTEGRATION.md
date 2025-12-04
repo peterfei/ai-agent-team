@@ -2,7 +2,7 @@
 
 ## 📋 概述
 
-本文档说明了如何将 `/Users/mac/Downloads/.claude-plugin` 中的 skill 成功融合到 `ai-agent-team` 项目中，并实现自动加载。
+本文档说明了如何将 `~/Downloads/.claude-plugin` 中的 skill 成功融合到 `ai-agent-team` 项目中，并实现自动加载。
 
 ## 🎯 集成目标
 
@@ -75,8 +75,8 @@ mkdir -p .claude-plugin
 ### 步骤 2: 复制插件文件
 
 ```bash
-cp -r /Users/mac/Downloads/.claude-plugin/drawnote-skill .claude-plugin/
-cp /Users/mac/Downloads/.claude-plugin/marketplaces.json .claude-plugin/
+cp -r ~/Downloads/.claude-plugin/drawnote-skill .claude-plugin/
+cp ~/Downloads/.claude-plugin/marketplaces.json .claude-plugin/
 ```
 
 ### 步骤 3: 安装依赖
@@ -240,5 +240,5 @@ npm install
 
 **集成时间**: 2025-11-11
 **集成者**: Claude Code Assistant
-**插件来源**: `/Users/mac/Downloads/.claude-plugin/`
+**插件来源**: `~/Downloads/.claude-plugin/`
 **目标项目**: `ai-agent-team`

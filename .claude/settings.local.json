@@ -43,7 +43,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/mac/project/ai-agent/.claude/hooks/record-user-message.sh",
+            "command": "./.claude/hooks/record-user-message.sh",
             "timeout": 5
           }
         ]

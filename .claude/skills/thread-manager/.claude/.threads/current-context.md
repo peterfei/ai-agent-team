@@ -12,10 +12,10 @@
 
 ## 线程信息
 
-- 📋 标题：Test Thread for Messages
-- 📝 描述：Testing message recording
-- 🆔 ID：4389dda4-3a42-4f26-a1fd-a8df1b267903
-- 🌿 Git 分支：thread/4389dda4
+- 📋 标题：Thread 1
+- 📝 描述：无
+- 🆔 ID：3a174017-4a96-4ae2-a68d-331b0faa2236
+- 🌿 Git 分支：thread/3a174017
 - 🏷️  标签：无
 - 📊 消息数：0
 

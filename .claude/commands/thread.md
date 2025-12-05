@@ -62,17 +62,50 @@ Show details about a thread.
 
 ## Implementation Details for Claude
 
+### ⚠️ 前置检查（最高优先级）
+
+**在执行任何操作之前，必须先检查 `thread-manager` MCP 服务器是否可用。**
+
+判断方法：检查当前可用的工具列表中是否包含 `mcp__thread-manager__*` 系列工具（如 `mcp__thread-manager__list_threads`、`mcp__thread-manager__switch_thread` 等）。
+
+**如果 MCP 工具不可用，必须立即输出以下错误信息并停止，不要尝试调用任何工具：**
+
+```
+❌ thread-manager MCP 服务器未配置
+
+当前项目未配置 thread-manager MCP 服务器，无法使用线程管理功能。
+
+🔧 解决方案：
+
+方案 1：全局安装（推荐，一次配置全局可用）
+   claude mcp add thread-manager -s user -- node <path-to-thread-manager>/dist/index.js
+
+方案 2：项目级安装
+   claude mcp add thread-manager -s project -- node <path-to-thread-manager>/dist/index.js
+
+方案 3：切换到已配置该服务的项目目录
+
+添加后需要重启 Claude Code 会话才能生效。
+```
+
+**🔴 重要：绝对不要在 MCP 不可用时尝试调用工具，这会导致命令卡住无响应！**
+
+---
+
+### 正常流程
+
 当用户调用此命令时，您应该：
 
-1.  **解析子命令**：识别它是 `new`、`switch`、`update`、`delete`、`show` 还是 ID（这意味着切换）。
-2.  **调用相应的 MCP 工具**：
+1.  **检查 MCP 可用性**：确认 `mcp__thread-manager__*` 工具存在。如不存在，输出上述错误信息并停止。
+2.  **解析子命令**：识别它是 `new`、`switch`、`update`、`delete`、`show` 还是 ID（这意味着切换）。
+3.  **调用相应的 MCP 工具**：
     - `new` -> `thread-manager.create_thread`
     - `switch` 或 `<id>` -> `thread-manager.switch_thread`
     - `list` -> `thread-manager.list_threads`
     - `update` -> `thread-manager.update_thread`
     - `delete` -> `thread-manager.delete_thread`
     - `show` 或 `info` -> `thread-manager.get_thread` 或 `thread-manager.get_current_thread`
-3.  **格式化输出**：将结果美观地呈现给用户。
+4.  **格式化输出**：将结果美观地呈现给用户。
 
 ### 切换线程时的处理
 

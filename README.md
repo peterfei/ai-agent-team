@@ -4,17 +4,305 @@
 
 ![AI Agent Team](https://img.shields.io/badge/AI_Agent_Team-Claude%20Code-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Version](https://img.shields.io/badge/Version-1.0.4-orange)
+![Version](https://img.shields.io/badge/Version-2.0.0-orange)
 ![npm](https://img.shields.io/npm/dw/ai-agent-team)
 ![GitHub stars](https://img.shields.io/github/stars/peterfei/ai-agent-team?style=social)
 
 **🚀 拥有24/7专业AI开发团队：产品经理、前端开发、后端开发、测试工程师、DevOps工程师、技术负责人**
 
-`npm install -g ai-agent-team` 一键安装，开发效率飙升200%！
+**💾 Thread Manager 让 AI 拥有记忆！** 任务线程管理 | 完整上下文恢复 | 自动 Git 版本控制
+
+**⚡ 只需 3 步完成安装** → 马上开始使用！
 
 </div>
 
-## 📝 Changelog Generator Skill - 智能变更日志生成器 ⭐ NEW in v1.0.4
+---
+
+## 📦 安装指南
+
+### 快速安装（3 步完成）
+
+> **⚠️ 重要**：v2.0.0 引入 Thread Manager 记忆系统，需要完成以下 3 个步骤才能使用完整功能！
+
+```
+┌─────────────────────────────────────────────────┐
+│  第 1 步: npm install -g ai-agent-team         │
+│  ↓ 安装 AI 智能体团队                          │
+└─────────────────────────────────────────────────┘
+                      ↓
+┌─────────────────────────────────────────────────┐
+│  第 2 步: ai-agent-team init                   │
+│  ↓ 初始化配置（全局或项目）                    │
+└─────────────────────────────────────────────────┘
+                      ↓
+┌─────────────────────────────────────────────────┐
+│  第 3 步: claude mcp add thread-manager        │
+│  ↓ 启用 Thread Manager MCP 服务器              │
+└─────────────────────────────────────────────────┘
+                      ↓
+              ✅ 安装完成！
+```
+
+#### 第 1 步：安装 AI Agent Team
+
+```bash
+npm install -g ai-agent-team
+```
+
+#### 第 2 步：初始化配置 ⭐ **必须执行**
+
+**选择 A：全局初始化（推荐 - 所有项目共享）**
+
+```bash
+ai-agent-team init
+```
+
+这将在 `~/.claude/` 创建全局配置，所有项目都可使用 AI 智能体团队。
+
+**选择 B：项目本地初始化（项目独立配置）**
+
+```bash
+cd your-project
+ai-agent-team init
+```
+
+这将在项目的 `.claude/` 创建本地配置，仅当前项目可用。
+
+#### 第 3 步：启用 Thread Manager MCP 服务器 ⭐ **关键步骤**
+
+```bash
+claude mcp add thread-manager node "/YOURSELFPROJECTPATH/.claude/skills/thread-manager/dist/index.js"
+```
+
+![image-20251205145139573](http://image-peterfei-blog.test.upcdn.net/image-20251205145139573.png)
+
+**为什么需要这一步？**
+
+- Thread Manager 作为 MCP 服务器运行，提供持久化记忆功能
+- 只需配置一次，永久生效
+- 不执行此步骤将无法使用 `/threads`、`/pm-start` 等线程管理命令
+
+#### ✅ 验证安装
+
+重启 Claude Code 后测试：
+
+```bash
+# 1. 查看所有线程
+/threads
+
+# 2. 创建第一个任务线程
+/pm-start "我的第一个任务"
+
+# 3. 查看当前线程信息
+/thread info
+```
+
+如果看到线程列表输出，说明安装成功！🎉
+
+---
+
+### 🎯 两种初始化方式对比
+
+| 特性 | 全局初始化 | 项目本地初始化 |
+|------|-----------|---------------|
+| **配置位置** | `~/.claude/` | `./.claude/` |
+| **适用范围** | 所有项目 | 仅当前项目 |
+| **团队协作** | 个人使用 | 可提交到 Git |
+| **数据隔离** | 共享线程数据 | 项目独立线程 |
+| **推荐场景** | 个人开发者 | 团队项目 |
+
+**💡 提示**：大多数情况推荐使用**全局初始化**，除非你需要在不同项目间完全隔离线程数据。
+
+---
+
+![image-20251205144719898](http://image-peterfei-blog.test.upcdn.net/image-20251205144719898.png)
+
+### ❓ 常见问题
+
+<details>
+<summary><b>Q: 为什么 /threads 命令不可用？</b></summary>
+
+**原因**：未启用 Thread Manager MCP 服务器
+
+**解决**：
+
+```bash
+# 1. 执行 MCP 服务器配置
+claude mcp add thread-manager node "/YOURSELFPROJECTPATH/.claude/skills/thread-manager/dist/index.js"
+
+# 2. 重启 Claude Code
+exit
+claude
+
+# 3. 验证
+/threads
+```
+</details>
+
+<details>
+<summary><b>Q: 全局初始化和项目初始化有什么区别？</b></summary>
+
+| 特性 | 全局初始化 | 项目初始化 |
+|------|-----------|-----------|
+| 配置位置 | `~/.claude/` | `./.claude/` |
+| 线程数据 | 所有项目共享 | 项目独立 |
+| 适用场景 | 个人开发 | 团队协作 |
+
+**推荐**：个人使用选全局，团队项目选本地。
+</details>
+
+<details>
+<summary><b>Q: 如何查看 Thread Manager 是否正常运行？</b></summary>
+
+```bash
+# 方法 1: 查看线程列表
+/threads
+
+# 方法 2: 查看当前线程
+/thread info
+
+# 方法 3: 创建测试线程
+/pm-start "测试线程"
+```
+
+如果以上命令正常工作，说明 Thread Manager 运行正常。
+</details>
+
+<details>
+<summary><b>Q: 可以同时使用全局和项目配置吗？</b></summary>
+
+可以！Claude Code 会优先使用项目本地配置（`./.claude/`），如果不存在则使用全局配置（`~/.claude/`）。
+
+这意味着你可以：
+- 全局配置作为默认
+- 特定项目使用独立配置
+</details>
+
+---
+
+## 🧠 Thread Manager - AI 团队的记忆系统 ⭐ NEW in v2.0.0
+
+> **🎉 重大更新！** AI Agent Team 现在拥有持久化记忆！每个任务都有独立的线程，支持完整上下文恢复、自动 Git 版本控制、无限并行任务。
+
+### 🚀 核心亮点
+
+<table>
+<tr>
+<td width="33%">
+
+#### 💾 持久化记忆
+- ✅ 对话永久保存
+- ✅ 随时恢复上下文
+- ✅ 多任务并行管理
+- ✅ 零上下文丢失
+
+</td>
+<td width="33%">
+
+#### 🌿 Git 自动集成
+- ✅ 自动创建任务分支
+- ✅ 文件变更追踪
+- ✅ 代码统计分析
+- ✅ 完整版本控制
+
+</td>
+<td width="34%">
+
+#### 🎯 智能体快启
+- ✅ `/pm-start` 产品设计
+- ✅ `/fe-start` 前端开发
+- ✅ `/be-start` 后端开发
+- ✅ `/qa-start` 质量保证
+
+</td>
+</tr>
+</table>
+
+### 📊 Thread Manager vs 原生 Claude
+
+| 功能 | 原生 Claude | Thread Manager | 提升 |
+|------|------------|----------------|------|
+| **上下文记忆** | ❌ 重启丢失 | ✅ 永久保存 | ∞ |
+| **多任务管理** | ❌ 单线程 | ✅ 无限并行 | 10x+ |
+| **任务恢复** | ❌ 无法恢复 | ✅ 完整恢复 | 新增 |
+| **版本控制** | ⚠️ 手动 | ✅ 自动 | 3x |
+| **工作效率** | 100% | **200%+** | **2x** |
+
+### 🎮 基础使用
+
+**创建任务线程（自动初始化角色）**
+
+```bash
+/pm-start "设计电商购物车功能"
+  ↓ 自动创建产品线程
+  ↓ AI 立即以产品经理身份分析需求
+  ↓ 对话历史永久保存
+```
+
+**多任务并行开发**
+
+```bash
+/be-start "实现购物车 API"      # 线程 1: 后端开发
+/fe-start "设计购物车UI"         # 线程 2: 前端开发
+/qa-start "测试购物车功能"       # 线程 3: QA 测试
+
+/threads                        # 查看所有线程进度
+```
+
+**切换线程（完整上下文恢复）**
+
+```bash
+/thread switch abc123
+  ↓ AI 立即加载线程 abc123 的所有历史对话
+  ↓ 文件变更、代码统计一并恢复
+  ↓ 就像从未离开过这个任务
+```
+
+### 💡 核心命令
+
+| 命令 | 功能 | 示例 |
+|------|------|------|
+| `/threads` | 查看所有线程 | 列出任务、消息数、文件变更 |
+| `/thread switch <id>` | 切换线程 | 完整恢复历史上下文 |
+| `/pm-start "任务"` | 产品经理线程 | 创建线程 + 需求分析 |
+| `/fe-start "任务"` | 前端开发线程 | 创建线程 + UI 开发 |
+| `/be-start "任务"` | 后端开发线程 | 创建线程 + API 开发 |
+| `/qa-start "任务"` | QA 测试线程 | 创建线程 + 执行测试 |
+
+### 🔥 实际应用场景
+
+**多任务并行开发**:
+```bash
+# 同时进行 3 个功能开发
+/pm-start "用户认证系统"        # 线程 1: 产品设计
+/be-start "支付接口集成"        # 线程 2: 后端开发
+/fe-start "数据可视化大屏"      # 线程 3: 前端开发
+
+# 随时切换，零上下文损失
+/threads                        # 查看所有任务进度
+/thread switch abc123           # 切换到认证系统
+```
+
+**长期项目管理**:
+```bash
+# 项目周期 3 个月，AI 记住每一次对话
+/pm-start "企业 ERP 系统设计"
+# ... 3 个月后 ...
+/thread switch abc123           # AI 完整恢复 3 个月前的上下文
+```
+
+**团队协作共享**:
+```bash
+# 开发者 A
+/pm-start "新功能设计"          # 线程 ID: abc12345
+
+# 开发者 B（另一台电脑）
+clt abc12345                    # 恢复 A 的完整上下文
+```
+
+---
+
+## 📝 Changelog Generator Skill - 智能变更日志生成器
 
 > **✨ 自动生成规范的 CHANGELOG.md，让版本管理更轻松！**
 

@@ -69,7 +69,7 @@ description: "智能笔记与流程图绘制工具（优化版-无权限读取�
 - ⚠️ 文件必须保存到用户的当前工作目录，而非 skill 插件目录
 - 先执行 `pwd` 命令获取当前工作目录路径
 - 文件命名格式：`drawnote_YYYYMMDD_HHMMSS.html` 和 `.png`
-- 示例：如果当前在 `/Users/mac/Downloads`，则保存为 `/Users/mac/Downloads/drawnote_20231110_143022.html`
+- 示例：如果当前在 `~/Downloads`，则保存为 `~/Downloads/drawnote_20231110_143022.html`
 
 **设计要求**：
 - 清晰的视觉层次

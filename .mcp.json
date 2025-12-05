@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "thread-manager": {
+      "command": "node",
+      "args": [
+        "./.claude/skills/thread-manager/dist/index.js"
+      ]
+    }
+  }
+}

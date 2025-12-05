@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+coverage/
+tests/
+*.log
+.DS_Store
+threads.db
+threads.db-journal
+
+# Configuration
+jest.config.js
+tsconfig.json

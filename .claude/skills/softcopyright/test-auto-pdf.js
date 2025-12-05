@@ -1,7 +1,11 @@
 const { generateCompletePDF } = require('./scripts/auto-pdf-generator');
+const path = require('path');
+
+const projectPath = process.argv[2] || process.cwd();
+const outputDir = process.argv[3] || path.join(process.cwd(), 'softcopyright-output');
 
 // 测试自动PDF生成
-generateCompletePDF('/Users/mac/Desktop/test-project', '/Users/mac/Desktop/softcopyright-output')
+generateCompletePDF(projectPath, outputDir)
   .then(pdfPath => {
     console.log('\n🎊 自动PDF生成测试成功！');
     console.log('📄 生成的PDF文件:', pdfPath);

@@ -129,7 +129,15 @@ async function generateAutoPrintPDF(projectInfo, outputDir) {
     // 1. 扫描项目
     console.log(chalk.yellow('📊 步骤1: 扫描项目源码...'));
     const scanner = require('./scanner');
-    const scannedProjectInfo = await scanner.scanProject('/Users/mac/Desktop/test-project');
+    let scannedProjectInfo;
+    
+    if (typeof projectInfo === 'string') {
+       scannedProjectInfo = await scanner.scanProject(projectInfo);
+    } else if (projectInfo && projectInfo.files) {
+       scannedProjectInfo = projectInfo;
+    } else {
+       scannedProjectInfo = await scanner.scanProject(process.cwd());
+    }
 
     console.log(chalk.green(`✅ 项目扫描完成: ${scannedProjectInfo.name}`));
     console.log(chalk.white(`   - 文件数: ${scannedProjectInfo.files.length}`));

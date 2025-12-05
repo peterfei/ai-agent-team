@@ -86,7 +86,26 @@ jspm_packages/
 
 # Documentation files that shouldn't be in the package
 CHANGELOG.md
-docs/examples/
+docs/
+examples/
+
+# Exclude docs and examples from skills
+.claude/skills/**/docs/
+.claude/skills/**/examples/
+.claude/skills/changelog-generator/docs
+.claude/skills/changelog-generator/examples
+.claude/skills/changelog-generator/tests
+.claude/skills/changelog-generator/README.md
+.claude/skills/changelog-generator/CHANGELOG.md
+.claude/skills/thread-manager/docs
+.claude/skills/thread-manager/tests
+.claude/skills/thread-manager/coverage
+.claude/skills/thread-manager/README.md
+.claude/skills/thread-manager/USAGE_GUIDE.md
+
+# Exclude image files
+**/*.gif
+**/*.png
 
 # Test files
 test/

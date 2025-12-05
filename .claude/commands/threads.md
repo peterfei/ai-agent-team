@@ -1,4 +1,5 @@
 ---
+name: threads
 description: List all conversation threads
 ---
 

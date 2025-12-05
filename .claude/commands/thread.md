@@ -1,4 +1,5 @@
 ---
+name: thread
 description: Manage conversation threads (create, switch, update, delete, show)
 ---
 

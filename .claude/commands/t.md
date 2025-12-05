@@ -1,4 +1,5 @@
 ---
+name: t
 description: Alias for /thread command
 ---
 

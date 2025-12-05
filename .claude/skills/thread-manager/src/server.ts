@@ -58,13 +58,31 @@ export class MCPServer {
               // Call the handler with the old invocation format for compatibility
               const result = await handler({ toolName: def.name, input }, this.threadManager);
               
-              console.error(`[DEBUG] Full result from handler for ${def.name}:`, JSON.stringify(result, null, 2)); // Add this debug log
+              // console.error(`[DEBUG] Full result from handler for ${def.name}:`, JSON.stringify(result, null, 2));
+
+              let outputText = "";
+              if (typeof result.message === 'string') {
+                  outputText = result.message;
+              } else if (result.message !== undefined && result.message !== null) {
+                  outputText = JSON.stringify(result.message, null, 2);
+              }
+
+              // Append info if available
+              if (result.info) {
+                  if (outputText) outputText += "\n\n";
+                  outputText += `Info: ${result.info}`;
+              }
+              
+              // Fallback
+              if (!outputText) {
+                  outputText = JSON.stringify(result, null, 2);
+              }
 
               return {
                 content: [
                   {
                     type: 'text' as const,
-                    text: result.message as string
+                    text: outputText
                   }
                 ]
               };

@@ -8,7 +8,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const { execSync, spawnSync } = require('child_process');
+const readline = require('readline');
 
 // 颜色输出
 const colors = {
@@ -19,6 +20,7 @@ const colors = {
   blue: '\x1b[34m',
   purple: '\x1b[35m',
   cyan: '\x1b[36m',
+  gray: '\x1b[90m',
 };
 
 function colorize(color, text) {
@@ -48,25 +50,30 @@ function showHelp() {
   console.log('  ai-agent-team [命令] [选项]');
   console.log();
   console.log(colorize('yellow', '命令:'));
-  console.log(colorize('green', '  install      安装AI Agent Team'));
+  console.log(colorize('green', '  init         初始化/安装 (推荐)'));
+  console.log(colorize('green', '  install      执行标准安装 (默认全局)'));
   console.log(colorize('green', '  uninstall    卸载AI Agent Team'));
-  console.log(colorize('green', '  update       更新AI Agent Team'));
   console.log(colorize('green', '  status       显示安装状态'));
   console.log(colorize('green', '  test         测试安装'));
-  console.log(colorize('green', '  doctor       诊断问题'));
   console.log(colorize('green', '  version      显示版本信息'));
   console.log(colorize('green', '  help         显示帮助信息'));
   console.log();
   console.log(colorize('yellow', '选项:'));
   console.log(colorize('blue', '  --force      强制执行'));
-  console.log(colorize('blue', '  --dev        开发模式'));
   console.log(colorize('blue', '  --verbose    详细输出'));
   console.log();
-  console.log(colorize('yellow', '示例:'));
-  console.log('  ai-agent-team install');
-  console.log('  ai-agent-team install --force');
-  console.log('  ai-agent-team status');
-  console.log();
+}
+
+// 获取用户输入
+function askQuestion(query) {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  return new Promise(resolve => rl.question(query, ans => {
+    rl.close();
+    resolve(ans);
+  }));
 }
 
 // 检查Claude Code
@@ -80,20 +87,32 @@ function checkClaudeCode() {
 }
 
 // 获取Claude配置目录
+// 优先查找当前目录下的 .claude，如果不存在则返回用户目录下的 .claude
 function getClaudeConfigDir() {
+  const localDir = path.join(process.cwd(), '.claude');
   const homeDir = require('os').homedir();
-  return path.join(homeDir, '.claude');
+  const globalDir = path.join(homeDir, '.claude');
+
+  // 如果本地存在，优先使用本地
+  if (fs.existsSync(localDir)) {
+    return localDir;
+  }
+  return globalDir;
 }
 
 // 检查安装状态
 function checkStatus() {
   const claudeDir = getClaudeConfigDir();
+  const isLocal = claudeDir === path.join(process.cwd(), '.claude');
+  
   const agentsDir = path.join(claudeDir, 'agents');
   const commandsDir = path.join(claudeDir, 'commands');
   const cliScript = path.join(agentsDir, 'cli.sh');
 
   console.log(colorize('yellow', '🔍 AI Agent Team 安装状态'));
   console.log(colorize('cyan', '================================'));
+  console.log(colorize('gray', `配置路径: ${claudeDir} (${isLocal ? '当前项目' : '全局'})`));
+  console.log();
 
   // 检查Claude Code
   if (checkClaudeCode()) {
@@ -120,77 +139,182 @@ function checkStatus() {
     console.log(colorize('red', '❌ 快捷命令缺失'));
   }
 
-  // 检查CLI工具
-  if (fs.existsSync(cliScript)) {
-    console.log(colorize('green', '✅ CLI工具'));
+  // 检查Skills
+  const skillsDir = path.join(claudeDir, 'skills');
+  if (fs.existsSync(skillsDir)) {
+    const skills = fs.readdirSync(skillsDir).filter(f => fs.statSync(path.join(skillsDir, f)).isDirectory());
+    console.log(colorize('green', `✅ Skills (${skills.length} 个)`));
+    
+    // 检查 thread-manager
+    if (skills.includes('thread-manager')) {
+        console.log(colorize('green', '   - thread-manager: 已安装'));
+    }
   } else {
-    console.log(colorize('red', '❌ CLI工具缺失'));
+    console.log(colorize('yellow', '⚠️  Skills 目录缺失'));
   }
 
   return true;
 }
 
-// 安装
-function install(options = {}) {
+// 安装 Skill 依赖 (同步版本，用于 init)
+function installSkillDependenciesSync(skillDir, skillName) {
+  console.log(colorize('blue', `📦 正在安装依赖: ${skillName}...`));
+  
+  const nodeModulesPath = path.join(skillDir, 'node_modules');
+  
+  try {
+    // 基础 npm install
+    const args = ['install'];
+    
+    // 特殊处理 drawnote (确保 playwright 安装)
+    // 但通常 npm install 就会根据 package.json 安装 playwright
+    
+    const result = spawnSync('npm', args, {
+      cwd: skillDir,
+      stdio: 'inherit', // 显示输出给用户看
+      encoding: 'utf8',
+      shell: true
+    });
+
+    if (result.status === 0) {
+      console.log(colorize('green', `✅ ${skillName} 依赖安装成功`));
+    } else {
+      console.log(colorize('red', `❌ ${skillName} 依赖安装失败 (Exit code: ${result.status})`));
+      // 尝试 force
+      console.log(colorize('yellow', `尝试使用 --force 重试...`));
+      spawnSync('npm', ['install', '--force'], {
+        cwd: skillDir,
+        stdio: 'inherit',
+        shell: true
+      });
+    }
+  } catch (error) {
+    console.log(colorize('red', `❌ 安装过程出错: ${error.message}`));
+  }
+}
+
+// 初始化/安装流程
+async function init() {
   showLogo();
-  console.log(colorize('yellow', '🚀 开始安装 AI Agent Team...'));
+  console.log(colorize('yellow', '🚀 AI Agent Team 初始化向导'));
   console.log();
+
+  // 1. 选择安装位置
+  console.log(colorize('cyan', '请选择安装位置:'));
+  console.log('  1) 全局安装 (用户目录 ~/.claude) [推荐用于个人使用]');
+  console.log('  2) 当前项目安装 (./.claude) [推荐用于团队共享]');
+  
+  let targetDir = '';
+  while (!targetDir) {
+    const ans = await askQuestion(colorize('green', '请输入选项 (1/2) [1]: '));
+    if (ans.trim() === '2') {
+      targetDir = path.join(process.cwd(), '.claude');
+    } else {
+      // 默认或 1
+      targetDir = path.join(require('os').homedir(), '.claude');
+    }
+  }
+  
+  console.log();
+  console.log(colorize('yellow', `将在以下位置安装: ${targetDir}`));
+  const confirm = await askQuestion(colorize('green', '确认继续? (Y/n) '));
+  if (confirm.toLowerCase() === 'n') {
+    console.log('已取消。');
+    process.exit(0);
+  }
+
+  // 2. 执行安装
+  install({ targetDir, interactive: true });
+}
+
+// 执行安装逻辑
+function install(options = {}) {
+  const targetDir = options.targetDir || path.join(require('os').homedir(), '.claude');
+  const packageDir = path.join(__dirname, '..');
+  
+  if (!options.interactive) {
+      showLogo();
+      console.log(colorize('yellow', `🚀 开始安装到: ${targetDir}`));
+  }
 
   // 检查Claude Code
   if (!checkClaudeCode()) {
     console.log(colorize('red', '❌ Claude Code 未安装'));
-    console.log(colorize('yellow', '请先安装Claude Code: https://claude.ai/code'));
-    process.exit(1);
+    console.log(colorize('yellow', '建议先安装Claude Code: https://claude.ai/code'));
+    // 不退出，继续安装文件
   }
 
-  const claudeDir = getClaudeConfigDir();
-  const packageDir = __dirname;
-
   // 创建备份
-  if (!options.skipBackup && (fs.existsSync(path.join(claudeDir, 'agents')) ||
-      fs.existsSync(path.join(claudeDir, 'commands')))) {
-    const backupDir = path.join(claudeDir, `backup_${Date.now()}`);
-    fs.mkdirSync(backupDir, { recursive: true });
-
-    ['agents', 'commands', 'CLAUDE.md'].forEach(item => {
-      const source = path.join(claudeDir, item);
-      if (fs.existsSync(source)) {
-        fs.renameSync(source, path.join(backupDir, item));
-      }
-    });
-
-    console.log(colorize('yellow', `💾 配置已备份到: ${backupDir}`));
+  if (!options.skipBackup && fs.existsSync(targetDir)) {
+    const agentsDir = path.join(targetDir, 'agents');
+    if (fs.existsSync(agentsDir)) {
+        const backupDir = path.join(targetDir, `backup_${Date.now()}`);
+        console.log(colorize('gray', `正在备份旧配置到: ${backupDir}...`));
+        
+        try {
+            fs.mkdirSync(backupDir, { recursive: true });
+            ['agents', 'commands', 'CLAUDE.md'].forEach(item => {
+                const source = path.join(targetDir, item);
+                if (fs.existsSync(source)) {
+                    copyFolderSync(source, path.join(backupDir, item));
+                }
+            });
+        } catch (e) {
+            console.log(colorize('yellow', `⚠️ 备份失败: ${e.message}`));
+        }
+    }
   }
 
   // 复制配置文件
-  const sourceClaudeDir = path.join(packageDir, '..', '.claude');
+  const sourceClaudeDir = path.join(packageDir, '.claude');
 
   if (fs.existsSync(sourceClaudeDir)) {
-    copyFolderSync(sourceClaudeDir, claudeDir);
-    console.log(colorize('green', '✅ 配置文件安装完成'));
+    try {
+        console.log(colorize('blue', '正在复制文件...'));
+        copyFolderSync(sourceClaudeDir, targetDir);
+        console.log(colorize('green', '✅ 配置文件复制完成'));
 
-    // 设置CLI脚本权限
-    const cliScript = path.join(claudeDir, 'agents', 'cli.sh');
-    if (fs.existsSync(cliScript)) {
-      try {
-        fs.chmodSync(cliScript, '755');
-        console.log(colorize('green', '✅ CLI工具权限设置完成'));
-      } catch (error) {
-        console.log(colorize('yellow', '⚠️  无法设置CLI工具权限'));
-      }
+        // 设置CLI脚本权限
+        const cliScript = path.join(targetDir, 'agents', 'cli.sh');
+        if (fs.existsSync(cliScript)) {
+          try {
+            fs.chmodSync(cliScript, '755');
+          } catch (error) {
+            // ignore
+          }
+        }
+        
+        // 安装 Skills 依赖
+        const skillsDir = path.join(targetDir, 'skills');
+        if (fs.existsSync(skillsDir)) {
+            const skills = fs.readdirSync(skillsDir);
+            console.log();
+            console.log(colorize('yellow', '🚀 开始安装 Skills 依赖 (这可能需要几分钟)...'));
+            
+            for (const skill of skills) {
+                const skillDir = path.join(skillsDir, skill);
+                if (fs.statSync(skillDir).isDirectory() && fs.existsSync(path.join(skillDir, 'package.json'))) {
+                    installSkillDependenciesSync(skillDir, skill);
+                }
+            }
+        }
+        
+    } catch (e) {
+        console.log(colorize('red', `❌ 安装失败: ${e.message}`));
+        process.exit(1);
     }
   } else {
-    console.log(colorize('red', '❌ 配置文件不存在'));
+    console.log(colorize('red', '❌ 源配置文件不存在 (package corrupted?)'));
     process.exit(1);
   }
 
   console.log();
-  console.log(colorize('green', '🎉 安装完成！'));
+  console.log(colorize('green', '🎉 AI Agent Team 安装成功！'));
   console.log();
-  showQuickStart();
+  showQuickStart(targetDir);
 }
 
-// 复制文件夹
+// 复制文件夹 (递归)
 function copyFolderSync(source, target) {
   if (!fs.existsSync(target)) {
     fs.mkdirSync(target, { recursive: true });
@@ -214,13 +338,17 @@ function copyFolderSync(source, target) {
 function uninstall() {
   showLogo();
   console.log(colorize('yellow', '🗑️  卸载 AI Agent Team...'));
-  console.log();
-
+  
+  // 尝试检测
   const claudeDir = getClaudeConfigDir();
+  console.log(colorize('gray', `目标目录: ${claudeDir}`));
 
-  const itemsToRemove = ['agents', 'commands', 'CLAUDE.md', 'USAGE.md'];
+  const itemsToRemove = ['agents', 'commands', 'skills', 'CLAUDE.md', 'USAGE.md'];
   let removedCount = 0;
 
+  // 二次确认
+  // ... 简化起见，直接删除已知组件
+  
   itemsToRemove.forEach(item => {
     const itemPath = path.join(claudeDir, item);
     if (fs.existsSync(itemPath)) {
@@ -242,7 +370,7 @@ function uninstall() {
     console.log();
     console.log(colorize('green', '🎉 卸载完成！'));
   } else {
-    console.log(colorize('yellow', 'ℹ️  没有找到已安装的组件'));
+    console.log(colorize('yellow', 'ℹ️  没有找到已安装的组件 (或目录不匹配)'));
   }
 }
 
@@ -250,283 +378,69 @@ function uninstall() {
 function test() {
   showLogo();
   console.log(colorize('yellow', '🧪 测试 AI Agent Team 安装...'));
-  console.log();
-
-  // 测试Claude Code
-  if (!checkClaudeCode()) {
-    console.log(colorize('red', '❌ Claude Code 测试失败'));
-    return;
-  }
-
-  console.log(colorize('green', '✅ Claude Code 测试通过'));
-
-  // 测试智能体文件
-  const claudeDir = getClaudeConfigDir();
-  const agentsDir = path.join(claudeDir, 'agents');
-
-  if (fs.existsSync(agentsDir)) {
-    const agentFiles = fs.readdirSync(agentsDir).filter(f => f.endsWith('.md'));
-    console.log(colorize('green', `✅ 智能体文件测试通过 (${agentFiles.length} 个)`));
-  } else {
-    console.log(colorize('red', '❌ 智能体文件测试失败'));
-  }
-
-  // 测试命令文件
-  const commandsDir = path.join(claudeDir, 'commands');
-  if (fs.existsSync(commandsDir)) {
-    const commandFiles = fs.readdirSync(commandsDir).filter(f => f.endsWith('.md'));
-    console.log(colorize('green', `✅ 命令文件测试通过 (${commandFiles.length} 个)`));
-  } else {
-    console.log(colorize('red', '❌ 命令文件测试失败'));
-  }
-
-  console.log();
-  console.log(colorize('green', '🎉 测试完成！'));
+  checkStatus();
 }
 
 // 显示快速开始
-function showQuickStart() {
+function showQuickStart(installDir) {
+  const isLocal = installDir && installDir !== path.join(require('os').homedir(), '.claude');
+  const homeDir = require('os').homedir();
+  
+  // 计算 thread-manager 的绝对路径
+  const threadManagerPath = isLocal 
+    ? path.join(process.cwd(), '.claude', 'skills', 'thread-manager', 'dist', 'index.js')
+    : path.join(homeDir, '.claude', 'skills', 'thread-manager', 'dist', 'index.js');
+
   console.log(colorize('yellow', '🚀 快速开始:'));
   console.log();
-  console.log(colorize('blue', '# 快捷命令 (推荐)'));
+  
+  if (isLocal) {
+      console.log(colorize('cyan', '注意: 您已安装在当前项目下 (.claude)。'));
+      console.log('请确保 .claude 目录已添加到您的 .gitignore (如果是私有配置) 或提交到仓库 (如果是团队配置)。');
+      console.log();
+  }
+  
+  console.log(colorize('purple', '⚠️  关键步骤: 注册 MCP Server'));
+  console.log('为了启用 thread-manager 功能，请复制并运行以下命令：');
+  console.log(colorize('green', `  claude mcp add thread-manager node "${threadManagerPath}"`));
+  console.log();
+  
+  console.log(colorize('blue', '# 快捷命令'));
   console.log("  /pm '设计用户认证系统'");
   console.log("  /fe '创建登录页面'");
-  console.log("  /be '实现JWT认证API'");
-  console.log("  /qa '测试认证流程'");
-  console.log("  /ops '部署到生产环境'");
-  console.log("  /tl '评估系统架构'");
   console.log();
-  console.log(colorize('blue', '# CLI工具'));
-  console.log('  ~/.claude/agents/cli.sh pm "设计用户认证系统"');
+  console.log(colorize('blue', '# 更多信息'));
+  console.log(`  查看 ${path.join(installDir || '~/.claude', 'USAGE.md')}`);
   console.log();
-  console.log(colorize('blue', '# 完整命令'));
-  console.log("  claude -p \"/agent product_manager '设计用户认证系统'\"");
-  console.log();
-}
-
-// 检查并启动 Skill 依赖安装守护进程（通用版）
-function checkAndInstallSkillDependencies() {
-  const homeDir = require('os').homedir();
-  const skillsDir = path.join(homeDir, '.claude', 'skills');
-
-  if (!fs.existsSync(skillsDir)) {
-    return; // Skills 目录不存在，跳过
-  }
-
-  try {
-    const skills = fs.readdirSync(skillsDir);
-    skills.forEach(skillName => {
-      const skillDir = path.join(skillsDir, skillName);
-      if (fs.statSync(skillDir).isDirectory() && fs.existsSync(path.join(skillDir, 'package.json'))) {
-        installSkillDependencies(skillDir, skillName);
-      }
-    });
-  } catch (error) {
-    // 忽略错误，以免影响主命令执行
-  }
-}
-
-// 启动安装守护进程
-function installSkillDependencies(skillDir, skillName) {
-  const { spawn } = require('child_process');
-  
-  // 检查是否已安装 (简单的 node_modules 检查)
-  const nodeModulesPath = path.join(skillDir, 'node_modules');
-  // 对于 DrawNote 特别检查 playwright
-  const isDrawNote = skillName === 'drawnote';
-  const playwrightPath = path.join(nodeModulesPath, 'playwright');
-  
-  if (fs.existsSync(nodeModulesPath)) {
-    if (!isDrawNote || fs.existsSync(playwrightPath)) {
-      return; // 依赖已安装
-    }
-  }
-
-  // 检查是否有守护进程正在运行
-  const lockFile = path.join(skillDir, '.daemon.lock');
-  if (fs.existsSync(lockFile)) {
-    try {
-      const pid = parseInt(fs.readFileSync(lockFile, 'utf8').trim());
-      process.kill(pid, 0); // 测试进程是否存在
-      return; // 守护进程已在运行
-    } catch (e) {
-      // 进程不存在，删除过期的锁文件
-      try { fs.unlinkSync(lockFile); } catch (err) {}
-    }
-  }
-
-  // 创建守护进程脚本
-  const daemonScript = path.join(skillDir, '.install-daemon.js');
-  const daemonCode = `
-const fs = require('fs');
-const path = require('path');
-const { spawnSync, execSync } = require('child_process');
-
-const skillDir = path.dirname(__filename);
-const skillName = path.basename(skillDir);
-const lockFile = path.join(skillDir, '.daemon.lock');
-const logFile = path.join(skillDir, 'daemon.log');
-
-// 创建锁文件
-fs.writeFileSync(lockFile, process.pid.toString());
-
-function log(message) {
-  const timestamp = new Date().toISOString();
-  const logMessage = '[' + timestamp + '] ' + message + '\\n';
-  fs.appendFileSync(logFile, logMessage);
-}
-
-function cleanup() {
-  try {
-    if (fs.existsSync(lockFile)) fs.unlinkSync(lockFile);
-  } catch (e) {}
-}
-
-function verifyInstallation() {
-  const nodeModulesPath = path.join(skillDir, 'node_modules');
-  if (!fs.existsSync(nodeModulesPath)) return false;
-  
-  // DrawNote 特殊检查
-  if (skillName === 'drawnote') {
-    const playwrightPath = path.join(nodeModulesPath, 'playwright');
-    return fs.existsSync(playwrightPath);
-  }
-  
-  return true;
-}
-
-process.on('exit', cleanup);
-process.on('SIGINT', () => { cleanup(); process.exit(0); });
-process.on('SIGTERM', () => { cleanup(); process.exit(0); });
-
-// 延迟启动避免争抢资源
-setTimeout(() => {
-  log('开始安装依赖: ' + skillName);
-  log('工作目录: ' + skillDir);
-  log('PID: ' + process.pid);
-
-  try {
-    // 方法1: 标准安装
-    log('方法1: npm install --save --force');
-    // 对于 DrawNote，我们需要 playwright
-    const args = ['install', '--save', '--force'];
-    if (skillName === 'drawnote') {
-      args.push('playwright');
-    }
-
-    const result1 = spawnSync('npm', args, {
-      cwd: skillDir,
-      stdio: 'pipe',
-      encoding: 'utf8'
-    });
-
-    if (result1.stdout) log('stdout: ' + result1.stdout.trim());
-    if (result1.stderr) log('stderr: ' + result1.stderr.trim());
-    log('exit code: ' + result1.status);
-
-    // 等待文件系统刷新
-    const startWait = Date.now();
-    while (Date.now() - startWait < 2000) {
-      if (verifyInstallation()) {
-        log('✅ 依赖安装成功 (方法1)');
-        cleanup();
-        process.exit(0);
-      }
-    }
-
-    // 方法2: 仅 install --force (不指定包名)
-    log('⚠️ 方法1验证失败，尝试方法2: npm install --force');
-    const result2 = spawnSync('npm', ['install', '--force'], {
-      cwd: skillDir,
-      stdio: 'pipe',
-      encoding: 'utf8'
-    });
-    
-    if (verifyInstallation()) {
-      log('✅ 依赖安装成功 (方法2)');
-      cleanup();
-      process.exit(0);
-    }
-
-    // 方法3: 清除并重新安装
-    log('⚠️ 方法2验证失败，尝试方法3: 清除并重新安装');
-    try {
-      execSync('rm -rf node_modules', { cwd: skillDir });
-    } catch (e) { log('清除 node_modules 失败: ' + e.message); }
-
-    const result3 = spawnSync('npm', ['install'], {
-      cwd: skillDir,
-      stdio: 'pipe',
-      encoding: 'utf8'
-    });
-
-    if (verifyInstallation()) {
-      log('✅ 依赖安装成功 (方法3)');
-    } else {
-      log('❌ 所有安装方法都失败');
-    }
-
-  } catch (error) {
-    log('❌ 安装异常: ' + error.message);
-  }
-
-  cleanup();
-  process.exit(0);
-}, 1000 + Math.random() * 2000); // 随机延迟
-`;
-
-  try {
-    // 写入守护进程脚本
-    fs.writeFileSync(daemonScript, daemonCode);
-
-    // 启动守护进程 (detached + ignore stdio)
-    const daemon = spawn('node', [daemonScript], {
-      cwd: skillDir,
-      detached: true,
-      stdio: 'ignore'
-    });
-
-    // 分离进程
-    daemon.unref();
-
-  } catch (error) {
-    // 静默失败
-  }
 }
 
 // 主函数
-function main() {
-  // 在执行任何命令之前，检查并安装依赖
-  checkAndInstallSkillDependencies();
-
+async function main() {
   const args = process.argv.slice(2);
   const command = args[0] || 'help';
 
   const options = {
     force: args.includes('--force'),
-    dev: args.includes('--dev'),
     verbose: args.includes('--verbose'),
     skipBackup: args.includes('--skip-backup'),
   };
 
   switch (command) {
+    case 'init':
+      await init();
+      break;
     case 'install':
+      // 保持向后兼容，默认安装到全局
       install(options);
       break;
     case 'uninstall':
       uninstall();
-      break;
-    case 'update':
-      console.log(colorize('yellow', '🔄 更新功能开发中...'));
       break;
     case 'status':
       checkStatus();
       break;
     case 'test':
       test();
-      break;
-    case 'doctor':
-      console.log(colorize('yellow', '🔧 诊断功能开发中...'));
       break;
     case 'version':
       const packageJson = require(path.join(__dirname, '..', 'package.json'));
@@ -554,4 +468,5 @@ module.exports = {
   uninstall,
   checkStatus,
   test,
+  init
 };

@@ -1,6 +1,6 @@
 {
   "name": "ai-agent-team",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "AI Agent Team - 拥有24/7专业AI开发团队：产品经理、前端开发、后端开发、测试工程师、DevOps工程师、技术负责人。一键安装，支持中英文命令，大幅提升开发效率！集成drawnote、tidymydesktop、softcopyright和changelog-generator四大智能Skill。",
   "main": "bin/ai-agent-team.js",
   "bin": {
@@ -75,6 +75,7 @@
     ".claude/skills/drawnote/",
     ".claude/skills/softcopyright/",
     ".claude/skills/tidymydesktop/",
+    ".claude/skills/thread-manager/",
     ".claude/CLAUDE.md",
     "bin/",
     "scripts/",

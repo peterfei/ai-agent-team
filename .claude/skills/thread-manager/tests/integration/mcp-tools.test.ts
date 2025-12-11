@@ -1,5 +1,6 @@
 import { DatabaseManager } from '../../src/database';
 import { ThreadManager } from '../../src/core/thread-manager';
+import { MockEmbeddingService } from '../unit/__mocks__/embedding-service';
 import path from 'path';
 import fs from 'fs-extra';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,6 +14,10 @@ import { toolHandler as updateThread } from '../../src/tools/update-thread';
 import { toolHandler as deleteThread } from '../../src/tools/delete-thread';
 import { toolHandler as getCurrentThread } from '../../src/tools/get-current-thread';
 import { toolHandler as trackFileChange } from '../../src/tools/track-file-change';
+
+jest.mock('../../src/core/embedding-service', () => ({
+  XenovaEmbeddingService: jest.fn(() => new MockEmbeddingService()),
+}));
 
 describe('MCP Tools Integration', () => {
   const testDir = path.join(__dirname, '../../tmp-test-db');

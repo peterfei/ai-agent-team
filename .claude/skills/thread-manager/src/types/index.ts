@@ -36,6 +36,7 @@ export interface Message {
   content: string;               // Message content
   timestamp: Date;               // Timestamp
   metadata?: Record<string, any>;
+  embedding?: number[];          // Vector embedding
 }
 
 /**

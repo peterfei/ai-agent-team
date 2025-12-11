@@ -1,5 +1,6 @@
 import { ThreadManager } from '../../src/core/thread-manager';
 import { DatabaseManager } from '../../src/database';
+import { MockEmbeddingService } from '../unit/__mocks__/embedding-service';
 import path from 'path';
 import fs from 'fs-extra';
 import { v4 as uuidv4 } from 'uuid';
@@ -19,6 +20,10 @@ jest.mock('../../src/git/git-integration', () => {
     })
   };
 });
+
+jest.mock('../../src/core/embedding-service', () => ({
+  XenovaEmbeddingService: jest.fn(() => new MockEmbeddingService()),
+}));
 
 describe('FileTracker Integration', () => {
   const testDir = path.join(__dirname, '../../tmp-test-db');

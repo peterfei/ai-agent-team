@@ -28,7 +28,9 @@
       "mcp__thread-manager__switch_thread",
       "Bash(npm run build:*)",
       "mcp__thread-manager__get_current_thread",
-      "Bash(pkill:*)"
+      "Bash(pkill:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ],
     "deny": [],
     "ask": []

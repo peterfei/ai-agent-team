@@ -5,6 +5,50 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2025-12-12
+
+### Added
+
+#### 🧠 Thread Manager v1.1.0 - 语义搜索升级
+- ✅ **语义搜索 (`search_messages`)**: 新增自然语言搜索功能，支持通过意图查找历史对话
+- ✅ **自动向量化**: 新消息自动生成嵌入向量并存储，支持高性能检索
+- ✅ **数据迁移**: 新增 `npm run migrate` 脚本，支持旧数据向量化迁移
+- ✅ **文档更新**: 包含详细的语义搜索使用指南和迁移说明
+
+### Performance
+
+- **检索效率**: 引入向量检索，大幅提升查找相关历史消息的准确性和效率
+- **上下文管理**: 配合语义搜索，可实现更精准的上下文恢复，节省 Token
+
+### Upgrade Guide
+
+从 v2.0.0 升级到 v2.0.1：
+
+1. **更新包**:
+   ```bash
+   npm install -g ai-agent-team@2.0.1
+   ```
+
+2. **迁移数据 (启用语义搜索)**:
+   ```bash
+   # 进入 thread-manager 目录
+   cd .claude/skills/thread-manager
+   
+   # 安装新依赖
+   npm install
+   
+   # 编译
+   npm run build
+   
+   # 运行迁移脚本
+   npm run migrate
+   ```
+
+3. **重启 Claude Code**: 
+   重启以加载新的 `search_messages` 工具。
+
+---
+
 ## [2.0.0] - 2025-12-05
 
 ### 🎉 Major Release - Thread Manager Integration

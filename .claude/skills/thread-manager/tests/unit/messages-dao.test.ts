@@ -38,8 +38,8 @@ describe('MessagesDAO', () => {
     }
   });
 
-  it('should create a new message and update thread messageCount', () => {
-    const message = messagesDAO.create({
+  it('should create a new message and update thread messageCount', async () => {
+    const message = await messagesDAO.create({
       threadId,
       role: 'user',
       content: 'Hello, Claude!'
@@ -58,10 +58,10 @@ describe('MessagesDAO', () => {
     expect(updatedThread?.messageCount).toBe(1);
   });
 
-  it('should create message with custom ID and timestamp', () => {
+  it('should create message with custom ID and timestamp', async () => {
     const customId = uuidv4();
     const customTime = new Date('2023-01-01');
-    const message = messagesDAO.create({
+    const message = await messagesDAO.create({
       id: customId,
       timestamp: customTime,
       threadId,
@@ -74,9 +74,9 @@ describe('MessagesDAO', () => {
     expect(message.metadata).toEqual({}); // Default empty metadata
   });
 
-  it('should find messages by thread ID with pagination', () => {
+  it('should find messages by thread ID with pagination', async () => {
     for (let i = 0; i < 5; i++) {
-      messagesDAO.create({
+      await messagesDAO.create({
         threadId,
         role: 'user',
         content: `Message ${i}`,
@@ -96,9 +96,9 @@ describe('MessagesDAO', () => {
     expect(messages[1].content).toBe('Message 1');
   });
 
-  it('should delete messages by thread ID', () => {
-    messagesDAO.create({ threadId, role: 'user', content: 'Msg 1' });
-    messagesDAO.create({ threadId, role: 'assistant', content: 'Resp 1' });
+  it('should delete messages by thread ID', async () => {
+    await messagesDAO.create({ threadId, role: 'user', content: 'Msg 1' });
+    await messagesDAO.create({ threadId, role: 'assistant', content: 'Resp 1' });
 
     let messages = messagesDAO.findByThreadId(threadId);
     expect(messages.length).toBe(2);
@@ -111,9 +111,9 @@ describe('MessagesDAO', () => {
     expect(updatedThread?.messageCount).toBe(2); 
   });
 
-  it('should handle metadata correctly', () => {
+  it('should handle metadata correctly', async () => {
     const metadata = { toolCall: { name: 'my_tool', id: 'call_1' } };
-    const message = messagesDAO.create({
+    const message = await messagesDAO.create({
       threadId,
       role: 'assistant',
       content: 'Tool output',

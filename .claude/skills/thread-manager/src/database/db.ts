@@ -97,6 +97,19 @@ export class DatabaseManager {
     this.db.exec(`CREATE INDEX IF NOT EXISTS idx_messages_thread_id ON messages(thread_id);`);
     this.db.exec(`CREATE INDEX IF NOT EXISTS idx_messages_timestamp ON messages(timestamp DESC);`);
 
+    // Migration: Add embedding columns if not exists
+    try {
+      const info = this.db.pragma('table_info(messages)') as any[];
+      if (!info.some(col => col.name === 'embedding_blob')) {
+        this.db.exec(`ALTER TABLE messages ADD COLUMN embedding_blob BLOB`);
+        this.db.exec(`ALTER TABLE messages ADD COLUMN embedding_model TEXT`);
+        this.db.exec(`ALTER TABLE messages ADD COLUMN embedding_generated_at INTEGER`);
+        this.db.exec(`CREATE INDEX IF NOT EXISTS idx_messages_embedding_exists ON messages(embedding_generated_at) WHERE embedding_blob IS NOT NULL`);
+      }
+    } catch (e) {
+      console.error('Error migrating messages table:', e);
+    }
+
     // File Changes Table
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS file_changes (

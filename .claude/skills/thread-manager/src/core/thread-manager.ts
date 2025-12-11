@@ -1,5 +1,6 @@
 import { DatabaseManager, ThreadsDAO, MessagesDAO, FileChangesDAO } from '../database';
 import { GitIntegration } from '../git/git-integration';
+import { XenovaEmbeddingService } from './embedding-service';
 import { v4 as uuidv4 } from 'uuid';
 import { formatDistanceToNow } from 'date-fns';
 import { zhCN } from 'date-fns/locale';
@@ -14,15 +15,21 @@ export class ThreadManager {
   private messagesDAO: MessagesDAO;
   private fileChangesDAO: FileChangesDAO;
   private gitIntegration: GitIntegration;
+  private embeddingService: XenovaEmbeddingService;
   private claudeContextPath = path.join(process.cwd(), '.claude', '.threads', 'current-context.md');
 
   constructor(dbManager: DatabaseManager) {
     this.dbManager = dbManager;
+    this.embeddingService = new XenovaEmbeddingService();
     this.threadsDAO = new ThreadsDAO(dbManager);
-    this.messagesDAO = new MessagesDAO(dbManager);
+    this.messagesDAO = new MessagesDAO(dbManager, this.embeddingService);
     this.fileChangesDAO = new FileChangesDAO(dbManager);
     this.gitIntegration = new GitIntegration();
     fs.ensureDirSync(path.dirname(this.claudeContextPath)); // Ensure directory exists on startup
+  }
+
+  public get messagesDAOInstance(): MessagesDAO {
+    return this.messagesDAO;
   }
 
   private async updateClaudeMd(thread: Thread, messages: Message[]): Promise<void> {
@@ -335,7 +342,7 @@ ${rows}
       throw new Error(`Thread with ID ${threadId} is not the active thread or does not exist. Cannot add message.`);
     }
 
-    const message = this.messagesDAO.create({ threadId, role, content, metadata });
+    const message = await this.messagesDAO.create({ threadId, role, content, metadata });
     return message;
   }
 

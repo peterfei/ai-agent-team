@@ -160,34 +160,61 @@ function checkStatus() {
 function installSkillDependenciesSync(skillDir, skillName) {
   console.log(colorize('blue', `📦 正在安装依赖: ${skillName}...`));
   
-  const nodeModulesPath = path.join(skillDir, 'node_modules');
-  
   try {
-    // 基础 npm install
-    const args = ['install'];
-    
-    // 特殊处理 drawnote (确保 playwright 安装)
-    // 但通常 npm install 就会根据 package.json 安装 playwright
-    
-    const result = spawnSync('npm', args, {
+    // 1. 安装依赖
+    const installArgs = ['install'];
+    const installResult = spawnSync('npm', installArgs, {
       cwd: skillDir,
-      stdio: 'inherit', // 显示输出给用户看
+      stdio: 'inherit',
       encoding: 'utf8',
       shell: true
     });
 
-    if (result.status === 0) {
-      console.log(colorize('green', `✅ ${skillName} 依赖安装成功`));
-    } else {
-      console.log(colorize('red', `❌ ${skillName} 依赖安装失败 (Exit code: ${result.status})`));
-      // 尝试 force
+    if (installResult.status !== 0) {
+      console.log(colorize('red', `❌ ${skillName} 依赖安装失败 (Exit code: ${installResult.status})`));
       console.log(colorize('yellow', `尝试使用 --force 重试...`));
       spawnSync('npm', ['install', '--force'], {
         cwd: skillDir,
         stdio: 'inherit',
         shell: true
       });
+    } else {
+      console.log(colorize('green', `✅ ${skillName} 依赖安装成功`));
     }
+
+    // 2. 特殊处理 thread-manager: 编译和迁移
+    if (skillName === 'thread-manager') {
+      console.log(colorize('blue', `⚙️  正在编译 ${skillName}...`));
+      const buildResult = spawnSync('npm', ['run', 'build'], {
+        cwd: skillDir,
+        stdio: 'inherit',
+        shell: true
+      });
+
+      if (buildResult.status === 0) {
+        console.log(colorize('green', `✅ ${skillName} 编译成功`));
+        
+        console.log(colorize('blue', `🔄 正在执行 ${skillName} 数据迁移 (启用语义搜索)...`));
+        // 迁移可能需要一点时间下载模型，确保用户知道
+        console.log(colorize('gray', '   (首次运行可能需要下载嵌入模型，请耐心等待)'));
+        
+        const migrateResult = spawnSync('npm', ['run', 'migrate'], {
+          cwd: skillDir,
+          stdio: 'inherit',
+          shell: true
+        });
+        
+        if (migrateResult.status === 0) {
+           console.log(colorize('green', `✅ ${skillName} 数据迁移成功`));
+        } else {
+           console.log(colorize('yellow', `⚠️  ${skillName} 数据迁移遇到问题 (非致命错误)，您可以稍后手动运行 'npm run migrate'`));
+        }
+
+      } else {
+        console.log(colorize('red', `❌ ${skillName} 编译失败`));
+      }
+    }
+
   } catch (error) {
     console.log(colorize('red', `❌ 安装过程出错: ${error.message}`));
   }
@@ -255,8 +282,21 @@ function install(options = {}) {
             fs.mkdirSync(backupDir, { recursive: true });
             ['agents', 'commands', 'CLAUDE.md'].forEach(item => {
                 const source = path.join(targetDir, item);
+                const dest = path.join(backupDir, item);
+                
                 if (fs.existsSync(source)) {
-                    copyFolderSync(source, path.join(backupDir, item));
+                    const stat = fs.statSync(source);
+                    if (stat.isDirectory()) {
+                        copyFolderSync(source, dest);
+                    } else {
+                        // 如果是文件，直接复制
+                        // 确保目标父目录存在
+                        const destDir = path.dirname(dest);
+                        if (!fs.existsSync(destDir)) {
+                            fs.mkdirSync(destDir, { recursive: true });
+                        }
+                        fs.copyFileSync(source, dest);
+                    }
                 }
             });
         } catch (e) {
@@ -323,6 +363,11 @@ function copyFolderSync(source, target) {
   const files = fs.readdirSync(source);
 
   files.forEach(file => {
+    // 忽略特定目录
+    if (file === 'node_modules' || file === '.git' || file === 'dist') {
+      return;
+    }
+
     const sourcePath = path.join(source, file);
     const targetPath = path.join(target, file);
 

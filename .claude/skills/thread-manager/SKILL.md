@@ -31,6 +31,7 @@ Thread Manager 为 Claude Code 提供多线程对话管理功能，让你可以�
 | `delete_thread` | 删除线程 |
 | `get_current_thread` | 获取当前活跃线程 |
 | `track_file_change` | 记录文件变更 (支持自动检测) |
+| `search_messages` | 基于语义搜索历史消息 (支持自然语言) |
 
 ## Slash Commands
 
@@ -38,6 +39,7 @@ Thread Manager 为 Claude Code 提供多线程对话管理功能，让你可以�
 - `/threads`: 列出所有线程
 - `/thread <id>`: 切换线程
 - `/thread info`: 查看当前线程详情
+- `/memory search "query"`: 搜索历史消息 (需要调用 search_messages)
 
 ## 数据存储
 

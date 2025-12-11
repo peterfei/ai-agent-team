@@ -2,21 +2,47 @@ import { Database } from 'better-sqlite3';
 import { v4 as uuidv4 } from 'uuid';
 import { Message } from '../types';
 import { DatabaseManager } from './db';
+import { IEmbeddingService } from '../core/embedding-service';
+import { serializeEmbedding, deserializeEmbedding } from '../core/vector-utils';
+import { VectorSearchEngine, SearchResult } from '../core/vector-search-engine';
 
 export class MessagesDAO {
   private dbManager: DatabaseManager;
+  private embeddingService: IEmbeddingService;
+  private searchEngine: VectorSearchEngine;
 
-  constructor(dbManager: DatabaseManager) {
+  constructor(dbManager: DatabaseManager, embeddingService: IEmbeddingService) {
     this.dbManager = dbManager;
+    this.embeddingService = embeddingService;
+    this.searchEngine = new VectorSearchEngine();
   }
 
   private get db(): Database {
     return this.dbManager.getDatabase();
   }
 
-  public create(input: Partial<Message> & { threadId: string, role: string, content: string }): Message {
+  public async create(input: Partial<Message> & { threadId: string, role: string, content: string }): Promise<Message> {
     const id = input.id || uuidv4();
     const now = input.timestamp || new Date();
+
+    // Generate embedding (Async)
+    let embedding: number[] | undefined;
+    let embeddingBlob: Buffer | null = null;
+    let embeddingModel: string | null = null;
+    let embeddingGeneratedAt: number | null = null;
+
+    try {
+      embedding = await this.embeddingService.embed(input.content);
+      if (embedding) {
+        embeddingBlob = serializeEmbedding(embedding);
+        const modelInfo = this.embeddingService.getModelInfo();
+        embeddingModel = modelInfo.name;
+        embeddingGeneratedAt = Date.now();
+      }
+    } catch (e) {
+      console.error('Failed to generate embedding:', e);
+      // Proceed without embedding
+    }
     
     const message: Message = {
       id,
@@ -24,14 +50,16 @@ export class MessagesDAO {
       role: input.role as any,
       content: input.content,
       timestamp: now,
-      metadata: input.metadata || {}
+      metadata: input.metadata || {},
+      embedding
     };
 
     const stmt = this.db.prepare(`
       INSERT INTO messages (
-        id, thread_id, role, content, timestamp, metadata
+        id, thread_id, role, content, timestamp, metadata,
+        embedding_blob, embedding_model, embedding_generated_at
       ) VALUES (
-        ?, ?, ?, ?, ?, ?
+        ?, ?, ?, ?, ?, ?, ?, ?, ?
       )
     `);
 
@@ -41,12 +69,13 @@ export class MessagesDAO {
       message.role,
       message.content,
       message.timestamp.getTime(),
-      JSON.stringify(message.metadata || {})
+      JSON.stringify(message.metadata || {}),
+      embeddingBlob,
+      embeddingModel,
+      embeddingGeneratedAt
     );
 
     // Update thread message count
-    // Note: We're not doing this in a transaction for simplicity/perf, 
-    // but in a strict system we might want to.
     this.updateThreadMessageCount(message.threadId);
 
     return message;
@@ -58,24 +87,66 @@ export class MessagesDAO {
     const stmt = this.db.prepare(`
       SELECT * FROM messages 
       WHERE thread_id = ? 
-      ORDER BY timestamp DESC -- Newest first generally for retrieval, though UI might invert
+      ORDER BY timestamp DESC
       LIMIT ? OFFSET ?
     `);
 
     const rows = stmt.all(threadId, limit, offset) as any[];
 
-    // Return in chronological order (oldest first) if that's what's typically expected for context
-    // But usually paginated queries return pages. Let's return as queried (descending time) 
-    // and let consumer reverse if needed for display.
     return rows.map(this.mapRowToMessage);
+  }
+
+  /**
+   * Semantically search for messages
+   */
+  public async searchSimilar(
+    query: string,
+    options: {
+      threadId?: string;
+      topK?: number;
+      minScore?: number;
+    } = {}
+  ): Promise<Array<Message & { score: number }>> {
+    const { threadId, topK = 10, minScore = 0.5 } = options;
+
+    // 1. Generate query vector
+    const queryVector = await this.embeddingService.embed(query);
+
+    // 2. Load candidate messages (all messages with embeddings)
+    // Optimization: Filter by threadId in SQL if provided to reduce memory usage
+    let sql = 'SELECT * FROM messages WHERE embedding_blob IS NOT NULL';
+    const params: any[] = [];
+
+    if (threadId) {
+      sql += ' AND thread_id = ?';
+      params.push(threadId);
+    }
+
+    const rows = this.db.prepare(sql).all(...params) as any[];
+
+    // 3. Build corpus
+    const corpus = rows.map(row => ({
+      id: row.id,
+      vector: deserializeEmbedding(row.embedding_blob),
+      payload: this.mapRowToMessage(row)
+    }));
+
+    // 4. Perform vector search
+    const results = this.searchEngine.search(queryVector, corpus, {
+      topK,
+      minScore
+    });
+
+    // 5. Map results
+    return results.map(result => ({
+      ...result.payload!,
+      score: result.score
+    }));
   }
   
   public deleteByThreadId(threadId: string): void {
       const stmt = this.db.prepare('DELETE FROM messages WHERE thread_id = ?');
       stmt.run(threadId);
-      // Trigger update on thread count is not needed if thread is deleted, 
-      // but if just clearing messages, it would be needed.
-      // Assuming cascade delete handles this when thread is deleted.
   }
 
   private updateThreadMessageCount(threadId: string): void {
@@ -87,7 +158,7 @@ export class MessagesDAO {
   }
 
   private mapRowToMessage(row: any): Message {
-    return {
+    const message: Message = {
       id: row.id,
       threadId: row.thread_id,
       role: row.role,
@@ -95,5 +166,11 @@ export class MessagesDAO {
       timestamp: new Date(row.timestamp),
       metadata: JSON.parse(row.metadata || '{}')
     };
+
+    if (row.embedding_blob) {
+      message.embedding = deserializeEmbedding(row.embedding_blob);
+    }
+
+    return message;
   }
 }

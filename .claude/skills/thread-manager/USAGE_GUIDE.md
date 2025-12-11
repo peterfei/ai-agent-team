@@ -76,6 +76,27 @@ mcp__thread-manager__get_thread({
 
 现在运行 `/threads` 时，您将看到正确的消息计数！
 
+### 4. 语义搜索消息
+
+使用 `search_messages` 工具可以通过自然语言搜索历史对话：
+
+**基本搜索：**
+```javascript
+mcp__thread-manager__search_messages({
+  query: "关于认证的讨论"
+})
+```
+
+**高级过滤：**
+```javascript
+mcp__thread-manager__search_messages({
+  query: "API接口定义",
+  topK: 10,           // 返回最多10条结果
+  minScore: 0.7,      // 最低相似度阈值
+  threadId: "specific-thread-id" // 在特定线程中搜索
+})
+```
+
 ## 工作流示例
 
 ### 场景：跟踪功能开发的完整对话

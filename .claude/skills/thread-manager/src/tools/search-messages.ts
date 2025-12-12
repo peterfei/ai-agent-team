@@ -77,10 +77,10 @@ export async function toolHandler(toolInvocation: { toolName: string, input: any
 
     return {
       message,
-      info: {
+      info: JSON.stringify({
         resultCount: results.length,
         avgScore: results.length > 0 ? (results.reduce((sum, r) => sum + r.score, 0) / results.length).toFixed(3) : '0.000'
-      }
+      }, null, 2) // 格式化为可读的 JSON 字符串
     };
   } catch (error: any) {
     return {

@@ -1171,6 +1171,13 @@ Thread Manager v2.0.1 采用**分层记忆架构**，极大优化了 Token 效�
 
 ---
 
+
+### Sponsor: [DolOffer](https://doloffer.com)
+[<img width="600" alt="DolOffer logo" src="./examples/doloffer.png" />](https://doloffer.com?utm_source=ai-agent-team)
+
+> **Doloffer Guide** 致力于让优质 AI 工具的获取更简单。平台主打 GPT 与 Claude 等主流 AI 服务的正版会员充值，提供一站式订阅管理，主打安全稳定与无忧售后。
+> * 💡 **极速订阅：** [doloffer.com](https://doloffer.com)（输入优惠码 `AI8888` 享9折特惠）
+
 <div align="center">
 
 **⭐ 如果这个项目对您有帮助，请给我们一个Star！⭐**

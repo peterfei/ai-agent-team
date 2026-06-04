@@ -1,5 +1,7 @@
 # AI Agent Team
 
+> 💛 Sponsored by [DolOffer](https://doloffer.com?utm_source=ai-agent-team) — GPT & Claude 正版会员充值，输入优惠码 `AI8888` 享9折特惠
+
 <div align="center">
 
 ![AI Agent Team](https://img.shields.io/badge/AI_Agent_Team-Claude%20Code-blue)
@@ -8,7 +10,7 @@
 ![npm](https://img.shields.io/npm/dw/ai-agent-team)
 ![GitHub stars](https://img.shields.io/github/stars/peterfei/ai-agent-team?style=social)
 
-**🚀 拥有24/7专业AI开发团队：产品经理、前端开发、后端开发、测试工程师、DevOps工程师、技术负责人**
+**🚀 拥有24/7专业AI开发团队：产品经理、全栈开发、前端开发、后端开发、测试工程师、DevOps工程师、技术负责人**
 
 **💾 Thread Manager 让 AI 拥有记忆！** 语义搜索 | 任务线程管理 | 完整上下文恢复 | 自动 Git 版本控制
 
@@ -18,52 +20,26 @@
 
 ---
 
-## 🌟 v2.0.1 核心亮点与架构概览
-
-### 🚀 核心亮点
-
-#### 🌟 核心价值主张：认知能力升级
-Thread Manager v2.0.1 实现了**分层记忆架构**，将简单的对话管理升级为**具备认知能力的 AI 记忆系统**：
-- **30-50% 的上下文准确率提升** - 通过语义检索替代时间检索
-- **跨线程知识复用** - AI可以学习和积累经验
-- **10倍的检索效率** - 向量索引 vs 全表扫描
-- **更自然的交互体验** - AI能"记住"用户的习惯和偏好
-
-#### 1. 🧠 Thread Manager 语义搜索
-- **自然语言查询**: 告别关键词，AI 理解意图，精准定位历史对话。
-- **跨时间记忆**: 轻松回溯数周前的讨论，无惧遗忘。
-- **本地向量数据库**: 所有消息本地向量化存储，确保数据隐私与高效检索。
-
-#### 2. 📦 内置模型 & 离线优先
-- **内置嵌入模型**: `Xenova/all-MiniLM-L6-v2` 模型直接打包，无需联网下载。
-- **零配置开箱即用**: 安装即用，国内网络环境安装成功率 100%。
-
-#### 3. 🛠️ 初始化与迁移优化
-- **自动化构建**: `init` 命令自动编译 TypeScript。
-- **一键迁移**: `npm run migrate` 脚本自动处理旧数据向量化。
-
-### 🏗️ 架构概览
-
-Thread Manager v2.0.1 引入了全新的向量检索层：
+## 🌟 v2.0.1 架构概览
 
 ```mermaid
 graph TD
     User[用户] -->|自然语言查询| Agent[Claude AI 助手]
     Agent -->|调用工具| MCP[Thread Manager MCP Server]
-    
+
     subgraph "Thread Manager Core"
         MCP -->|解析请求| TM[Thread Manager]
         TM -->|语义搜索| Search[Vector Search Engine]
         TM -->|添加消息| MsgDAO[Messages DAO]
-        
+
         MsgDAO -->|生成向量| Embed[Embedding Service]
         Embed -->|加载模型| LocalModel[📦 本地内置模型]
         LocalModel -.->|Xenova/all-MiniLM-L6-v2| Embed
-        
+
         Search -->|查询| DB[(SQLite Database)]
         MsgDAO -->|存储| DB
     end
-    
+
     DB -->|返回结果| Search
     Search -->|相关消息列表| TM
     TM -->|格式化上下文| MCP
@@ -196,18 +172,6 @@ claude
 </details>
 
 <details>
-<summary><b>Q: 全局初始化和项目初始化有什么区别？</b></summary>
-
-| 特性 | 全局初始化 | 项目初始化 |
-|------|-----------|-----------|
-| 配置位置 | `~/.claude/` | `./.claude/` |
-| 线程数据 | 所有项目共享 | 项目独立 |
-| 适用场景 | 个人开发 | 团队协作 |
-
-**推荐**：个人使用选全局，团队项目选本地。
-</details>
-
-<details>
 <summary><b>Q: 如何查看 Thread Manager 是否正常运行？</b></summary>
 
 ```bash
@@ -236,15 +200,9 @@ claude
 
 ---
 
-## 🧠 Thread Manager - AI 团队的记忆系统 ⭐ NEW in v2.0.0
+## 🧠 Thread Manager - AI 团队的记忆系统
 
-> **🎉 v2.0.1 更新：语义搜索 & 离线模型**
-> 
-> 现在，Thread Manager 不仅能记住对话，还能**理解**对话！
-> - **语义搜索**: 使用自然语言查找历史信息（"找一下关于登录逻辑的讨论"）。
-> - **离线优先**: 内置向量模型，无需联网下载，国内环境安装成功率 100%。
-> 
-> [查看 v2.0.1 详细发布说明 & 架构图](./RELEASE_NOTES_v2.0.1.md)
+> [查看 v2.0.1 详细发布说明](./RELEASE_NOTES_v2.0.1.md)
 
 ### 🚀 核心亮点
 
@@ -327,40 +285,15 @@ claude
 | `/threads` | 查看所有线程 | 列出任务、消息数、文件变更 |
 | `/thread switch <id>` | 切换线程 | 完整恢复历史上下文 |
 | `/pm-start "任务"` | 产品经理线程 | 创建线程 + 需求分析 |
+| `/fs-start "任务"` | 全栈开发线程 | 创建线程 + 前后端一体开发 |
 | `/fe-start "任务"` | 前端开发线程 | 创建线程 + UI 开发 |
 | `/be-start "任务"` | 后端开发线程 | 创建线程 + API 开发 |
 | `/qa-start "任务"` | QA 测试线程 | 创建线程 + 执行测试 |
 
 ### 🔥 实际应用场景
 
-**多任务并行开发**:
-```bash
-# 同时进行 3 个功能开发
-/pm-start "用户认证系统"        # 线程 1: 产品设计
-/be-start "支付接口集成"        # 线程 2: 后端开发
-/fe-start "数据可视化大屏"      # 线程 3: 前端开发
-
-# 随时切换，零上下文损失
-/threads                        # 查看所有任务进度
-/thread switch abc123           # 切换到认证系统
-```
-
-**长期项目管理**:
-```bash
-# 项目周期 3 个月，AI 记住每一次对话
-/pm-start "企业 ERP 系统设计"
-# ... 3 个月后 ...
-/thread switch abc123           # AI 完整恢复 3 个月前的上下文
-```
-
-**团队协作共享**:
-```bash
-# 开发者 A
-/pm-start "新功能设计"          # 线程 ID: abc12345
-
-# 开发者 B（另一台电脑）
-clt abc12345                    # 恢复 A 的完整上下文
-```
+- **长期项目管理**：项目跨度数月，AI 完整恢复数月前的对话上下文
+- **团队协作共享**：多开发者通过线程 ID 恢复完整上下文
 
 ---
 
@@ -612,64 +545,18 @@ changelog-generate update
 
 ### ✨ 核心特性
 
-- 🎯 **六大专业智能体** - 产品经理、前端开发、后端开发、测试工程师、DevOps工程师、技术负责人
-- 📝 **Changelog Generator Skill** ⭐ NEW - 智能变更日志生成，自动版本管理，GitHub Release 集成
-- 📜 **SoftCopyright Skill** - 智能软著材料生成，一键生成软件著作权申请文档
-- 🧹 **TidyMyDesktop Skill** - 智能桌面整理，文件分类，版本去重，安全整理
-- 🎨 **DrawNote Skill** - 智能笔记可视化，多彩风格模板，一键生成精美图片
-- ⚡ **原生集成** - 完全基于Claude Code的原生智能体系统
-- 🚀 **一键安装** - 支持npm全局安装，自动配置智能体环境
-- ⚡ **快捷命令** - 简化的命令行调用方式，提升开发效率
-- 🔄 **完整工作流** - 支持完整的产品开发流程和团队协作
-- 📚 **详细文档** - 包含使用指南、最佳实践和示例
-- 🛠️ **易于扩展** - 模块化设计，支持自定义智能体
+- 🎯 **七大专业智能体** - 产品经理、全栈开发、前端开发、后端开发、测试工程师、DevOps工程师、技术负责人
+- 🧠 **Thread Manager** - AI 记忆系统，语义搜索，任务线程管理，自动 Git 版本控制
+- 📝 **Changelog Generator** - 智能变更日志生成，自动版本管理，GitHub Release 集成
+- 📜 **SoftCopyright** - 智能软著材料生成，一键生成软件著作权申请文档
+- 🧹 **TidyMyDesktop** - 智能桌面整理，文件分类，版本去重，安全整理
+- 🎨 **DrawNote** - 智能笔记可视化，多彩风格模板，一键生成精美图片
+- ⚡ **原生集成** - 完全基于 Claude Code 原生智能体系统，支持自定义扩展
 
 ### 系统要求
 
 - Claude Code (已安装并配置)
 - Git
-
-### 一键安装
-
-#### 方式1：npm安装（推荐）
-```bash
-npm install -g ai-agent-team
-```
-
-#### 方式2：Shell脚本安装 (macOS/Linux)
-```bash
-curl -fsSL https://raw.githubusercontent.com/peterfei/ai-agent-team/main/install.sh | bash
-```
-
-#### 方式3：PowerShell安装 (Windows)
-```powershell
-powershell -Command "irm 'https://raw.githubusercontent.com/peterfei/ai-agent-team/main/install.ps1' | iex"
-```
-
-#### 方式4：批处理安装 (Windows)
-```cmd
-curl -fsSL https://raw.githubusercontent.com/peterfei/ai-agent-team/main/install.bat -o install.bat && install.bat
-```
-
-#### 方式5：手动安装
-
-1. **克隆仓库**
-```bash
-git clone https://github.com/peterfei/ai-agent-team.git
-cd ai-agent-team
-```
-
-2. **安装智能体配置**
-```bash
-# 复制智能体配置到您的Claude配置目录
-cp -r .claude/* ~/.claude/
-```
-
-3. **验证安装**
-```bash
-# 测试智能体是否正常工作
-claude -p "/agent product_manager '测试功能'"
-```
 
 ### 快速使用
 
@@ -720,6 +607,9 @@ claude -p "/agent product_manager '测试功能'"
 # 产品经理 - 需求分析
 /pm "设计用户认证系统"
 
+# 全栈开发 - 前后端一体
+/fs "开发用户认证功能，包括注册、登录、个人中心"
+
 # 前端开发 - UI实现
 /fe "创建登录页面组件"
 
@@ -736,36 +626,7 @@ claude -p "/agent product_manager '测试功能'"
 /tl "评估系统架构"
 ```
 
-## 🎨 DrawNote Skill - 核心特色功能
-
-DrawNote Skill 是 AI Agent Team v1.0.2 的核心特色功能之一，提供专业的智能笔记与流程图绘制能力。
-
-### 🚀 核心功能
-
-- 📝 **学习笔记可视化** - 将文字内容转化为精美的视觉笔记
-- 🗺️ **知识梳理与总结** - 自动生成思维导图和信息图
-- 📊 **流程图绘制** - 快速创建专业流程图和架构图
-- 💡 **概念解释图表** - 复杂概念可视化呈现
-
-### 🎯 技术特点
-
-- **基于 Playwright** - 高质量截图引擎，自动生成 HTML 和 PNG 双格式文件
-- **智能布局算法** - 自适应内容，确保最佳的视觉效果
-- **内置模板系统** - 无需外部文件，使用更便捷
-- **无缝集成** - 与 Claude Code 完美集成，一键生成
-
-### 🛠️ 扩展功能
-
-项目还支持更多 Claude Code 插件扩展，欢迎贡献更多技能！
-
 **详细文档**: 查看 [.claude/skills/drawnote/SKILL.md](.claude/skills/drawnote/SKILL.md)
-
-### 添加新插件
-
-1. 将插件复制到 `.claude-plugin/` 目录
-2. 更新 `marketplaces.json` 配置
-3. 安装插件依赖
-4. 重启 Claude Code
 
 ## 📋 智能体角色
 
@@ -784,6 +645,11 @@ DrawNote Skill 是 AI Agent Team v1.0.2 的核心特色功能之一，提供专�
 - **专长**: Node.js/Python/Java、数据库设计、API架构
 - **使用场景**: API开发、数据库设计、系统集成
 
+### 🔗 全栈开发 (`/fs`)
+- **职责**: 前后端一体化开发、API集成、端到端功能实现
+- **专长**: Next.js/Nuxt、全栈TypeScript、数据库设计、API设计
+- **使用场景**: 完整功能开发、前后端联调、MVP 快速交付
+
 ### 🧪 测试工程师 (`/qa`)
 - **职责**: 功能测试、自动化测试、质量保证
 - **专长**: 单元测试、集成测试、端到端测试
@@ -801,46 +667,14 @@ DrawNote Skill 是 AI Agent Team v1.0.2 的核心特色功能之一，提供专�
 
 ## 💼 工作流程示例
 
-### 完整产品开发流程
-
 ```bash
-# 1. 需求分析阶段
+# 完整产品开发流程
 /pm "分析用户认证系统需求，包括功能规格、用户故事和验收标准"
-
-# 2. 技术设计阶段
 /tl "设计用户认证系统的技术架构，包括前后端分离、JWT认证、数据库设计"
-
-# 3. 后端开发阶段
 /be "实现JWT认证API，包括登录、注册、token刷新功能"
-
-# 4. 前端开发阶段
 /fe "创建React登录组件，包含表单验证、错误处理和响应式设计"
-
-# 5. 测试验证阶段
 /qa "设计用户认证系统的完整测试用例，包括功能测试和安全测试"
-
-# 6. 部署上线阶段
 /ops "配置用户认证系统的生产环境部署，包括Docker容器化和CI/CD流水线"
-```
-
-### 并行开发模式
-
-```bash
-# 需求定义
-/pm "分析实时协作功能需求"
-
-# 并行开发
-/be "构建WebSocket实时协作API" &
-/fe "创建协作编辑界面" &
-
-# 等待前后端开发完成
-wait
-
-# 集成测试
-/qa "测试实时协作端到端流程"
-
-# 部署
-/ops "部署协作功能到生产环境"
 ```
 
 ## 🛠️ CLI工具
@@ -881,6 +715,7 @@ ai-agent-team/
 ├── .claude/
 │   ├── agents/                  # 智能体配置文件
 │   │   ├── product_manager.md   # 产品经理智能体
+│   │   ├── fullstack_dev.md     # 全栈开发智能体
 │   │   ├── frontend_dev.md      # 前端开发智能体
 │   │   ├── backend_dev.md       # 后端开发智能体
 │   │   ├── qa_engineer.md       # 测试工程师智能体
@@ -937,57 +772,17 @@ ai-agent-team/
 
 ## 🎯 使用场景
 
-### 1. 个人开发者
-- 快速原型开发
-- 全栈项目开发
-- 技术学习参考
-
-### 2. 初创团队
-- MVP快速开发
-- 团队协作规范
-- 技术选型指导
-
-### 3. 企业开发
-- 标准化开发流程
-- 新人培训
-- 最佳实践推广
-
-### 4. 教育培训
-- 编程教学辅助
-- 项目实战指导
-- 团队协作培训
+- **个人开发者**：快速原型开发、全栈项目、技术学习
+- **初创团队**：MVP 快速开发、团队协作规范、技术选型
+- **企业开发**：标准化流程、新人培训、最佳实践推广
+- **教育培训**：编程教学、项目实战、团队协作训练
 
 ## 📈 最佳实践
 
-### 1. 清晰的任务描述
-```bash
-# 好的示例
-/pm "为电商网站设计购物车功能，包括添加商品、数量调整、价格计算和结算流程"
-
-# 避免模糊描述
-/pm "做个购物车"
-```
-
-### 2. 提供上下文信息
-```bash
-# 包含项目背景
-/be "基于我们现有的Express.js用户系统，添加OAuth2集成功能"
-```
-
-### 3. 迭代式开发
-```bash
-# 分阶段实施
-/pm "第一阶段：设计用户认证的MVP功能"
-/be "第一阶段：实现基础的注册和登录API"
-/fe "第一阶段：创建简单的登录表单"
-```
-
-### 4. 团队协作
-```bash
-# 确保智能体间的工作协调
-/fe "基于产品需求文档和后端API设计，创建用户界面"
-/qa "测试前端界面与后端API的完整集成"
-```
+- **清晰的任务描述**：提供具体、可操作的需求，避免模糊描述
+- **提供上下文**：包含项目背景和技术约束，帮助智能体做出正确决策
+- **迭代开发**：复杂功能分阶段实施，逐步完善
+- **团队协作**：确保智能体间的工作协调，前后端对齐
 
 ## 🔧 高级配置
 
@@ -1017,63 +812,11 @@ export AGENT_MAX_TOKENS=4000
 
 ## 💻 Windows 支持
 
-ai-agent-team 全面支持 Windows 系统，提供多种安装方式：
+ai-agent-team 全面支持 Windows 10/11 系统，提供 PowerShell 和批处理安装方式（详见上方安装指南）。
 
-### 安装方式
+**Q: PowerShell 执行策略限制？** `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
 
-1. **PowerShell安装（推荐）**
-```powershell
-powershell -Command "irm 'https://raw.githubusercontent.com/peterfei/ai-agent-team/main/install.ps1' | iex"
-```
-
-2. **批处理安装**
-```cmd
-curl -fsSL https://raw.githubusercontent.com/peterfei/ai-agent-team/main/install.bat -o install.bat && install.bat
-```
-
-3. **npm安装**
-```cmd
-npm install -g ai-agent-team
-```
-
-### Windows 特性
-
-- ✅ PowerShell 5.0+ 支持
-- ✅ Windows 10/11 兼容
-- ✅ 批处理脚本兼容
-- ✅ 中文路径支持
-- ✅ 防火墙和杀毒软件兼容
-
-### 系统要求
-
-- Windows 10/11 或 Windows Server 2016+
-- PowerShell 5.0 或更高版本
-- Claude Code (已安装)
-- 网络连接
-
-### 兼容性测试
-
-运行兼容性测试脚本检查您的系统：
-
-```powershell
-powershell -Command "irm 'https://raw.githubusercontent.com/peterfei/ai-agent-team/main/test-windows-compatibility.ps1' | iex"
-```
-
-### 常见问题
-
-**Q: PowerShell 执行策略限制怎么办？**
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
-
-**Q: 杀毒软件报误怎么办？**
-将以下目录添加到白名单：
-- `%USERPROFILE%\.claude\`
-- 安装目录
-
-**Q: Node.js 安装失败怎么办？**
-- 手动下载安装 Node.js: https://nodejs.org/
-- 或使用 winget: `winget install OpenJS.NodeJS`
+**Q: 杀毒软件报误？** 将 `%USERPROFILE%\.claude\` 和安装目录添加到白名单。
 
 ## ❓ 常见问题
 
@@ -1171,15 +914,23 @@ Thread Manager v2.0.1 采用**分层记忆架构**，极大优化了 Token 效�
 
 ---
 
-
-### Sponsor: [DolOffer](https://doloffer.com)
-[<img width="600" alt="DolOffer logo" src="./examples/doloffer.png" />](https://doloffer.com?utm_source=ai-agent-team)
-
-> **Doloffer Guide** 致力于让优质 AI 工具的获取更简单。平台主打 GPT 与 Claude 等主流 AI 服务的正版会员充值，提供一站式订阅管理，主打安全稳定与无忧售后。
-> * 💡 **极速订阅：** [doloffer.com](https://doloffer.com)（输入优惠码 `AI8888` 享9折特惠）
+## ❤️ Sponsors
 
 <div align="center">
 
+### [DolOffer](https://doloffer.com?utm_source=ai-agent-team)
+
+[<img width="600" alt="DolOffer logo" src="./examples/doloffer.png" />](https://doloffer.com?utm_source=ai-agent-team)
+
+**Doloffer Guide** 致力于让优质 AI 工具的获取更简单。平台主打 GPT 与 Claude 等主流 AI 服务的正版会员充值，提供一站式订阅管理，主打安全稳定与无忧售后。
+
+💡 **极速订阅**：[doloffer.com](https://doloffer.com)（输入优惠码 `AI8888` 享9折特惠）
+
+</div>
+
+---
+
+<div align="center">
 **⭐ 如果这个项目对您有帮助，请给我们一个Star！⭐**
 
 Made with ❤️ by AI Agent Team

@@ -40,6 +40,9 @@ $agentMap = @{
     "ops" = "devops_engineer"
     "devops_engineer" = "devops_engineer"
     "运维工程师" = "devops_engineer"
+    "fs" = "fullstack_dev"
+    "fullstack_dev" = "fullstack_dev"
+    "全栈开发" = "fullstack_dev"
     "tl" = "tech-leader"
     "tech_leader" = "tech-leader"
     "技术负责人" = "tech-leader"
@@ -71,6 +74,7 @@ function Show-Help {
     Write-Host "  be, backend_dev, 后端开发        - 后端开发智能体" -ForegroundColor White
     Write-Host "  qa, qa_engineer, 测试工程师      - QA工程师智能体" -ForegroundColor White
     Write-Host "  ops, devops_engineer, 运维工程师  - DevOps工程师智能体" -ForegroundColor White
+    Write-Host "  fs, fullstack_dev, 全栈开发        - 全栈开发智能体" -ForegroundColor White
     Write-Host "  tl, tech_leader, 技术负责人      - 技术负责人智能体" -ForegroundColor White
     Write-Host ""
     Write-Host "快捷命令:" -ForegroundColor Green
@@ -79,6 +83,7 @@ function Show-Help {
     Write-Host "  .\cli.ps1 be '任务描述'           - 调用后端开发" -ForegroundColor White
     Write-Host "  .\cli.ps1 qa '任务描述'           - 调用QA工程师" -ForegroundColor White
     Write-Host "  .\cli.ps1 ops '任务描述'          - 调用DevOps工程师" -ForegroundColor White
+    Write-Host "  .\cli.ps1 fs '任务描述'           - 调用全栈开发" -ForegroundColor White
     Write-Host "  .\cli.ps1 tl '任务描述'           - 调用技术负责人" -ForegroundColor White
     Write-Host ""
     Write-Host "示例:" -ForegroundColor Green
@@ -87,6 +92,7 @@ function Show-Help {
     Write-Host "  .\cli.ps1 be '实现JWT认证API'" -ForegroundColor Yellow
     Write-Host "  .\cli.ps1 qa '编写单元测试'" -ForegroundColor Yellow
     Write-Host "  .\cli.ps1 ops '部署到生产环境'" -ForegroundColor Yellow
+    Write-Host "  .\cli.ps1 fs '开发用户认证功能'" -ForegroundColor Yellow
     Write-Host "  .\cli.ps1 tl '评估系统架构'" -ForegroundColor Yellow
 }
 

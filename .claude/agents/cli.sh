@@ -31,6 +31,9 @@ declare -A AGENTS=(
     ["ops"]="devops_engineer"
     ["devops"]="devops_engineer"
     ["运维"]="devops_engineer"
+    ["fs"]="fullstack_dev"
+    ["fullstack"]="fullstack_dev"
+    ["全栈"]="fullstack_dev"
 )
 
 # 显示帮助信息
@@ -47,6 +50,7 @@ show_help() {
     echo -e "  ${GREEN}be | backend | 后端${NC}       - 后端开发"
     echo -e "  ${GREEN}qa | test | 测试${NC}          - 测试工程师"
     echo -e "  ${GREEN}ops | devops | 运维${NC}       - DevOps工程师"
+    echo -e "  ${GREEN}fs | fullstack | 全栈${NC}     - 全栈开发"
     echo
     echo -e "${YELLOW}示例:${NC}"
     echo -e "  ./cli.sh pm \"设计用户认证系统\""
@@ -54,6 +58,7 @@ show_help() {
     echo -e "  ./cli.sh backend \"实现JWT认证API\""
     echo -e "  ./cli.sh 测试 \"测试登录功能\""
     echo -e "  ./cli.sh 运维 \"部署到生产环境\""
+    echo -e "  ./cli.sh 全栈 \"开发用户认证功能（前后端一体）\""
     echo
     echo -e "${YELLOW}工作流示例:${NC}"
     echo -e "  # 完整的产品开发流程"
@@ -76,7 +81,7 @@ TASK_DESCRIPTION="$2"
 # 检查agent是否存在
 if [[ -z "${AGENTS[$AGENT_ALIAS]}" ]]; then
     echo -e "${RED}❌ 未知的agent: $AGENT_ALIAS${NC}"
-    echo -e "${YELLOW}可用agent:${NC} pm, fe, be, qa, ops"
+    echo -e "${YELLOW}可用agent:${NC} pm, fe, be, qa, ops, fs"
     exit 1
 fi
 
@@ -143,6 +148,11 @@ case $AGENT_ALIAS in
         echo -e "${CYAN}💡 建议下一步:${NC}"
         echo -e "  - 监控部署后的系统状态"
         echo -e "  - 使用 '${GREEN}./cli.sh 测试${NC}' 进行生产环境验证"
+        ;;
+    "fs"|"fullstack"|"全栈")
+        echo -e "${CYAN}💡 建议下一步:${NC}"
+        echo -e "  - 使用 '${GREEN}./cli.sh 测试${NC}' 进行端到端测试"
+        echo -e "  - 使用 '${GREEN}./cli.sh 运维${NC}' 部署到服务器"
         ;;
 esac
 

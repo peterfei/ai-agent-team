@@ -103,10 +103,18 @@ ai-agent-team init
 ```bash
 claude mcp add thread-manager node "/YOURSELFPROJECTPATH/.claude/skills/thread-manager/dist/index.js"
 ```
+### Sponsors
 
-![image-20251205145139573](http://image-peterfei-blog.test.upcdn.net/image-20251205145139573.png)
+<div align="center">
 
-![ScreenShot_2025-12-12_110715_649](http://image-peterfei-blog.test.upcdn.net/ScreenShot_2025-12-12_110715_649.png)
+<img src="./examples/bloom.png"   style="zoom: 20%;" />
+
+不想折腾本地配置？用 Bloome 即可快速跑起这支 AI 开发团队——把 PM、前端、后端、测试这些 agent 直接拉进一个群聊，人和 agent 在同一个对话里分工协作、共享上下文，全程云端、无需本地安装。原生支持接入 Claude Code、Codex 等主流 agent，开箱即用。
+
+💡 **立即体验**：[Bloome](https://bloome.im/join/PlduOHMm?ref=iIevdIC2)
+
+</div>
+
 
 **为什么需要这一步？**
 

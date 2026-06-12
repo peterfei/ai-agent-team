@@ -1,6 +1,6 @@
 {
   "name": "ai-agent-team",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "AI Agent Team - 拥有24/7专业AI开发团队：产品经理、前端开发、后端开发、测试工程师、DevOps工程师、技术负责人。全新Thread Manager让AI拥有记忆！支持任务线程管理、自动Git版本控制、完整上下文恢复。一键安装，开发效率飙升200%！集成drawnote、tidymydesktop、softcopyright、changelog-generator和thread-manager五大智能Skill。",
   "main": "bin/ai-agent-team.js",
   "bin": {

@@ -5,6 +5,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2025-06-12
+
+### Added
+
+#### 🧭 决策树架构 (Decision Tree)
+所有 7 个 Agent 和 Skill 新增 "Pick a branch" 决策树，根据任务性质自动路由到正确工作模式：
+- **全栈开发**: BUILD / EXTEND / DEBUG
+- **技术负责人**: ADR / REVIEW / PLAN / GUIDE
+- **产品经理**: PRD / ANALYSIS / ROADMAP / RESEARCH
+- **前端开发**: COMPONENT / PAGE / OPTIMIZE / FIX
+- **后端开发**: API / SCHEMA / AUTH / OPTIMIZE
+- **QA 工程师**: PLAN / CASES / BUG / AUTOMATE
+- **DevOps 工程师**: PIPELINE / INFRA / OBSERVE / DOCKER
+
+#### 📋 通用规则体系 (Universal Rules)
+每角色新增 5 条跨分支通用规则，约束输出质量（API 契约先行、类型安全、全链路错误处理 等）
+
+#### ✅ 完成检查清单 (When Done)
+每任务结束时通过 5-7 个检查问题确保产出物完整可交付，避免遗漏
+
+#### 📦 Agent Skills 独立发布
+7 个 Agent Skill 已发布为独立仓库，支持 `npx skills install` 单独安装到任意项目：
+- `npx skills install peterfei/ai-agent-tech-leader`
+- `npx skills install peterfei/ai-agent-product-manager`
+- `npx skills install peterfei/ai-agent-frontend-dev`
+- `npx skills install peterfei/ai-agent-backend-dev`
+- `npx skills install peterfei/ai-agent-qa-engineer`
+- `npx skills install peterfei/ai-agent-devops-engineer`
+- `npx skills install peterfei/ai-agent-fullstack-engineer`
+- 兼容 Claude Code / Cursor / Codex CLI / Gemini CLI / Windsurf 等 50+ 运行时
+
+### Changed
+
+- **SKILL.md 全面升级**: 14 个文件（7 SKILL.md + 7 agent）统一增强，+408 行
+- **跨运行时同步**: Agent 文件与 SKILL.md 保持结构一致
+
 ## [2.0.1] - 2025-12-12
 
 ### Added

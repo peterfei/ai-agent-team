@@ -30,6 +30,7 @@
 | **[Backend Dev](https://github.com/peterfei/ai-agent-backend-dev)** | `npx skills install peterfei/ai-agent-backend-dev` | API 设计、数据库优化、认证授权、服务端架构 |
 | **[QA Engineer](https://github.com/peterfei/ai-agent-qa-engineer)** | `npx skills install peterfei/ai-agent-qa-engineer` | 测试策略、自动化测试、质量保证、CI 集成 |
 | **[DevOps Engineer](https://github.com/peterfei/ai-agent-devops-engineer)** | `npx skills install peterfei/ai-agent-devops-engineer` | CI/CD 流水线、K8s 编排、IaC、可观测性 |
+| **[Fullstack Engineer](https://github.com/peterfei/ai-agent-fullstack-engineer)** | `npx skills install peterfei/ai-agent-fullstack-engineer` | 前后端一体化、API 集成、端到端功能实现 |
 
 兼容 Claude Code / Cursor / Codex CLI / Gemini CLI / Windsurf 等 50+ 运行时。
 
@@ -37,7 +38,7 @@
 
 ### ✨ 核心特性
 
-- 🎯 **七大专业智能体** - 产品经理、全栈开发、前端开发、后端开发、测试工程师、DevOps工程师、技术负责人
+- 🎯 **八大专业智能体** - 产品经理、全栈开发、前端开发、后端开发、测试工程师、DevOps工程师、技术负责人
 - 🧠 **Thread Manager** - AI 记忆系统，语义搜索，任务线程管理，自动 Git 版本控制
 - 📝 **Changelog Generator** - 智能变更日志生成，自动版本管理，GitHub Release 集成
 - 📜 **SoftCopyright** - 智能软著材料生成，一键生成软件著作权申请文档
@@ -284,7 +285,7 @@ AI 自动分析内容，生成结构化的可视化笔记，支持彩色手写�
 | 产品经理 | `/pm` | 产品规划、需求分析、用户研究 |
 | 前端开发 | `/fe` | UI 实现、组件开发、性能优化 |
 | 后端开发 | `/be` | API 设计、数据库优化、服务端逻辑 |
-| 全栈开发 | `/fs` | 前后端一体化、端到端功能实现 |
+| 全栈开发 | `/fs` | 前后端一体化、API 集成、端到端交付 |
 | 测试工程师 | `/qa` | 功能测试、自动化测试、质量保证 |
 | DevOps 工程师 | `/ops` | 部署运维、CI/CD、基础设施 |
 | 技术负责人 | `/tl` | 技术决策、架构设计、代码审查 |
